@@ -164,7 +164,7 @@ LOGGING = {
         # 向終端輸出日誌
         'console': {
             'level': 'INFO',  # 設定最低日誌級別為 INFO
-            'filters': ['require_debug_true'],  # 只有在 Debug 模式下才會輸出日誌
+            'filters': ['require_debug_true'],  # 只有在 Debug 模式下才會輸出日誌，部署後就不會輸出到終端
             'class': 'logging.StreamHandler',  # 使用 StreamHandler 類將日誌輸出到終端
             'formatter': 'simple',  # 使用 simple 格式
         },
