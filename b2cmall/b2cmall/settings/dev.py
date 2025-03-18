@@ -1,3 +1,5 @@
+# 開發環境的settings.py
+
 """
 Django settings for b2cmall project.
 
