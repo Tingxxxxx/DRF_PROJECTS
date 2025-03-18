@@ -75,6 +75,7 @@ WSGI_APPLICATION = 'b2cmall.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# 連線到MySql
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -85,6 +86,112 @@ DATABASES = {
         'NAME': 'drf_mall'  
     }
 }
+
+# 配置快取
+CACHES = {
+    # 'default' 配置，主要用來配置 Django 的快取系統
+    'default': {
+        # 使用 django-redis 作為快取的後端
+        'BACKEND': 'django_redis.cache.RedisCache',
+        
+        # Redis 伺服器的地址，127.0.0.1 是本地地址，6379 是 Redis 的默認端口
+        'LOCATION': 'redis://127.0.0.1:6379/0',  # 這裡指定了使用 Redis 數據庫的第 0 索引
+        
+        # 配置額外選項，這裡指定了使用 django-redis 的預設客戶端
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',  # 使用預設的客戶端類別
+        }
+    },
+
+    # "session" 配置，用於會話儲存
+    "session": {
+        # 同樣使用 django-redis 作為會話儲存的後端
+        "BACKEND": "django_redis.cache.RedisCache",
+        
+        # Redis 伺服器的地址，這裡還是使用本地 Redis 伺服器
+        "LOCATION": "redis://127.0.0.1:6379/1",  # 默認使用 Redis 的第 1 數據庫
+        
+        # 配置選項，同樣指定使用預設的 Redis 客戶端
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",  # 使用預設的客戶端類別
+        }
+    }
+}
+
+# 配置 Django 使用快取來儲存會話數據
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"  # 告訴 Django 使用快取系統作為會話存儲後端
+
+# 配置會話的快取別名，指向前面配置中的 'session' 快取設置
+SESSION_CACHE_ALIAS = "session"  # 這裡指向名為 "session" 的 Redis 配置，用來儲存會話數據
+
+
+
+# 創建 logs 文件夾（如果尚不存在）
+log_folder = BASE_DIR / "logs"
+log_folder.mkdir(parents=True, exist_ok=True)
+
+# log日誌輸出
+LOGGING = {
+    # 日誌設置的版本，默認為 1
+    'version': 1,
+
+    # 是否禁用已存在的日志器
+    'disable_existing_loggers': False,  # 設置為 False，表示不禁用現有的日誌記錄器，這樣可以保證 Django 預設的日誌設置不會被覆蓋
+
+    # 設置日誌顯示格式
+    'formatters': {
+        # 定義 verbose 格式，會顯示日誌級別、時間戳、模塊名稱、行號及消息
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(lineno)d %(message)s'
+        },
+        
+        # 定義簡單的格式，只顯示日誌級別、模塊名稱、行號及消息
+        'simple': {
+            'format': '%(levelname)s %(module)s %(lineno)d %(message)s'
+        },
+    },
+
+    # 設置日誌過濾器
+    'filters': {
+        # 設置過濾器，只有在 debug 模式下才會輸出日誌
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',  # 使用 Django 預設的過濾器，確保只在 Debug 模式下輸出日誌
+        },
+    },
+
+    # 設置日誌處理器
+    'handlers': {
+        # 向終端輸出日誌
+        'console': {
+            'level': 'INFO',  # 設定最低日誌級別為 INFO
+            'filters': ['require_debug_true'],  # 只有在 Debug 模式下才會輸出日誌
+            'class': 'logging.StreamHandler',  # 使用 StreamHandler 類將日誌輸出到終端
+            'formatter': 'simple',  # 使用 simple 格式
+        },
+
+        # 向文件中輸出日誌
+        'file': {
+            'level': 'INFO',  # 設定最低日誌級別為 INFO
+            'class': 'logging.handlers.RotatingFileHandler',  # 使用 RotatingFileHandler 類來處理文件輸出，支持循環日誌
+            'filename': BASE_DIR / "logs" / "b2cmall.log",  # 使用 Path 合併路徑, 設置日誌文件的存儲位置
+            'maxBytes': 300 * 1024 * 1024,  # 設置單個日誌文件的最大大小為 300MB
+            'backupCount': 10,  # 設置保留的日誌文件數量為 10，舊的日誌文件會被覆蓋
+            'formatter': 'verbose',  # 使用 verbose 格式
+        },
+    },
+
+    # 設置日誌記錄器
+    'loggers': {
+        # 設置 django 日誌記錄器
+        'django': {
+            'handlers': ['console', 'file'],  # 配置該日誌器同時使用控制台和文件處理器
+            'propagate': True,  # 允許日誌信息向上傳播（即將日誌信息傳遞給父日誌器）
+            'level': 'INFO',  # 設置該日誌器的最低日誌級別為 INFO
+        },
+    }
+}
+
+
 
 
 # Password validation
@@ -109,9 +216,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hant' # 修改，顯示繁體中文
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Taipei' # 修改，台北時間
 
 USE_I18N = True
 
