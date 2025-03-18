@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',  # 開發RESTfull API 加上此行
+    'rest_framework.authtoken' # DRF自帶的TOKEN認證
+
+
 ]
 
 MIDDLEWARE = [
@@ -189,6 +193,47 @@ LOGGING = {
             'level': 'INFO',  # 設置該日誌器的最低日誌級別為 INFO
         },
     }
+}
+
+
+# DRF 相關配置
+REST_FRAMEWORK = {
+    # 自訂異常處理
+    'EXCEPTION_HANDLER': 'b2cmall.utils.exceptions.exception_handler',
+
+    # ✅ 設定 API 頁面分頁（可選）
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',  # 使用分頁模式
+    'PAGE_SIZE': 50,  # 每頁顯示 50 筆資料
+
+    # ✅ 設定 API 返回的時間格式
+    'DATETIME_FORMAT': "%Y-%m-%d %H:%M:%S",  # 例如：2025-03-03 14:30:00
+
+    # ✅ 設定 API 回應的 Renderer（渲染器），決定 API 如何回應數據
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',         # 讓 API 預設回傳 JSON 格式
+        'rest_framework.renderers.BrowsableAPIRenderer'  # 讓 API 具有可視化的瀏覽器 API 介面（開發測試方便）
+    ],
+
+    # ✅ 設定 API 解析請求數據的方式 -->解析restqust.data的方式
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',  # 允許解析 JSON 請求
+        'rest_framework.parsers.FormParser',  # 允許解析 `application/x-www-form-urlencoded` 表單請求
+        'rest_framework.parsers.MultiPartParser',  # 允許解析 `multipart/form-data`（文件上傳）
+    ],
+
+    # ✅ 設定 API 權限管理（誰可以訪問 API）
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # 只有已驗證的使用者才能訪問
+        # 若要允許所有使用者訪問，可改成：
+        # 'rest_framework.permissions.AllowAny',
+    ],
+
+    # ✅ 設定 API 認證方式（身份驗證）
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',  # 使用者帳號+密碼（Basic Auth），可省略
+        'rest_framework.authentication.SessionAuthentication',  # 會話認證（與 Django 內建登入機制相容）
+        'rest_framework.authentication.TokenAuthentication',  # Token 認證（需在APP安裝 `rest_framework.authtoken`）
+    ],
 }
 
 
