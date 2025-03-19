@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,8 +31,12 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
 
+
+# 自訂義解析模組的路徑
+sys.path.append(str(BASE_DIR / "apps")) # D:\\drf_mall\\b2cmall\\b2cmall\\apps'
+
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,10 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',  # 開發RESTfull API 加上此行
-    'rest_framework.authtoken' # DRF自帶的TOKEN認證
-
-
+    'rest_framework.authtoken', # DRF自帶的TOKEN認證,
+    'b2cmall.apps.users' # users 子應用
+    
 ]
+
+AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
