@@ -52,8 +52,9 @@
 					<li>
 						<label>驗證碼:</label>
 						<input type="text" v-model="email_code" @blur="check_email_code" name="msg_code" id="msg_code" class="msg_input">
-						<a href="#" class="get_msg_code">獲取驗證碼</a>
-						<span v-show="error_email_code" class="error_tip">請填寫email驗證碼</span>
+						<button @click="send_email_code" class="get_msg_code">{{ email_code_tip }}</button>
+						<!-- <span v-show="error_email_code" class="error_tip">請填寫email驗證碼</span> -->
+						<span v-show="error_email_code" class="error_tip">{{ error_email_code_tip }}</span>
 					</li>
 					<li class="agreement">
 						<input type="checkbox" v-model="allow" @change="check_allow" name="allow" id="allow" checked="checked">
