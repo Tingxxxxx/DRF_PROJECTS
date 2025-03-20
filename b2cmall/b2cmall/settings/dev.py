@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',  # 開發RESTfull API 加上此行
     'rest_framework.authtoken', # DRF自帶的TOKEN認證,
-    'b2cmall.apps.users' # users 子應用
+    'b2cmall.apps.users', # users 子應用
+    'b2cmall.apps.verifications', #
     
 ]
 
@@ -286,3 +287,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# 配置Django 後端 email設置
+# gmail版本
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Gmail 的 SMTP 伺服器
+EMAIL_PORT = 587  # TLS 通訊埠號
+EMAIL_USE_TLS = True  # 啟用 TLS 加密
+EMAIL_HOST_USER = 'hellendjango@gmail.com'  # 您的 Gmail 帳號
+EMAIL_HOST_PASSWORD = 'xomd epey epbq hwcn'  # 應用程式密碼，保留空格

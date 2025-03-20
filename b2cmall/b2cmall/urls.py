@@ -20,4 +20,5 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),  # 可以訪問 DRF 的登入、登出 URL
+    path('verifications/', include('verifications.urls'))
 ]
