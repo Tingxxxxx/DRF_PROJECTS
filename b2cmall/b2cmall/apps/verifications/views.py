@@ -6,14 +6,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
+from .constants import *
+import logging
 import re
 import string
 import random
 
-# 常量區
-EMAIL_REGEX = r"^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
-EMAIL_FIELD_REQUIRED_ERROR = 'email欄位為必填'
-INVALID_EMAIL_ERROR = '無效的email'
+# 配置日誌輸出
+logger = logging.getLogger("django")
 
 class EmailCodeView(APIView):
     """發送email驗證碼"""
@@ -32,24 +32,30 @@ class EmailCodeView(APIView):
         if not re.match(EMAIL_REGEX, email):
             return Response({'error': INVALID_EMAIL_ERROR}, status=status.HTTP_400_BAD_REQUEST)
 
-        # 4. 檢查該email是否已請求過驗證碼
-        if cache.get(email):
-            return Response({'error': '驗證碼已發送，請稍後再試'}, status=status.HTTP_400_BAD_REQUEST)
+        # 4. 檢查該email是120秒內是否已請求過驗證碼
+        if cache.get('allready'):
+            return Response({'error': REPEAT_EMAIL_CODE_ERROR}, status=status.HTTP_400_BAD_REQUEST)
 
         # 5. 驗證通過則生成6位數信箱驗證碼
         code = "".join(random.choices(string.digits, k=6))
 
         # 6. 存到cache中，並設置過期時間
-        cache.set(email, code, timeout=60*5)  # 5分鐘過期
+        cache.set(email, code, timeout=EMAIL_CODE_TIMEOUT)  # 5分鐘過期
 
         # 7. 發送email邏輯
         email_response = self.send_email_verification_code(email, code)
 
-        if 'error' in email_response:
+        # 8. 驗證信發送失敗，刪除驗證碼，已利重新發送
+        if 'error' in email_response:   
+            cache.delete(email)  # 刪除 Redis中的key
+            logger.error(f"驗證信發送失敗:{email_response['error']}")
             return Response({'error': email_response['error']}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        # 9. 設置驗證信已發送標誌，並設置120秒過期時間，120秒後可重發信
+        cache.set('allready', True, timeout=RE_SEND_TIMEOUT)
 
-        # 8. 返回成功響應
-        return Response({'message': '驗證碼已發送，請檢查您的電子郵件'}, status=status.HTTP_200_OK)
+        # 10. 返回成功響應
+        return Response(email_response, status=status.HTTP_200_OK)
 
     def send_email_verification_code(self, recipient_email, verification_code):
         """
@@ -67,6 +73,6 @@ class EmailCodeView(APIView):
 
         try:
             send_mail(subject, message, from_email, [recipient_email])
-            return {'success': '驗證碼已透過電子郵件發送'}
+            return {'success': '驗證碼已透過電信箱件發送'}
         except Exception as e:
             return {'error': f'發送電子郵件失敗，錯誤原因：{str(e)}'}

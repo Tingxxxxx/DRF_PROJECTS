@@ -28,9 +28,13 @@ SECRET_KEY = 'django-insecure-z2eryher551tw-+f$@^zu(++1zd23ism+d58btf%aq$edbzd(+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-
+# CORS 跨域請求白名單
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:5500",  
+    "http://localhost:5500",  
+]
 
 
 # 自訂義解析模組的路徑
@@ -46,14 +50,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',  # 開發RESTfull API 加上此行
     'rest_framework.authtoken', # DRF自帶的TOKEN認證,
-    'b2cmall.apps.users', # users 子應用
-    'b2cmall.apps.verifications', #
-    
+    'b2cmall.apps.users', # 用戶相關
+    'b2cmall.apps.verifications', # 驗證碼
+    'corsheaders' # 解決cors問題
 ]
 
 AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
