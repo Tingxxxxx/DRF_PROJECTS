@@ -1,6 +1,8 @@
+
 var vm = new Vue({
     el: '#app', // Vue 實例掛載的 DOM 元素
     data: {
+        host, // 後端的url 變量(host.js)
         // 錯誤提示相關標誌
         error_name: false, // 用戶名格式錯誤標誌
         error_password: false, // 密碼格式錯誤標誌
@@ -108,7 +110,7 @@ var vm = new Vue({
             }
 
             // 發送請求到後端 API
-            axios.get(`http://127.0.0.1:8000/verifications/code/`, {
+            axios.get(this.host +'/verifications/code/', {
                 params: {
                     email: this.email // 傳送 Email 參數
                 }
