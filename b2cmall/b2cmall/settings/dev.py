@@ -132,7 +132,20 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",  # 使用預設的客戶端類別
         }
-    }
+    },
+    'verify': {
+        # 使用 django-redis 作為快取的後端
+        'BACKEND': 'django_redis.cache.RedisCache',
+        
+        # Redis 伺服器的地址，127.0.0.1 是本地地址，6379 是 Redis 的默認端口
+        'LOCATION': 'redis://127.0.0.1:6379/3',  #
+        
+        # 配置額外選項，這裡指定了使用 django-redis 的預設客戶端
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',  # 使用預設的客戶端類別
+        }
+    },
+
 }
 
 # 配置 Django 使用快取來儲存會話數據

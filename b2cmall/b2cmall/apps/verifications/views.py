@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.core.mail import send_mail
+from django_redis import get_redis_connection
 from django.core.cache import caches
 from django.conf import settings
 from rest_framework.views import APIView
@@ -20,10 +21,7 @@ logger = logging.getLogger("django")
 class EmailCodeView(APIView):
     """發送email驗證碼"""
     permission_classes = [AllowAny] 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.redis_client = Redis(host='localhost', port=6379, db=0)  # 初始化 Redis 客戶端
-
+    redis_client = get_redis_connection('verify')
     def get(self, request):
         """發送驗證碼"""
         email = request.query_params.get('email')
