@@ -40,7 +40,7 @@ class EmailCodeView(APIView):
 
         # 生成6位數驗證碼
         code = "".join(random.choices(string.digits, k=6))
-
+        logger.info(code)
         # 使用celery異步任務發驗證信
         try:
             # 使用 Redis Pipeline 優化請求
