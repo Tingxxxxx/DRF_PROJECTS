@@ -8,6 +8,7 @@
 	<script type="text/javascript" src="js/vue-2.5.16.js"></script>
 	<script type="text/javascript" src="js/axios-0.18.0.min.js"></script>
 	<script type="text/javascript" src="js/host.js"></script>
+	
 </head>
 <body>
 	<div class="register_con">
@@ -28,7 +29,7 @@
 					<li>
 						<label>用戶名:</label>
 						<input type="text" v-model="username" @blur="check_username" name="user_name" id="user_name">
-						<span v-show="error_name" class="error_tip">請輸入5-20個字符的用戶名</span>
+						<span v-show="error_name" class="error_tip">{{ error_name_message }}</span>
 					</li>					
 					<li>
 						<label>密碼:</label>
@@ -43,7 +44,7 @@
 					<li>
 						<label>手機號碼:</label>
 						<input type="text" name="phone" v-model="mobile" @blur="check_phone" id="phone">
-						<span v-show="error_phone" class="error_tip">您輸入的手機號碼格式不正確</span>
+						<span v-show="error_phone" class="error_tip">{{ error_phone_message }}</span>
 					</li>
 					<li>
 						<label>email:</label>
@@ -53,7 +54,7 @@
 					<li>
 						<label>驗證碼:</label>
 						<input type="text" v-model="email_code" @blur="check_email_code" name="msg_code" id="msg_code" class="msg_input">
-						<button @click="send_email_code" class="get_msg_code">{{ email_code_tip }}</button>
+						<button type="button" @click="send_email_code" class="get_msg_code">{{ email_code_tip }}</button>
 						<!-- <span v-show="error_email_code" class="error_tip">請填寫email驗證碼</span> -->
 						<span v-show="error_email_code" class="error_tip">{{ error_email_code_tip }}</span>
 					</li>

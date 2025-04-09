@@ -24,7 +24,10 @@ var vm = new Vue({
 
         // UI 提示文本，用於顯示 Email 驗證碼按鈕的提示文字
         email_code_tip: '獲取驗證信', // Email 驗證碼按鈕初始文字
-        error_email_code_tip: '' // Email 驗證碼錯誤提示信息
+        error_email_code_tip: '' ,// Email 驗證碼錯誤提示信息
+        error_name_message: '', // 用戶名重復提示信息
+        error_phone_message: '' // 手機重複提示信息
+
     },
     methods: {
         // 檢查用戶名是否符合長度要求（5~20 字符）
@@ -34,6 +37,23 @@ var vm = new Vue({
                 this.error_name = true; // 長度不符合要求，顯示錯誤提示
             } else {
                 this.error_name = false; // 長度符合要求，隱藏錯誤提示
+            }
+            // 檢查用戶名是否重複註冊
+            if (this.error_name == false) {
+                axios.get(this.host + 'users/username/' + this.username + '/', {
+                responseType: 'json'
+                })
+                .then(response => {
+                if (response.data.count > 0) {   // 如果count 大於 0 代表有重複
+                this.error_name_message = '該帳號已存在';
+                this.error_name = true;
+                } else {
+                this.error_name = false;
+                }
+                })
+                .catch(error => {
+                console.log(error.response.data);
+                })
             }
         },
         
@@ -64,6 +84,22 @@ var vm = new Vue({
             } else {
                 this.error_phone = true; // 格式錯誤，顯示錯誤提示
             }
+            if (this.error_phone == false) {
+                axios.get(this.host + 'users/mobile/'+ this.mobile + '/', {
+                responseType: 'json'
+                })
+                .then(response => {
+                if (response.data.count > 0) {   // 如果count 大於 0 代表有重複
+                this.error_phone_message = '該手機號碼已註冊';
+                this.error_phone = true;
+                } else {
+                this.error_phone = false;
+                }
+                })
+                .catch(error => {
+                console.log(error.response.data);
+                })
+                }
         },
         
         // 檢查 Email 格式是否正確
@@ -142,7 +178,8 @@ var vm = new Vue({
         },
         
         // 提交表單
-        on_submit: function () {
+        on_submit: function (event) {
+            event.preventDefault();  // ⛔️ 阻止表單預設提交行為
             // 依次檢查各個輸入字段
             this.check_username();
             this.check_pwd();
@@ -175,7 +212,14 @@ var vm = new Vue({
                     responseType: 'json' // 指定回應的格式
                 })
                 .then(response => {
-                    alert('註冊成功') // 註冊成功提示
+                    // alert('註冊成功') // 註冊成功提示
+                    sessionStorage.clear();
+                        localStorage.clear();
+                        localStorage.access = response.data.access;
+                        localStorage.refresh = response.data.refresh;
+                        localStorage.username = response.data.username;
+                        localStorage.user_id = response.data.id;
+                        location.href = 'index.html';
                 })
                 .catch(error => {
                     if (error.response.status == 400) {
