@@ -35,7 +35,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5500",  
     "http://localhost:5500",  
 ]
-
+# 允許攜帶 Cookie 等憑證
+CORS_ALLOW_CREDENTIALS = True  # 前端也要設置 Axios 請求的 withCredentials:true才可
 
 # 自訂義解析模組的路徑
 sys.path.append(str(BASE_DIR / "apps")) # D:\\drf_mall\\b2cmall\\b2cmall\\apps'

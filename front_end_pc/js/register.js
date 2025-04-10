@@ -200,7 +200,7 @@ var vm = new Vue({
                 !this.error_allow
             ) {
                 // 提交表單數據到後端
-                axios.post(this.host + '/users/', {
+                axios.post(this.host + 'users/', {
                     username: this.username,
                     password: this.password,
                     password2: this.password2,
