@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 import sys
 
@@ -48,8 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+     # 'rest_framework.authtoken',  # DRF自帶的TOKEN認證,
     'rest_framework',  # 開發RESTfull API 加上此行
-    'rest_framework.authtoken', # DRF自帶的TOKEN認證,
+    'rest_framework_simplejwt', # 啟用 jwt token
+    'rest_framework_simplejwt.token_blacklist', # 啟用 Token 黑名單功能(添加後要在執行一次遷移)
     'b2cmall.apps.users', # 用戶相關
     'b2cmall.apps.verifications', # 驗證碼
     'corsheaders' # 解決cors問題
@@ -161,7 +163,7 @@ SESSION_CACHE_ALIAS = "session"  # 這裡指向名為 "session" 的 Redis 配置
 
 
 # 創建 logs 文件夾（如果尚不存在）
-log_folder = BASE_DIR / "logs"
+log_folder = BASE_DIR.parent / "logs"
 log_folder.mkdir(parents=True, exist_ok=True)
 
 # log日誌輸出
@@ -207,7 +209,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',  # 設定最低日誌級別為 INFO
             'class': 'logging.handlers.RotatingFileHandler',  # 使用 RotatingFileHandler 類來處理文件輸出，支持循環日誌
-            'filename': BASE_DIR / "logs" / "b2cmall.log",  # 使用 Path 合併路徑, 設置日誌文件的存儲位置
+            'filename': BASE_DIR.parent / "logs" / "b2cmall.log",  # 使用 Path 合併路徑, 設置日誌文件的存儲位置
             'maxBytes': 300 * 1024 * 1024,  # 設置單個日誌文件的最大大小為 300MB
             'backupCount': 10,  # 設置保留的日誌文件數量為 10，舊的日誌文件會被覆蓋
             'formatter': 'verbose',  # 使用 verbose 格式
@@ -261,8 +263,9 @@ REST_FRAMEWORK = {
     # ✅ 設定 API 認證方式（身份驗證）
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',  # 使用者帳號+密碼（Basic Auth），可省略
-        'rest_framework.authentication.SessionAuthentication',  # 會話認證（與 Django 內建登入機制相容）
-        'rest_framework.authentication.TokenAuthentication',  # Token 認證（需在APP安裝 `rest_framework.authtoken`）
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # 使用 jwt token的認證方式
+        # 'rest_framework.authentication.SessionAuthentication',  # 會話認證（與 Django 內建登入機制相容）
+        # 'rest_framework.authentication.TokenAuthentication',  # Token 認證（需在APP安裝 `rest_framework.authtoken`）
     ],
 }
 
@@ -319,3 +322,22 @@ EMAIL_USE_TLS = True  # 啟用 TLS 加密
 EMAIL_HOST_USER = 'hellendjango@gmail.com'  # 您的 Gmail 帳號
 EMAIL_HOST_PASSWORD = 'jwja uwvh qbyk ylgn'  # 應用程式密碼，保留空格
 
+
+
+# 可選：JWT 設定（例如過期時間）
+SIMPLE_JWT = {
+    # 訪問 Token 的有效時間為 15 分鐘
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+
+    # 刷新 Token 的有效時間為 1 天
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+
+    # 是否在每次使用刷新 Token 時重新產生一個新的刷新 Token
+    # 設為 False 表示 refresh token 部會重新產生，直到其過期為止
+    # 設為 True 則刷新後舊的會失效並被加入黑名單(如果有開)
+    'ROTATE_REFRESH_TOKENS': True,
+
+    # 當 ROTATE_REFRESH_TOKENS 設為 True 時，舊的刷新 Token 是否加入黑名單
+    # 設為 True 表示舊的刷新 Token 會被廢棄（進入黑名單）
+    'BLACKLIST_AFTER_ROTATION': True,
+}
