@@ -212,7 +212,7 @@ var vm = new Vue({
                     responseType: 'json' // 指定回應的格式
                 })
                 .then(response => {
-                    // alert('註冊成功') // 註冊成功提示
+                    // 後端註冊視圖會返回token，存到前端儲存空間中
                     sessionStorage.clear();
                         localStorage.clear();
                         localStorage.access = response.data.access;
