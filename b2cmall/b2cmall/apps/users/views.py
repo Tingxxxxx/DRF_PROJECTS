@@ -4,6 +4,8 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from .serializers import CreateUserSerializer
 from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import MyTokenObtainPairSerializer
 # 註冊 API 的視圖，繼承自通用類視圖(快速實現POST請求)
 class UserView(CreateAPIView):
     """用戶註冊"""
@@ -43,3 +45,9 @@ class MobileCountView(APIView):
         }
         
         return Response(data)
+
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    """重寫simple_jwt登入視圖, 擴展響應內容"""
+    serializer_class = MyTokenObtainPairSerializer # 使用自訂義的序列化器(加入了user相關響應)

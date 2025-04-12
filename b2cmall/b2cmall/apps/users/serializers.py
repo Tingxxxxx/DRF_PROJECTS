@@ -1,9 +1,11 @@
 from django_redis import get_redis_connection 
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User # 導入自訂義的用戶模型
 import re
 
+# 註冊視圖的序列化器
 class CreateUserSerializer(serializers.ModelSerializer):
     """用戶註冊的序列化器"""
     # 新增當前 user 模型中沒有的 [password2、email_code、allow ] 三個欄位，這些欄位只在註冊時需要,不會存到用戶模型中
@@ -111,3 +113,22 @@ class CreateUserSerializer(serializers.ModelSerializer):
                 }
         }
         
+# 擴寫 simple_jwt 登入視圖所使用的序列化器
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+    def validate(self, attrs):
+        # 父類 TokenObtainPairSerializer 繼承自 TokenObtainSerializer，
+        # 而其 validate 方法中會執行以下邏輯：
+        # self.user = authenticate(**authenticate_kwargs)
+        # → authenticate 會驗證帳密是否正確，並回傳對應的 User 實例，
+        #    最後會將該 User 物件賦值給 self.user
+        
+        # 調用父類的 validate 方法，會回傳一個包含 access 和 refresh token 的字典：
+        # data = {"refresh": "...", "access": "..."}
+        data = super().validate(attrs)
+
+        # 在原本的 token 響應資料中，擴充回傳使用者的基本資訊
+        data['username'] = self.user.username 
+        data['user_id'] = self.user.id
+
+        return data

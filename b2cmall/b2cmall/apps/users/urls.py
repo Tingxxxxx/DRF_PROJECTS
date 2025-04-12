@@ -1,12 +1,13 @@
 from django.urls import path, re_path
 from .views import UserView, MobileCountView, UsernameCountView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from .views import MyTokenObtainPairView # 自己擴寫的simple_jwt視圖
 
 app_name = 'users'
 
 urlpatterns = [
     # JWT Token 路由
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # 登入，並取得 access & refresh token
+    path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),  # 登入，並取得 access & refresh token
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # 重新取得 access token
     # 用戶註冊 API
     path('', UserView.as_view(), name='register'),
