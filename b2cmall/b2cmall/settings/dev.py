@@ -263,8 +263,9 @@ REST_FRAMEWORK = {
 
     # ✅ 設定 API 認證方式（身份驗證）
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',  # 使用者帳號+密碼（Basic Auth），可省略
         'rest_framework_simplejwt.authentication.JWTAuthentication',  # 使用 jwt token的認證方式
+
+        # 'rest_framework.authentication.BasicAuthentication',  # 使用者帳號+密碼（Basic Auth）
         # 'rest_framework.authentication.SessionAuthentication',  # 會話認證（與 Django 內建登入機制相容）
         # 'rest_framework.authentication.TokenAuthentication',  # Token 認證（需在APP安裝 `rest_framework.authtoken`）
     ],
@@ -342,3 +343,10 @@ SIMPLE_JWT = {
     # 設為 True 表示舊的刷新 Token 會被廢棄（進入黑名單）
     'BLACKLIST_AFTER_ROTATION': True,
 }
+
+# Django 認證後端，用來確定如何執行 authenticate() 方法
+AUTHENTICATION_BACKENDS = [
+    # 'django.contrib.auth.backends.ModelBackend',  # Django預設認證後端
+    'users.backends.UsernameMobileAuthBackend' # 自訂義的認證後端
+
+]
