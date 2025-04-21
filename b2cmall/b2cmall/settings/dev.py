@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist', # 啟用 Token 黑名單功能(添加後要在執行一次遷移)
     'b2cmall.apps.users', # 用戶相關
     'b2cmall.apps.verifications', # 驗證碼
-    'corsheaders' # 解決cors問題
+    'b2cmall.apps.oauth', # 第三方登入
+    'corsheaders', # 解決cors問題
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -350,3 +351,5 @@ AUTHENTICATION_BACKENDS = [
     'users.backends.UsernameMobileAuthBackend' # 自訂義的認證後端
 
 ]
+
+GOOGLE_CLIENT_ID = "330519594030-hcjartsmuu90bpur0ied1t0i1qq81mrv.apps.googleusercontent.com"
