@@ -5,7 +5,7 @@
     <title>美多商城-登入</title>
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
-	<script type="text/javascript" src="js/host.js"></script>
+    <script type="text/javascript" src="js/host.js"></script>
     <script type="text/javascript" src="js/vue-2.5.16.js"></script>
     <script type="text/javascript" src="js/axios-0.18.0.min.js"></script>
 </head>
@@ -37,12 +37,25 @@
                         </form>
                     </div>
                 </div>
-                <div class="third_party">
-                    <a @click="qq_login" class="qq_login">QQ</a>
-                    <a href="#" class="weixin_login">微信</a>
-                    <a href="/register.html" class="register_btn">立即註冊</a>
-                </div>
+                    <div class="third_party">
+                        <!-- Google One Tap 登入按鈕 -->
+                        <div id="g_id_onload"
+                             data-client_id="330519594030-hcjartsmuu90bpur0ied1t0i1qq81mrv.apps.googleusercontent.com"
+                             data-callback="handleCredentialResponse"
+                             data-auto_prompt="true">
+                        </div>
 
+                        <div class="g_id_signin" data-type="standard"></div> <!-- 可選的 Google 登入按鈕 -->
+
+                        <!-- Facebook 登入按鈕 -->
+                        <!-- <a @click="fb_login" class="login_btn fb_login">
+                            <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="FB logo" class="icon">
+                            FB
+                        </a> -->
+                        
+                        <a href="/register.html" class="register_btn">立即註冊</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -60,6 +73,18 @@
         <p>CopyRight © 2016 北京美多商業股份有限公司 All Rights Reserved</p>
         <p>電話：010-****888    京ICP備*******8號</p>
     </div>
+
+    <!-- 載入 Google 身分驗證 SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- Google 登入後 callback 函式 -->
+    <script>
+        function handleCredentialResponse(response) {
+            console.log("Google 回傳 Token:", response.credential);
+            // 你可以把這個 Token 傳給後端驗證用
+        }
+    </script>
+
     <script type="text/javascript" src="js/login.js"></script>
 </body>
 </html>
