@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-Hant">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title>美多商城 - 綁定使用者</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+	  <link rel="stylesheet" type="text/css" href="css/main.css">
+	  <script type="text/javascript" src="js/vue-2.5.16.js"></script>
+	  <script type="text/javascript" src="js/axios-0.18.0.min.js"></script>
+	  <script type="text/javascript" src="js/host.js"></script>
+    
+  </head>
+  <body>
+    <div id="app">
+      <div class="register_con">
+        <div class="l_con fl">
+          <a class="reg_logo"><img src="images/logo.png" /></a>
+          <div class="reg_slogan">商品美・種類多・歡迎光臨</div>
+          <div class="reg_banner"></div>
+        </div>
+
+        <div class="r_con fr">
+          <div class="reg_title clearfix">
+            <h1>綁定使用者</h1>
+          </div>
+          <div class="reg_form clearfix">
+            <form id="reg_form" v-on:submit.prevent="on_submit">
+              <ul>
+                <li>
+                  <label>用戶名：</label>
+                  <input
+                    type="text"
+                    v-model="username"
+                    v-on:blur="check_username"
+                    name="username"
+                    id="username"
+                    placeholder="請輸入使用者名稱"
+                  />
+                  <span v-show="error_username" class="error_tip">{{ error_username_message }}</span>
+                </li>
+                <li>
+                  <label>密碼：</label>
+                  <input
+                    type="password"
+                    v-model="password"
+                    v-on:blur="check_pwd"
+                    name="pwd"
+                    id="pwd"
+                  />
+                  <span v-show="error_password" class="error_tip">密碼最少 8 位，最多 20 位</span>
+                </li>
+                <li>
+                  <label>電子信箱：</label>
+                  <input
+                    type="text"
+                    v-model="email"
+                    v-on:blur="check_email"
+                    name="email"
+                    id="email"
+                    placeholder="電子信箱已自動填入"
+                    :disabled="email_disabled"
+                  />
+                  <span v-show="error_email" class="error_tip">{{ error_email_message }}</span>
+                </li>
+                <li class="reg_sub">
+                  <input type="submit" value="登入並綁定" />
+                </li>
+              </ul>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer no-mp">
+        <div class="foot_link">
+          <a href="#">關於我們</a>
+          <span>|</span>
+          <a href="#">聯絡我們</a>
+          <span>|</span>
+          <a href="#">招募人才</a>
+          <span>|</span>
+          <a href="#">合作連結</a>
+        </div>
+        <p>版權所有 © 2016 北京美多商業股份有限公司 All Rights Reserved</p>
+        <p>電話：010-****888 京 ICP 備 *******8 號</p>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="js/bind.js"></script>
+  </body>
+</html>
