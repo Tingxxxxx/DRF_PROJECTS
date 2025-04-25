@@ -102,9 +102,9 @@ var vm = new Vue({
                     // 跳轉並攜帶參數 bind.html?email=test@example.com&uid=12345?provider=xxxxx
                     location.href = `bind.html?email=${encodeURIComponent(email)}&uid=${encodeURIComponent(uid)}&provider=${encodeURIComponent(provider)}`;
 
-                    } else if (status === 'quick-rigister'){
+                    } else if (status === 'quick-register'){
                         // 沒有綁定社交帳號，也無對應信箱的本站帳號
-                        location.href = `quick-rigister.html?email=${encodeURIComponent(email)}&uid=${encodeURIComponent(uid)}&provider=${encodeURIComponent(provider)}`;
+                        location.href = `quick-register.html?email=${encodeURIComponent(email)}&uid=${encodeURIComponent(uid)}&provider=${encodeURIComponent(provider)}`;
                         alert('該信箱用戶尚未註冊，請註冊帳號以完成綁定')
                     }
                     else{

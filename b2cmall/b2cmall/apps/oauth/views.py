@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
+from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny
@@ -11,8 +12,9 @@ from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 from google.auth.exceptions import GoogleAuthError
 from users.models import User  # 自定義 User model
+from .serializers import GoogleQuickRigisterSerializer
 from .models import UserSocialAccount
-from .utils import jwt_response # 自定義的 jwt 響應數據
+from .utils import jwt_response,hash_uid # 自定義的 jwt 響應數據
 import logging
 
 logger = logging.getLogger('django')  # 使用 django 或自定義 logger
@@ -45,6 +47,7 @@ class GoogleLoginAPIView(APIView):
 
             email = idinfo.get('email')
             google_uid = idinfo.get('sub')
+            google_uid = hash_uid(google_uid) # 加密uid，避免明文儲存或傳給前端
 
             try:
                 social_account = UserSocialAccount.objects.filter(uid=google_uid, provider='google').first()
@@ -78,7 +81,7 @@ class GoogleLoginAPIView(APIView):
                 logger.warning(f'信箱 {email} 未註冊，請前往註冊頁')
 
                 return Response({
-                    'status': 'quick-rigister',
+                    'status': 'quick-register',
                     'message': '尚未註冊本站帳號，請輸入相關資料完成註冊及綁定',
                     'email': email,
                     'uid':google_uid,
@@ -111,14 +114,13 @@ google token 驗證後返回的用戶資料如下:
 """       
 
 
-
 class BindGoogleAPIView(APIView):
     """google登入並綁定本站對應信箱帳號"""
     permission_classes = [AllowAny]
     def post(self, request):
         username = request.data.get('username')
         email = request.data.get('email')
-        google_uid = request.data.get('uid')
+        google_uid = request.data.get('uid')  # 此時的uid是經過LoginView加密後返回給前端，前端再傳回的，故不需要再加密
         password = request.data.get('password')
 
         # 檢查前端提交的資料是否都有值
@@ -153,4 +155,9 @@ class BindGoogleAPIView(APIView):
         # 使用自訂義的jwt響數據生成函數
         return Response(response, status=status.HTTP_200_OK)
         
-   
+
+class GoogleQuickRigister(CreateAPIView):
+    """google登入快速註冊本站帳號"""
+    permission_classes = [AllowAny]
+    serializer_class = GoogleQuickRigisterSerializer
+    

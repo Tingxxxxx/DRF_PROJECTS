@@ -13,9 +13,16 @@ class CreateUserSerializer(serializers.ModelSerializer):
     # 設置 read_only=True 代表只能序列化，該欄位會被序列化並包含在 API 的回應中
     password2 = serializers.CharField(label='確認密碼', write_only=True)
     email_code = serializers.CharField(label='驗證碼', write_only=True)
-    allow = serializers.BooleanField(label='同意條款', write_only=True) # 自動驗證 allow 的值是否為 True，如果不是 True，則會拋出驗證錯誤。
+    allow = serializers.BooleanField(label='同意條款', write_only=True) 
     access = serializers.CharField(label= 'access_token', read_only=True) # 只做序列化，返回給前端
     refresh = serializers.CharField(label= 'refresh_token', read_only=True)  # 只做序列化，返回給前端
+
+    def validate_allow(self, value):
+        """驗證是否勾選同意條款"""
+        if not value:
+            raise serializers.ValidationError('必須同意條款才能註冊')
+        return value
+
     def validate_mobile(self, value):
         """驗證手機格式"""
         if not re.match(r'^09\d{8}$', value):

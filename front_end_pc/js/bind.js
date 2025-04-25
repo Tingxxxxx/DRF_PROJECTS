@@ -57,7 +57,13 @@ if (!email || !uid || !provider) {
             uid: this.uid
           }).then(response => {
             // 成功綁定，導向首頁或顯示訊息
+            const data = response.data;
             alert("綁定成功！");
+            sessionStorage.clear();
+            localStorage.access = data.access;
+            localStorage.refresh = data.refresh;
+            localStorage.user_id = data.user_id;
+            localStorage.username = data.username;
             location.href = "index.html";
           }).catch(error => {
             alert("綁定失敗，請確認帳號資訊或稍後再試。");
