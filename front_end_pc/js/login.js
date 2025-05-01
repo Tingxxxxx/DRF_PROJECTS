@@ -94,7 +94,7 @@ var vm = new Vue({
 
                 if(status === 'success'){
                     this.save_login_data(response.data);
-                    var return_url = this.get_query_string('next') || 'index.html';
+                    var return_url = this.get_query_string('next') || './index.html';
                     location.href = return_url;
                 } else if (status === 'need-bind'){
                     // 導向綁定頁(已有對應信箱的本站帳號)

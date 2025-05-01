@@ -7,6 +7,17 @@ html,body{height:100%}
 	border-bottom:1px solid #dddddd
 }
 
+.header .login_btn {
+    padding: 0;
+    font-size: 14px;
+}
+
+.header .fr {
+    display: flex;
+    align-items: center; /* 垂直居中對齊 */
+    height: 29px;         /* 跟 header 高度一樣，避免膨脹 */
+}
+
 .header{
 	width:1200px;
 	height:29px;
@@ -14,7 +25,7 @@ html,body{height:100%}
 }
 
 .welcome,.login_info,.login_btn,.user_link{
-	line-height:29px;
+	line-height:25px;
 }
 
 .login_info{
@@ -55,7 +66,7 @@ html,body{height:100%}
 .login_btn {
     display: flex;
     align-items: center;
-    font-size: 18px;
+    font-size: 15px;
     text-decoration: none;
     color: #333;
     padding: 8px 16px;
@@ -957,28 +968,69 @@ html,body{height:100%}
 
 
 .common_title2{height:20px;line-height:20px;font-size:16px;margin:10px 0;}
-.user_info_list{
-	background-color:#f9f9f9;
-	margin:10px 0 15px;
-	padding:10px 0;
-	height:90px;
+
+
+.user_info_list {
+	background-color: #f9f9f9;
+	margin: 10px 0 15px;
+	padding: 10px 30px; /* 左右 padding 調小一點，整體靠左 */
+	overflow: hidden; /* 清除浮動 */
 }
 
-.user_info_list li{
-	line-height:30px;
-	text-indent:30px;
-	font-size:14px;
+.user_info_list li {
+	line-height: 30px;
+	font-size: 14px;
+	overflow: hidden;
+	margin-bottom: 8px; /* 每行留一點距離 */
 }
 
-.user_info_list li span{
-	width:100px;
-	float:left;
-	text-align:right;
+.user_info_list li span {
+	width: 80px; /* 標題寬度再小一點點 */
+	float: left;
+	text-align: left; /* 改成左對齊 */
+	color: #666; /* 顏色淡一點，不刺眼 */
+	font-weight: normal; /* 不加粗 */
 }
 
-.info_con{
-	width:980px;
+.user_info_list li .info_text {
+	margin-left: 90px; /* 讓內容比標題右一點，剛好跟標題對齊 */
+	color: #333;
 }
+
+/* 個人中心 驗證信相關提示訊息 */
+.toast-message {
+	position: fixed;
+	top: 30px;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: #f0f0f0;  /* 淺灰色背景 */
+	color: #333;  /* 深色文字，更清晰 */
+	padding: 14px 24px;
+	border-radius: 12px;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);  /* 輕微陰影，讓顯示更立體 */
+	z-index: 9999;
+	font-size: 17px;
+	font-weight: 600;
+	opacity: 0.95;
+	animation: fadeInOut 3s ease forwards;
+  }
+  
+  /* 出現和消失的動畫 */
+  @keyframes fadeInOut {
+	0% {
+	  opacity: 0;
+	  transform: translateX(-50%) translateY(-20px);
+	}
+	10%, 90% {
+	  opacity: 1;
+	  transform: translateX(-50%) translateY(0);
+	}
+	100% {
+	  opacity: 0;
+	  transform: translateX(-50%) translateY(-20px);
+	}
+  }
+	
 
 .info_l{
 	width:600px;
