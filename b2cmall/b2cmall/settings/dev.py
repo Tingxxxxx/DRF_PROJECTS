@@ -270,6 +270,19 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.SessionAuthentication',  # 會話認證（與 Django 內建登入機制相容）
         # 'rest_framework.authentication.TokenAuthentication',  # Token 認證（需在APP安裝 `rest_framework.authtoken`）
     ],
+
+    # ✅ 設定全域限流類別（可選，若不使用可省略）
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.UserRateThrottle',  # ✅ 已登入使用者限流
+        'rest_framework.throttling.AnonRateThrottle',  # ✅ 匿名使用者限流
+    ],
+
+    # ✅ 設定各類限流的速率（以 scope 名稱對應）
+    'DEFAULT_THROTTLE_RATES': {
+        'user': '2000/day',    # 登入用戶 
+        'anon': '200/day',     # 匿名用戶
+        'email': '5/hour',     # ✅ 自訂 email 發送操作的限流（搭配 EmailThrottleRate 使用），只用在指定view故不用添加到上面全域設定中
+    }
 }
 
 

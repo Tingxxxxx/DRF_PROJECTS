@@ -11,7 +11,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import MyTokenObtainPairSerializer, UserDetailSerializer
 from celery_tasks.verifycode.tasks import send_verification_email
 from .models import User # 導入自訂義的用戶模型
+from .throttles import EmailRateThrottle
+import logging
 
+logger = logging.getLogger('django')
 
 # 註冊 API 的視圖，繼承自通用類視圖(快速實現POST請求)
 class UserView(CreateAPIView):
@@ -69,19 +72,34 @@ class UserInfoViewSet(UpdateModelMixin, RetrieveModelMixin, GenericViewSet): # G
     serializer_class = UserDetailSerializer
 
     def get_object(self):
-        """重寫方法,直接從登入用戶取對應模型實例"""
+        """
+        重寫該方法以取得目前登入的用戶實例
+        避免從 URL 取得 PK 查找，直接回傳 request.user 對象
+        """
         return self.request.user
-    
+    def get_throttles(self):
+        """動態獲取限流策略"""
+        if self.request.method == 'PATCH':
+             return [EmailRateThrottle()]
+        return []
     
     def partial_update(self, request, *args, **kwargs):
         """重寫PATCH請求的方法，新增寄信邏輯邏輯"""
+
+        logger.info(f'使用者{request.user}嘗試更新資料')
+
         # 保留原本的更新邏輯
         response = super().partial_update(request, *args, **kwargs)
-
+        
         # 新增發送驗證郵件功能
         email = request.data.get('email')
         if email:
+            logger.info(f"使用者 {request.user} 修改信箱為 {email}, 發送驗證郵件")  # 記錄修改的信箱與發信紀錄
             send_verification_email.delay(email,'激活連結')
+        
+        # 可以加入一些額外的 response 資料
+        response.data['message'] = '信箱修改成功，請檢查您的電子郵件以完成驗證。'  # 自定義的訊息
+        logger.info(f"更新後的 response: {response.data}")  # 記錄 response 內容
 
         return response
 
