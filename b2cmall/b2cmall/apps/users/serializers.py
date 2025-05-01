@@ -3,7 +3,13 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User # 導入自訂義的用戶模型
+from celery_tasks.verifycode.tasks import send_verification_email
 import re
+import logging
+
+
+
+logger = logging.getLogger('django')
 
 # 註冊視圖的序列化器
 class CreateUserSerializer(serializers.ModelSerializer):
@@ -139,3 +145,29 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['user_id'] = self.user.id
 
         return data
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    """用戶個人中心詳情序列化器"""
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'mobile', 'email', 'email_is_active'] # 只有這幾個欄位需要在用戶中心顯示
+
+
+"""更新信箱並發送認證信 單獨視圖+單獨序列化器寫法，另用視圖集簡化重寫"""
+# class EmailSerializer(serializers.ModelSerializer):
+#     """信箱專用，既做序列化也做反序列化"""
+
+#     def update(self, instance, validated_data):
+#         """重寫此方法，是為了趁此時機順便發送激活連結"""
+#         instance = super().update(instance, validated_data)
+#         logger.info(f"使用者 {instance.username} 已修改信箱為 {instance.email}")
+        
+#         # 將發信任務添加到任務隊列
+#         send_verification_email.delay(instance.email, '激活連結')
+#         logger.info(f"使用者 {instance.username} 認證信件已發送")
+
+#         return instance
+
+#     class Meta:
+#         model = User
+#         fields = ['id', 'email']
