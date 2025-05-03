@@ -7,7 +7,7 @@ new Vue({
     username: "",  // 使用者名稱
     mobile: "",  // 使用者手機號碼
     email: "",  // 使用者電子郵件
-    email_active: false,  // 郵箱是否已驗證，預設為 false
+    email_is_active: false,  // 郵箱是否已驗證，預設為 false
     set_email: false,  // 是否已設定郵箱，預設為 false
     send_email_btn_disabled: false,  // 發送驗證郵件按鈕是否禁用，預設為 false
     send_email_tip: "重新發送驗證郵件",  // 發送驗證郵件按鈕上顯示的提示文字
@@ -31,7 +31,7 @@ new Vue({
           this.username = response.data.username;
           this.mobile = response.data.mobile;
           this.email = response.data.email;
-          this.email_active = response.data.email_active;
+          this.email_is_active = response.data.email_is_active;
         })
         .catch((error) => {
           // 攔截器已處理 401/403，這裡只簡單印出錯誤
@@ -69,8 +69,12 @@ new Vue({
 
       //這裡加上呼叫 showToast
       this.showToast('請查收郵箱中的認證連結，並完成您的郵箱驗證！')
+      // 延遲 5 秒後刷新頁面（5000 毫秒）
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
 
-      })
+            })
       .catch(error => {
         // 檢查是否是 429 錯誤 (限流錯誤)
         if (error.response && error.response.status === 429) {

@@ -273,15 +273,15 @@ REST_FRAMEWORK = {
 
     # ✅ 設定全域限流類別（可選，若不使用可省略）
     'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.UserRateThrottle',  # ✅ 已登入使用者限流
-        'rest_framework.throttling.AnonRateThrottle',  # ✅ 匿名使用者限流
+        # 'rest_framework.throttling.UserRateThrottle',  # ✅ 已登入使用者限流
+        # 'rest_framework.throttling.AnonRateThrottle',  # ✅ 匿名使用者限流
     ],
 
     # ✅ 設定各類限流的速率（以 scope 名稱對應）
     'DEFAULT_THROTTLE_RATES': {
-        'user': '2000/day',    # 登入用戶 
-        'anon': '200/day',     # 匿名用戶
-        'email': '5/hour',     # ✅ 自訂 email 發送操作的限流（搭配 EmailThrottleRate 使用），只用在指定view故不用添加到上面全域設定中
+        # 'user': '200/min',    # 登入用戶 
+        # 'anon': '500/day',     # 匿名用戶
+        'email': '50/hour',     # ✅ 自訂 email 發送操作的限流（搭配 EmailThrottleRate 使用），只用在指定view故不用添加到上面全域設定中
     }
 }
 
@@ -366,3 +366,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 GOOGLE_CLIENT_ID = "330519594030-hcjartsmuu90bpur0ied1t0i1qq81mrv.apps.googleusercontent.com"
+
+
+# 前端網址，上線時再改成正式的
+FRONTEND_URL = 'http://127.0.0.1:5500/front_end_pc/'  # 方便在一些view中可使用(ex:激活連結跳轉頁面)

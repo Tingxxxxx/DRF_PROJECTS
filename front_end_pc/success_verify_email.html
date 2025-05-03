@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>美多商城－信箱驗證成功</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/vue-2.5.16.js"></script>
+    <script src="js/axios-0.18.0.min.js"></script>
+    <script src="js/host.js"></script>
+</head>
+<body>
+    <div class="find_header">
+        <img src="images/logo.png">
+        <span class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;信箱驗證成功</span>
+    </div>
+
+    <div class="find_form" id="email_result">
+        <div v-if="success" class="pass_change_finish">恭喜您，信箱驗證成功！<br/><a href="./index.html">返回首頁</a></div>
+        <div v-else class="pass_change_finish">連結已失效，驗證失敗，請重新驗證！<br/><a href="./index.html">返回首頁</a></div>
+    </div>
+
+    <div class="footer no-mp">
+        <div class="foot_link">
+            <a href="#">關於我們</a>
+            <span>|</span>
+            <a href="#">聯絡我們</a>
+            <span>|</span>
+            <a href="#">招募人才</a>
+            <span>|</span>
+            <a href="#">合作連結</a>
+        </div>
+        <p>CopyRight © 2016 美多商業股份有限公司 版權所有</p>
+        <p>電話：010-****888　　京ICP備*******8號</p>
+    </div>
+    <script>
+       var vm = new Vue({
+           el: '#email_result',
+           data: {
+               host,
+               success: true
+           },
+           created: function(){
+               axios.get(this.host + 'users/email/activate' + document.location.search)
+                   .then(response => {
+                       this.success = true;
+                   })
+                   .catch(error => {
+                       this.success = false;
+                   });
+           }
+       });
+    </script>
+</body>
+</html>

@@ -1,10 +1,11 @@
-from django_ratelimit.decorators import ratelimit
+from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.tokens import default_token_generator
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import UpdateModelMixin, RetrieveModelMixin
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
-from rest_framework.throttling import UserRateThrottle
+from rest_framework import status
 from .serializers import CreateUserSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -12,6 +13,7 @@ from .serializers import MyTokenObtainPairSerializer, UserDetailSerializer
 from celery_tasks.verifycode.tasks import send_verification_email
 from .models import User # 導入自訂義的用戶模型
 from .throttles import EmailRateThrottle
+from .utlis import generate_activation_link
 import logging
 
 logger = logging.getLogger('django')
@@ -87,19 +89,33 @@ class UserInfoViewSet(UpdateModelMixin, RetrieveModelMixin, GenericViewSet): # G
         """重寫PATCH請求的方法，新增寄信邏輯邏輯"""
 
         logger.info(f'使用者{request.user}嘗試更新資料')
-
-        # 保留原本的更新邏輯
-        response = super().partial_update(request, *args, **kwargs)
         
+        user = request.user # 當前用戶
+        email = request.data.get('email') # 修改的信箱
+
+        # 如果確實有修改信箱，則將該用戶的信箱狀態改為未激活
+        if email and email != user.email:
+            user.email_is_active = False
+
+            try:
+                user.save()
+                logger.info(f"使用者 {user} 修改信箱為 {email}")
+
+            # 如果信箱激活狀態更新失敗，後續寄信與用戶信箱更新就都不會執行(避免資料不一致)
+            except Exception as e:
+                logger.error(f"保存用戶資料時發生錯誤: {e}")
+                return Response({'message':'更新用戶資料失敗'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        # 調用父類方法更新信箱
+        response = super().partial_update(request, *args, **kwargs)
+
         # 新增發送驗證郵件功能
-        email = request.data.get('email')
-        if email:
-            logger.info(f"使用者 {request.user} 修改信箱為 {email}, 發送驗證郵件")  # 記錄修改的信箱與發信紀錄
-            send_verification_email.delay(email,'激活連結')
+        logger.info(f"使用者 {user} 信箱:{email} 發送驗證信") 
+        activate_link = generate_activation_link(user)
+        send_verification_email.delay(email, activate_link)
         
         # 可以加入一些額外的 response 資料
         response.data['message'] = '信箱修改成功，請檢查您的電子郵件以完成驗證。'  # 自定義的訊息
-        logger.info(f"更新後的 response: {response.data}")  # 記錄 response 內容
 
         return response
 
@@ -130,6 +146,52 @@ block=True 直接返回 429 錯誤，用戶拿不到內容(就不用if....)
 
 """
 
+
+class ActivateEmailView(APIView):
+    """驗證寄給用戶的email激活連結"""
+    permission_classes = [AllowAny] # 因為用戶打開信箱中的連結時應該是未登入狀態
+    def get(self, request):
+        # 嘗試取得 query string 中的 code，例如 ?code=123-abc
+        code = request.query_params.get('code')
+
+        try:
+            # 可能錯誤：
+            # - AttributeError：code 為 None 時無法 strip()
+            # - ValueError：split 後不是兩段（無法拆成 uid, token）
+            uid, token = code.strip().split('-', 1) # 1代表分割1次
+            uid = urlsafe_base64_decode(uid) # 解碼回整數
+        
+
+            # 嘗試取得該 uid 對應的使用者
+            # 可能錯誤：
+            # - User.DoesNotExist：使用者不存在
+            # - ValueError：uid 格式錯誤（例如非整數）
+            user = User.objects.get(pk=uid)
+
+        except (AttributeError, ValueError, User.DoesNotExist):
+            logger.error('驗證碼格式錯誤或使用者不存在')
+            return Response({
+                'status': 'error',
+                'message': '驗證碼格式錯誤或使用者不存在'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # 驗證 token 是否有效
+        if default_token_generator.check_token(user, token):
+            user.email_is_active = True # 修改信箱狀態欄
+            user.save()  # 記得儲存變更
+            logger.info(f'使用者:{user.username}，信箱{user.email}已激活')
+
+            return Response({
+                'status': 'success',
+                'message': 'Email 已成功驗證'
+            }, status=status.HTTP_200_OK)
+
+        # token 驗證失敗（可能已過期或已使用）
+        logger.error(f'使用者:{user.username}的驗證連結已失效')
+        return Response({
+            'status': 'error',
+            'message': '驗證連結已失效'
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 
 # GET請求 查單一

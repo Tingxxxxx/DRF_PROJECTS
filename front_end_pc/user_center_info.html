@@ -1,29 +1,27 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-TW">
-
+<html lang="zh-TW">
 <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta charset="UTF-8">
     <title>美多商城-個人中心</title>
-    <link rel="stylesheet" type="text/css" href="css/reset.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <script type="text/javascript" src="js/host.js"></script>
-    <script type="text/javascript" src="js/axios-0.18.0.min.js"></script>
-    <script type="text/javascript" src="js/axios-interceptor.js"></script>
-    <!-- 引入自定義的 axios 攔截器 實現自動添加 Authorization -->
-    <script type="text/javascript" src="js/vue-2.5.16.js"></script>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/host.js"></script>
+    <script src="js/axios-0.18.0.min.js"></script>
+    <script src="js/axios-interceptor.js"></script> <!-- 自定義的 axios 攔截器 -->
+    <script src="js/vue-2.5.16.js"></script>
 
-
-    <script>
-        var user_id = sessionStorage.user_id || localStorage.user_id;
-        var token = sessionStorage.access || localStorage.access;
+    <!-- <script>
+        const user_id = sessionStorage.getItem("user_id") || localStorage.getItem("user_id");
+        const token = sessionStorage.getItem('access') || localStorage.getItem('access');
         if (!(user_id && token)) {
             location.href = 'login.html?next=./user_center_info.html';
         }
-    </script>
+    </script> -->
 </head>
 
 <body>
     <div id="app" v-cloak>
+        <!-- Header -->
         <div class="header_con">
             <div class="header">
                 <div class="welcome fl">歡迎來到美多商城!</div>
@@ -45,15 +43,17 @@
             </div>
         </div>
 
+        <!-- Search bar -->
         <div class="search_bar clearfix">
-            <a href="index.html" class="logo fl"><img src="images/logo.png"></a>
+            <a href="index.html" class="logo fl"><img src="images/logo.png" alt="美多商城 Logo"></a>
             <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;個人中心</div>
             <form method="get" action="/search.html" class="search_con fr mt40">
                 <input type="text" class="input_text fl" name="q" placeholder="搜尋商品">
-                <input type="submit" class="input_btn fr" name="" value="搜尋">
+                <input type="submit" class="input_btn fr" value="搜尋">
             </form>
         </div>
 
+        <!-- Main Content -->
         <div class="main_con clearfix">
             <div class="left_menu_con clearfix">
                 <h3>使用者中心</h3>
@@ -64,20 +64,16 @@
                     <li><a href="user_center_pass.html">· 修改密碼</a></li>
                 </ul>
             </div>
+
             <div class="right_content clearfix">
                 <div class="info_con clearfix">
                     <h3 class="common_title2">基本資訊</h3>
                     <ul class="user_info_list">
-                        <li><span>用戶名稱：</span>
-                            <div class="info_text">{{ username }}</div>
-                        </li>
-                        <li><span>手機號碼：</span>
-                            <div class="info_text">{{ mobile }}</div>
-                        </li>
+                        <li><span>用戶名稱：</span><div class="info_text">{{ username }}</div></li>
+                        <li><span>手機號碼：</span><div class="info_text">{{ mobile }}</div></li>
                         <li>
                             <span>電子信箱:</span>
                             <div class="info_text">
-                                <!-- 如果在設定 email -->
                                 <div v-if="set_email">
                                     <input v-model="email" type="email" name="email">
                                     <input @click="save_email" type="button" value="儲 存">
@@ -85,39 +81,30 @@
                                     <div v-if="email_error">Email 格式錯誤</div>
                                 </div>
 
-                                <!-- 如果不是設定模式 -->
                                 <div v-else>
-                                    <!-- 有 email 就顯示 email -->
                                     <div v-if="email">
                                         {{ email }}
                                         <input @click="set_email=true" type="button" value="設 置">
-
-                                        <!-- 驗證狀態 (不管是不是在設定模式，都可以單獨顯示驗證狀態) -->
                                         <div v-if="email">
-                                            <div v-if="email_active">已驗證</div>
+                                            <div v-if="email_is_active">已驗證</div>
                                             <div v-else>
                                                 待驗證
-                                                <input @click="save_email" :disabled="send_email_btn_disabled"
-                                                    type="button" :value="send_email_tip">
+                                                <input @click="save_email" :disabled="send_email_btn_disabled" type="button" :value="send_email_tip">
                                             </div>
-                                            <!-- Toast 顯示區域 -->
-                                            <div v-if="toastVisible" class="toast-message">
-                                                {{ toastMessage }}
-                                            </div>
+                                            <div v-if="toastVisible" class="toast-message">{{ toastMessage }}</div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
                         </li>
-
                     </ul>
-
-
                 </div>
 
                 <h3 class="common_title2">最近瀏覽</h3>
                 <div class="has_view_list">
                     <ul class="goods_type_list clearfix">
                         <li>
-                            <a href="detail.html"><img src="images/goods/goods003.jpg"></a>
+                            <a href="detail.html"><img src="images/goods/goods003.jpg" alt="商品圖"></a>
                             <h4><a href="detail.html">360手機 N6 Pro 全網通</a></h4>
                             <div class="operate">
                                 <span class="prize">￥2699.00</span>
@@ -125,50 +112,13 @@
                                 <a href="#" class="add_goods" title="加入購物車"></a>
                             </div>
                         </li>
-
-                        <li>
-                            <a href="#"><img src="images/goods/goods004.jpg"></a>
-                            <h4><a href="#">360手機 N6 Pro 全網通</a></h4>
-                            <div class="operate">
-                                <span class="prize">￥2699.00</span>
-                                <span class="unit">台</span>
-                                <a href="#" class="add_goods" title="加入購物車"></a>
-                            </div>
-                        </li>
-
-                        <li>
-                            <a href="#"><img src="images/goods/goods005.jpg"></a>
-                            <h4><a href="#">360手機 N6 Pro 全網通</a></h4>
-                            <div class="operate">
-                                <span class="prize">￥2699.00</span>
-                                <span class="unit">台</span>
-                                <a href="#" class="add_goods" title="加入購物車"></a>
-                            </div>
-                        </li>
-
-                        <li>
-                            <a href="#"><img src="images/goods/goods006.jpg"></a>
-                            <h4><a href="#">360手機 N6 Pro 全網通</a></h4>
-                            <div class="operate">
-                                <span class="prize">￥2699.00</span>
-                                <span class="unit">台</span>
-                                <a href="#" class="add_goods" title="加入購物車"></a>
-                            </div>
-                        </li>
-
-                        <li>
-                            <a href="#"><img src="images/goods/goods007.jpg"></a>
-                            <h4><a href="#">急速路由</a></h4>
-                            <div class="operate">
-                                <span class="prize">￥64.5</span>
-                                <span class="unit">6.45/500g</span>
-                                <a href="#" class="add_goods" title="加入購物車"></a>
-                            </div>
-                        </li>
+                        <!-- 你可以依照此格式加入更多商品 -->
                     </ul>
                 </div>
             </div>
         </div>
+
+        <!-- Footer -->
         <div class="footer">
             <div class="foot_link">
                 <a href="#">關於我們</a>
@@ -183,7 +133,7 @@
             <p>電話：010-****888 京ICP備*******8號</p>
         </div>
     </div>
-    <script type="text/javascript" src="js/user_center_info.js"></script>
-</body>
 
+    <script src="js/user_center_info.js"></script>
+</body>
 </html>

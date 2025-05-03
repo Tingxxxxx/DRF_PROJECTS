@@ -93,7 +93,13 @@ var vm = new Vue({
                 const provider = response.data.provider;
 
                 if(status === 'success'){
-                    this.save_login_data(response.data);
+                    const data = response.data;
+                    sessionStorage.clear();
+                    localStorage.access = data.access;
+                    localStorage.refresh = data.refresh;
+                    sessionStorage.user_id = data.user_id;
+                    sessionStorage.username = data.username;
+
                     var return_url = this.get_query_string('next') || './index.html';
                     location.href = return_url;
                 } else if (status === 'need-bind'){

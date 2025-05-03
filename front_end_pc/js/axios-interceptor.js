@@ -1,66 +1,93 @@
+
+// 建立不受攔截器影響的 axios 實例
+const rawAxios = axios.create();
+
+// 自訂函數：取得 token
+function getToken(key) {
+    return sessionStorage.getItem(key) || localStorage.getItem(key);
+}
+
+// 自訂函數：設定 token
+function setToken(key, value) {
+    sessionStorage.setItem(key, value);
+}
+
+// 自訂函數：清除 token
+function clearTokens() {
+    sessionStorage.removeItem('access');
+    sessionStorage.removeItem('refresh');
+    localStorage.removeItem('access');
+    localStorage.removeItem('refresh');
+}
+
 // 請求攔截器：自動附加 access token
+axios.interceptors.request.use(
+    function (config) {
+        const accessToken = getToken('access');
 
-axios.interceptors.request.use(function (config) {
-    // 嘗試從 sessionStorage 或 localStorage 取得 access token
-    const token = sessionStorage.access || localStorage.access;  // 先從 sessionStorage 取得，若沒有再從 localStorage 取得
-
-    // 如果 token 存在，則將其附加到請求的 Authorization 標頭中
-    if (token) {
-        config.headers.Authorization = 'Bearer ' + token;
-    }
-    // 返回修改後的 config 以繼續發送請求
-    return config;
-}, function (error) {
-    // 如果請求中有錯誤，則返回拒絕的 Promise
-    return Promise.reject(error);
-});
-
-// 回應攔截器：若 access token 過期，嘗試用 refresh token 更新
-axios.interceptors.response.use(function (response) {
-    // 如果請求成功，直接返回回應的資料
-    return response;
-}, async function (error) {
-    console.log("Response Error:", error);  // Debugging step
-
-    const originalRequest = error.config;  // 取得原始請求配置
-
-    // 處理 401 錯誤（未授權）
-    if (error.response && error.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;  // 設置 _retry 標誌以避免重試無窮迴圈
-
-        try {
-            // 嘗試從 sessionStorage 或 localStorage 取得 refresh token
-            const refresh = sessionStorage.refresh || localStorage.refresh; 
-
-            // 使用 refresh token 請求新的 access token
-            const response = await axios.post( host + 'users/token/refresh/', {
-                refresh: refresh  // 發送 refresh token 用於請求新的 access token
-            });
-
-            // 更新 sessionStorage 和 localStorage 中的 access token
-            sessionStorage.access = response.data.access || sessionStorage.access; // 儲存新的 access token 至 sessionStorage
-
-            // 更新原始請求中的 Authorization 標頭，使用新的 access token
-            originalRequest.headers.Authorization = 'Bearer ' + response.data.access;
-
-            // 重發原始請求，並附上新的 token
-            return axios(originalRequest);
-
-        } catch (refreshError) {
-            // 如果刷新 token 失敗，跳轉到登錄頁面，並將當前頁面的路徑作為參數傳遞
-            window.location.href = './login.html?next=' + encodeURIComponent(location.pathname);
-            return Promise.reject(refreshError);  // 返回拒絕的 Promise
+        if (accessToken) {
+            config.headers.Authorization = 'Bearer ' + accessToken;
         }
-    }
 
-    // 處理 403 錯誤（禁止訪問）
-    if (error.response && error.response.status === 403) {
-        // 如果是 403 錯誤，顯示權限不足的提示
-        alert("您沒有訪問此資源的權限！");
-        // 可以選擇跳轉到錯誤頁面或執行其他操作
-        window.location.href = "./error_page.html";  // 跳轉到錯誤頁面或其他提示頁
+        return config;
+    },
+    function (error) {
+        return Promise.reject(error);
     }
+);
 
-    // 如果錯誤不是 401 或 403，則直接返回錯誤
-    return Promise.reject(error);
-});
+// 回應攔截器：處理 401 與 403
+axios.interceptors.response.use(
+    function (response) {
+        return response;
+    },
+    async function (error) {
+        console.log('Response Error:', error);
+
+        const originalRequest = error.config;
+
+        // 處理 401：未授權
+        if (error.response && error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+
+            const refreshToken = getToken('refresh');
+
+            if (!refreshToken) {
+                clearTokens();
+                window.location.href = './login.html?next=' + encodeURIComponent(location.pathname);
+                return Promise.reject(error);
+            }
+
+            try {
+                // ⚠️ 改為使用 rawAxios（避免再次進入攔截器）
+                const response = await rawAxios.post(host + 'users/token/refresh/', {
+                    refresh: refreshToken
+                });
+
+                const newAccessToken = response.data.access;
+
+                // 更新新的 token
+                setToken('access', newAccessToken);
+
+                // 更新原始請求的 header
+                originalRequest.headers.Authorization = 'Bearer ' + newAccessToken;
+
+                // 重新發送原始請求
+                return axios(originalRequest);
+
+            } catch (refreshError) {
+                clearTokens();
+                window.location.href = './login.html?next=' + encodeURIComponent(location.pathname);
+                return Promise.reject(refreshError);
+            }
+        }
+
+        // 處理 403：禁止訪問
+        if (error.response && error.response.status === 403) {
+            alert('您沒有訪問此資源的權限！');
+            window.location.href = './error_page.html';
+        }
+
+        return Promise.reject(error);
+    }
+);
