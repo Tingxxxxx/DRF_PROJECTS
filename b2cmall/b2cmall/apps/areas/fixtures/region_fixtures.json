@@ -1,0 +1,6950 @@
+[
+    {
+        "model": "areas.region",
+        "pk": 1,
+        "fields": {
+            "name": "臺北市",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 2,
+        "fields": {
+            "name": "基隆市",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 3,
+        "fields": {
+            "name": "新北市",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 4,
+        "fields": {
+            "name": "連江縣",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 5,
+        "fields": {
+            "name": "宜蘭縣",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 6,
+        "fields": {
+            "name": "釣魚臺",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 7,
+        "fields": {
+            "name": "新竹市",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 8,
+        "fields": {
+            "name": "新竹縣",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 9,
+        "fields": {
+            "name": "桃園市",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 10,
+        "fields": {
+            "name": "苗栗縣",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 11,
+        "fields": {
+            "name": "臺中市",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 12,
+        "fields": {
+            "name": "彰化縣",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 13,
+        "fields": {
+            "name": "南投縣",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 14,
+        "fields": {
+            "name": "嘉義市",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 15,
+        "fields": {
+            "name": "嘉義縣",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 16,
+        "fields": {
+            "name": "雲林縣",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 17,
+        "fields": {
+            "name": "臺南市",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 18,
+        "fields": {
+            "name": "高雄市",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 19,
+        "fields": {
+            "name": "南海島",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 20,
+        "fields": {
+            "name": "澎湖縣",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 21,
+        "fields": {
+            "name": "金門縣",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 22,
+        "fields": {
+            "name": "屏東縣",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 23,
+        "fields": {
+            "name": "臺東縣",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 24,
+        "fields": {
+            "name": "花蓮縣",
+            "level": "city",
+            "parent": null
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 25,
+        "fields": {
+            "name": "中正區",
+            "level": "district",
+            "parent": 1
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 26,
+        "fields": {
+            "name": "大同區",
+            "level": "district",
+            "parent": 1
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 27,
+        "fields": {
+            "name": "中山區",
+            "level": "district",
+            "parent": 1
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 28,
+        "fields": {
+            "name": "松山區",
+            "level": "district",
+            "parent": 1
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 29,
+        "fields": {
+            "name": "大安區",
+            "level": "district",
+            "parent": 1
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 30,
+        "fields": {
+            "name": "萬華區",
+            "level": "district",
+            "parent": 1
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 31,
+        "fields": {
+            "name": "信義區",
+            "level": "district",
+            "parent": 1
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 32,
+        "fields": {
+            "name": "士林區",
+            "level": "district",
+            "parent": 1
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 33,
+        "fields": {
+            "name": "北投區",
+            "level": "district",
+            "parent": 1
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 34,
+        "fields": {
+            "name": "內湖區",
+            "level": "district",
+            "parent": 1
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 35,
+        "fields": {
+            "name": "南港區",
+            "level": "district",
+            "parent": 1
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 36,
+        "fields": {
+            "name": "文山區",
+            "level": "district",
+            "parent": 1
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 37,
+        "fields": {
+            "name": "仁愛區",
+            "level": "district",
+            "parent": 2
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 38,
+        "fields": {
+            "name": "信義區",
+            "level": "district",
+            "parent": 2
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 39,
+        "fields": {
+            "name": "中正區",
+            "level": "district",
+            "parent": 2
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 40,
+        "fields": {
+            "name": "中山區",
+            "level": "district",
+            "parent": 2
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 41,
+        "fields": {
+            "name": "安樂區",
+            "level": "district",
+            "parent": 2
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 42,
+        "fields": {
+            "name": "暖暖區",
+            "level": "district",
+            "parent": 2
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 43,
+        "fields": {
+            "name": "七堵區",
+            "level": "district",
+            "parent": 2
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 44,
+        "fields": {
+            "name": "萬里區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 45,
+        "fields": {
+            "name": "金山區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 46,
+        "fields": {
+            "name": "板橋區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 47,
+        "fields": {
+            "name": "汐止區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 48,
+        "fields": {
+            "name": "深坑區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 49,
+        "fields": {
+            "name": "石碇區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 50,
+        "fields": {
+            "name": "瑞芳區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 51,
+        "fields": {
+            "name": "平溪區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 52,
+        "fields": {
+            "name": "雙溪區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 53,
+        "fields": {
+            "name": "貢寮區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 54,
+        "fields": {
+            "name": "新店區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 55,
+        "fields": {
+            "name": "坪林區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 56,
+        "fields": {
+            "name": "烏來區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 57,
+        "fields": {
+            "name": "永和區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 58,
+        "fields": {
+            "name": "中和區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 59,
+        "fields": {
+            "name": "土城區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 60,
+        "fields": {
+            "name": "三峽區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 61,
+        "fields": {
+            "name": "樹林區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 62,
+        "fields": {
+            "name": "鶯歌區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 63,
+        "fields": {
+            "name": "三重區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 64,
+        "fields": {
+            "name": "新莊區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 65,
+        "fields": {
+            "name": "泰山區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 66,
+        "fields": {
+            "name": "林口區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 67,
+        "fields": {
+            "name": "蘆洲區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 68,
+        "fields": {
+            "name": "五股區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 69,
+        "fields": {
+            "name": "八里區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 70,
+        "fields": {
+            "name": "淡水區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 71,
+        "fields": {
+            "name": "三芝區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 72,
+        "fields": {
+            "name": "石門區",
+            "level": "district",
+            "parent": 3
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 73,
+        "fields": {
+            "name": "南竿鄉",
+            "level": "district",
+            "parent": 4
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 74,
+        "fields": {
+            "name": "北竿鄉",
+            "level": "district",
+            "parent": 4
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 75,
+        "fields": {
+            "name": "莒光鄉",
+            "level": "district",
+            "parent": 4
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 76,
+        "fields": {
+            "name": "東引鄉",
+            "level": "district",
+            "parent": 4
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 77,
+        "fields": {
+            "name": "宜蘭市",
+            "level": "district",
+            "parent": 5
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 78,
+        "fields": {
+            "name": "壯圍鄉",
+            "level": "district",
+            "parent": 5
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 79,
+        "fields": {
+            "name": "頭城鎮",
+            "level": "district",
+            "parent": 5
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 80,
+        "fields": {
+            "name": "礁溪鄉",
+            "level": "district",
+            "parent": 5
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 81,
+        "fields": {
+            "name": "員山鄉",
+            "level": "district",
+            "parent": 5
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 82,
+        "fields": {
+            "name": "羅東鎮",
+            "level": "district",
+            "parent": 5
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 83,
+        "fields": {
+            "name": "三星鄉",
+            "level": "district",
+            "parent": 5
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 84,
+        "fields": {
+            "name": "大同鄉",
+            "level": "district",
+            "parent": 5
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 85,
+        "fields": {
+            "name": "五結鄉",
+            "level": "district",
+            "parent": 5
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 86,
+        "fields": {
+            "name": "冬山鄉",
+            "level": "district",
+            "parent": 5
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 87,
+        "fields": {
+            "name": "蘇澳鎮",
+            "level": "district",
+            "parent": 5
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 88,
+        "fields": {
+            "name": "南澳鄉",
+            "level": "district",
+            "parent": 5
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 89,
+        "fields": {
+            "name": "釣魚臺",
+            "level": "district",
+            "parent": 5
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 90,
+        "fields": {
+            "name": "釣魚臺",
+            "level": "district",
+            "parent": 6
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 91,
+        "fields": {
+            "name": "東區",
+            "level": "district",
+            "parent": 7
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 92,
+        "fields": {
+            "name": "北區",
+            "level": "district",
+            "parent": 7
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 93,
+        "fields": {
+            "name": "香山區",
+            "level": "district",
+            "parent": 7
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 94,
+        "fields": {
+            "name": "寶山鄉",
+            "level": "district",
+            "parent": 8
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 95,
+        "fields": {
+            "name": "竹北市",
+            "level": "district",
+            "parent": 8
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 96,
+        "fields": {
+            "name": "湖口鄉",
+            "level": "district",
+            "parent": 8
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 97,
+        "fields": {
+            "name": "新豐鄉",
+            "level": "district",
+            "parent": 8
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 98,
+        "fields": {
+            "name": "新埔鎮",
+            "level": "district",
+            "parent": 8
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 99,
+        "fields": {
+            "name": "關西鎮",
+            "level": "district",
+            "parent": 8
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 100,
+        "fields": {
+            "name": "芎林鄉",
+            "level": "district",
+            "parent": 8
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 101,
+        "fields": {
+            "name": "竹東鎮",
+            "level": "district",
+            "parent": 8
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 102,
+        "fields": {
+            "name": "五峰鄉",
+            "level": "district",
+            "parent": 8
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 103,
+        "fields": {
+            "name": "橫山鄉",
+            "level": "district",
+            "parent": 8
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 104,
+        "fields": {
+            "name": "尖石鄉",
+            "level": "district",
+            "parent": 8
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 105,
+        "fields": {
+            "name": "北埔鄉",
+            "level": "district",
+            "parent": 8
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 106,
+        "fields": {
+            "name": "峨眉鄉",
+            "level": "district",
+            "parent": 8
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 107,
+        "fields": {
+            "name": "中壢區",
+            "level": "district",
+            "parent": 9
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 108,
+        "fields": {
+            "name": "平鎮區",
+            "level": "district",
+            "parent": 9
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 109,
+        "fields": {
+            "name": "龍潭區",
+            "level": "district",
+            "parent": 9
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 110,
+        "fields": {
+            "name": "楊梅區",
+            "level": "district",
+            "parent": 9
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 111,
+        "fields": {
+            "name": "新屋區",
+            "level": "district",
+            "parent": 9
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 112,
+        "fields": {
+            "name": "觀音區",
+            "level": "district",
+            "parent": 9
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 113,
+        "fields": {
+            "name": "桃園區",
+            "level": "district",
+            "parent": 9
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 114,
+        "fields": {
+            "name": "龜山區",
+            "level": "district",
+            "parent": 9
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 115,
+        "fields": {
+            "name": "八德區",
+            "level": "district",
+            "parent": 9
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 116,
+        "fields": {
+            "name": "大溪區",
+            "level": "district",
+            "parent": 9
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 117,
+        "fields": {
+            "name": "復興區",
+            "level": "district",
+            "parent": 9
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 118,
+        "fields": {
+            "name": "大園區",
+            "level": "district",
+            "parent": 9
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 119,
+        "fields": {
+            "name": "蘆竹區",
+            "level": "district",
+            "parent": 9
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 120,
+        "fields": {
+            "name": "竹南鎮",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 121,
+        "fields": {
+            "name": "頭份市",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 122,
+        "fields": {
+            "name": "三灣鄉",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 123,
+        "fields": {
+            "name": "南庄鄉",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 124,
+        "fields": {
+            "name": "獅潭鄉",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 125,
+        "fields": {
+            "name": "後龍鎮",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 126,
+        "fields": {
+            "name": "通霄鎮",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 127,
+        "fields": {
+            "name": "苑裡鎮",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 128,
+        "fields": {
+            "name": "苗栗市",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 129,
+        "fields": {
+            "name": "造橋鄉",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 130,
+        "fields": {
+            "name": "頭屋鄉",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 131,
+        "fields": {
+            "name": "公館鄉",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 132,
+        "fields": {
+            "name": "大湖鄉",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 133,
+        "fields": {
+            "name": "泰安鄉",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 134,
+        "fields": {
+            "name": "銅鑼鄉",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 135,
+        "fields": {
+            "name": "三義鄉",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 136,
+        "fields": {
+            "name": "西湖鄉",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 137,
+        "fields": {
+            "name": "卓蘭鎮",
+            "level": "district",
+            "parent": 10
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 138,
+        "fields": {
+            "name": "中區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 139,
+        "fields": {
+            "name": "東區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 140,
+        "fields": {
+            "name": "南區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 141,
+        "fields": {
+            "name": "西區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 142,
+        "fields": {
+            "name": "北區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 143,
+        "fields": {
+            "name": "北屯區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 144,
+        "fields": {
+            "name": "西屯區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 145,
+        "fields": {
+            "name": "南屯區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 146,
+        "fields": {
+            "name": "太平區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 147,
+        "fields": {
+            "name": "大里區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 148,
+        "fields": {
+            "name": "霧峰區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 149,
+        "fields": {
+            "name": "烏日區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 150,
+        "fields": {
+            "name": "豐原區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 151,
+        "fields": {
+            "name": "后里區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 152,
+        "fields": {
+            "name": "石岡區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 153,
+        "fields": {
+            "name": "東勢區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 154,
+        "fields": {
+            "name": "和平區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 155,
+        "fields": {
+            "name": "新社區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 156,
+        "fields": {
+            "name": "潭子區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 157,
+        "fields": {
+            "name": "大雅區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 158,
+        "fields": {
+            "name": "神岡區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 159,
+        "fields": {
+            "name": "大肚區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 160,
+        "fields": {
+            "name": "沙鹿區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 161,
+        "fields": {
+            "name": "龍井區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 162,
+        "fields": {
+            "name": "梧棲區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 163,
+        "fields": {
+            "name": "清水區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 164,
+        "fields": {
+            "name": "大甲區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 165,
+        "fields": {
+            "name": "外埔區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 166,
+        "fields": {
+            "name": "大安區",
+            "level": "district",
+            "parent": 11
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 167,
+        "fields": {
+            "name": "彰化市",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 168,
+        "fields": {
+            "name": "芬園鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 169,
+        "fields": {
+            "name": "花壇鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 170,
+        "fields": {
+            "name": "秀水鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 171,
+        "fields": {
+            "name": "鹿港鎮",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 172,
+        "fields": {
+            "name": "福興鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 173,
+        "fields": {
+            "name": "線西鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 174,
+        "fields": {
+            "name": "和美鎮",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 175,
+        "fields": {
+            "name": "伸港鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 176,
+        "fields": {
+            "name": "員林市",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 177,
+        "fields": {
+            "name": "社頭鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 178,
+        "fields": {
+            "name": "永靖鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 179,
+        "fields": {
+            "name": "埔心鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 180,
+        "fields": {
+            "name": "溪湖鎮",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 181,
+        "fields": {
+            "name": "大村鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 182,
+        "fields": {
+            "name": "埔鹽鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 183,
+        "fields": {
+            "name": "田中鎮",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 184,
+        "fields": {
+            "name": "北斗鎮",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 185,
+        "fields": {
+            "name": "田尾鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 186,
+        "fields": {
+            "name": "埤頭鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 187,
+        "fields": {
+            "name": "溪州鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 188,
+        "fields": {
+            "name": "竹塘鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 189,
+        "fields": {
+            "name": "二林鎮",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 190,
+        "fields": {
+            "name": "大城鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 191,
+        "fields": {
+            "name": "芳苑鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 192,
+        "fields": {
+            "name": "二水鄉",
+            "level": "district",
+            "parent": 12
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 193,
+        "fields": {
+            "name": "南投市",
+            "level": "district",
+            "parent": 13
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 194,
+        "fields": {
+            "name": "中寮鄉",
+            "level": "district",
+            "parent": 13
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 195,
+        "fields": {
+            "name": "草屯鎮",
+            "level": "district",
+            "parent": 13
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 196,
+        "fields": {
+            "name": "國姓鄉",
+            "level": "district",
+            "parent": 13
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 197,
+        "fields": {
+            "name": "埔里鎮",
+            "level": "district",
+            "parent": 13
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 198,
+        "fields": {
+            "name": "仁愛鄉",
+            "level": "district",
+            "parent": 13
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 199,
+        "fields": {
+            "name": "名間鄉",
+            "level": "district",
+            "parent": 13
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 200,
+        "fields": {
+            "name": "集集鎮",
+            "level": "district",
+            "parent": 13
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 201,
+        "fields": {
+            "name": "水里鄉",
+            "level": "district",
+            "parent": 13
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 202,
+        "fields": {
+            "name": "魚池鄉",
+            "level": "district",
+            "parent": 13
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 203,
+        "fields": {
+            "name": "信義鄉",
+            "level": "district",
+            "parent": 13
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 204,
+        "fields": {
+            "name": "竹山鎮",
+            "level": "district",
+            "parent": 13
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 205,
+        "fields": {
+            "name": "鹿谷鄉",
+            "level": "district",
+            "parent": 13
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 206,
+        "fields": {
+            "name": "西區",
+            "level": "district",
+            "parent": 14
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 207,
+        "fields": {
+            "name": "東區",
+            "level": "district",
+            "parent": 14
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 208,
+        "fields": {
+            "name": "番路鄉",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 209,
+        "fields": {
+            "name": "梅山鄉",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 210,
+        "fields": {
+            "name": "竹崎鄉",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 211,
+        "fields": {
+            "name": "阿里山鄉",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 212,
+        "fields": {
+            "name": "中埔鄉",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 213,
+        "fields": {
+            "name": "大埔鄉",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 214,
+        "fields": {
+            "name": "水上鄉",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 215,
+        "fields": {
+            "name": "鹿草鄉",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 216,
+        "fields": {
+            "name": "太保市",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 217,
+        "fields": {
+            "name": "朴子市",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 218,
+        "fields": {
+            "name": "東石鄉",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 219,
+        "fields": {
+            "name": "六腳鄉",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 220,
+        "fields": {
+            "name": "新港鄉",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 221,
+        "fields": {
+            "name": "民雄鄉",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 222,
+        "fields": {
+            "name": "大林鎮",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 223,
+        "fields": {
+            "name": "溪口鄉",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 224,
+        "fields": {
+            "name": "義竹鄉",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 225,
+        "fields": {
+            "name": "布袋鎮",
+            "level": "district",
+            "parent": 15
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 226,
+        "fields": {
+            "name": "斗南鎮",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 227,
+        "fields": {
+            "name": "大埤鄉",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 228,
+        "fields": {
+            "name": "虎尾鎮",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 229,
+        "fields": {
+            "name": "土庫鎮",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 230,
+        "fields": {
+            "name": "褒忠鄉",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 231,
+        "fields": {
+            "name": "東勢鄉",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 232,
+        "fields": {
+            "name": "臺西鄉",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 233,
+        "fields": {
+            "name": "崙背鄉",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 234,
+        "fields": {
+            "name": "麥寮鄉",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 235,
+        "fields": {
+            "name": "斗六市",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 236,
+        "fields": {
+            "name": "林內鄉",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 237,
+        "fields": {
+            "name": "古坑鄉",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 238,
+        "fields": {
+            "name": "莿桐鄉",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 239,
+        "fields": {
+            "name": "西螺鎮",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 240,
+        "fields": {
+            "name": "二崙鄉",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 241,
+        "fields": {
+            "name": "北港鎮",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 242,
+        "fields": {
+            "name": "水林鄉",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 243,
+        "fields": {
+            "name": "口湖鄉",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 244,
+        "fields": {
+            "name": "四湖鄉",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 245,
+        "fields": {
+            "name": "元長鄉",
+            "level": "district",
+            "parent": 16
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 246,
+        "fields": {
+            "name": "中西區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 247,
+        "fields": {
+            "name": "東區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 248,
+        "fields": {
+            "name": "南區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 249,
+        "fields": {
+            "name": "北區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 250,
+        "fields": {
+            "name": "安平區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 251,
+        "fields": {
+            "name": "安南區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 252,
+        "fields": {
+            "name": "永康區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 253,
+        "fields": {
+            "name": "歸仁區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 254,
+        "fields": {
+            "name": "新化區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 255,
+        "fields": {
+            "name": "左鎮區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 256,
+        "fields": {
+            "name": "玉井區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 257,
+        "fields": {
+            "name": "楠西區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 258,
+        "fields": {
+            "name": "南化區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 259,
+        "fields": {
+            "name": "仁德區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 260,
+        "fields": {
+            "name": "關廟區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 261,
+        "fields": {
+            "name": "龍崎區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 262,
+        "fields": {
+            "name": "官田區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 263,
+        "fields": {
+            "name": "麻豆區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 264,
+        "fields": {
+            "name": "佳里區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 265,
+        "fields": {
+            "name": "西港區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 266,
+        "fields": {
+            "name": "七股區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 267,
+        "fields": {
+            "name": "將軍區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 268,
+        "fields": {
+            "name": "學甲區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 269,
+        "fields": {
+            "name": "北門區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 270,
+        "fields": {
+            "name": "新營區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 271,
+        "fields": {
+            "name": "後壁區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 272,
+        "fields": {
+            "name": "白河區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 273,
+        "fields": {
+            "name": "東山區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 274,
+        "fields": {
+            "name": "六甲區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 275,
+        "fields": {
+            "name": "下營區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 276,
+        "fields": {
+            "name": "柳營區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 277,
+        "fields": {
+            "name": "鹽水區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 278,
+        "fields": {
+            "name": "善化區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 279,
+        "fields": {
+            "name": "新市區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 280,
+        "fields": {
+            "name": "大內區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 281,
+        "fields": {
+            "name": "山上區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 282,
+        "fields": {
+            "name": "安定區",
+            "level": "district",
+            "parent": 17
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 283,
+        "fields": {
+            "name": "新興區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 284,
+        "fields": {
+            "name": "前金區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 285,
+        "fields": {
+            "name": "苓雅區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 286,
+        "fields": {
+            "name": "鹽埕區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 287,
+        "fields": {
+            "name": "鼓山區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 288,
+        "fields": {
+            "name": "旗津區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 289,
+        "fields": {
+            "name": "前鎮區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 290,
+        "fields": {
+            "name": "三民區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 291,
+        "fields": {
+            "name": "楠梓區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 292,
+        "fields": {
+            "name": "小港區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 293,
+        "fields": {
+            "name": "左營區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 294,
+        "fields": {
+            "name": "仁武區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 295,
+        "fields": {
+            "name": "大社區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 296,
+        "fields": {
+            "name": "東沙群島",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 297,
+        "fields": {
+            "name": "南沙群島",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 298,
+        "fields": {
+            "name": "岡山區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 299,
+        "fields": {
+            "name": "路竹區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 300,
+        "fields": {
+            "name": "阿蓮區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 301,
+        "fields": {
+            "name": "田寮區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 302,
+        "fields": {
+            "name": "燕巢區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 303,
+        "fields": {
+            "name": "橋頭區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 304,
+        "fields": {
+            "name": "梓官區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 305,
+        "fields": {
+            "name": "彌陀區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 306,
+        "fields": {
+            "name": "永安區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 307,
+        "fields": {
+            "name": "湖內區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 308,
+        "fields": {
+            "name": "鳳山區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 309,
+        "fields": {
+            "name": "大寮區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 310,
+        "fields": {
+            "name": "林園區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 311,
+        "fields": {
+            "name": "鳥松區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 312,
+        "fields": {
+            "name": "大樹區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 313,
+        "fields": {
+            "name": "旗山區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 314,
+        "fields": {
+            "name": "美濃區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 315,
+        "fields": {
+            "name": "六龜區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 316,
+        "fields": {
+            "name": "內門區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 317,
+        "fields": {
+            "name": "杉林區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 318,
+        "fields": {
+            "name": "甲仙區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 319,
+        "fields": {
+            "name": "桃源區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 320,
+        "fields": {
+            "name": "那瑪夏區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 321,
+        "fields": {
+            "name": "茂林區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 322,
+        "fields": {
+            "name": "茄萣區",
+            "level": "district",
+            "parent": 18
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 323,
+        "fields": {
+            "name": "東沙群島",
+            "level": "district",
+            "parent": 19
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 324,
+        "fields": {
+            "name": "南沙群島",
+            "level": "district",
+            "parent": 19
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 325,
+        "fields": {
+            "name": "馬公市",
+            "level": "district",
+            "parent": 20
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 326,
+        "fields": {
+            "name": "西嶼鄉",
+            "level": "district",
+            "parent": 20
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 327,
+        "fields": {
+            "name": "望安鄉",
+            "level": "district",
+            "parent": 20
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 328,
+        "fields": {
+            "name": "七美鄉",
+            "level": "district",
+            "parent": 20
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 329,
+        "fields": {
+            "name": "白沙鄉",
+            "level": "district",
+            "parent": 20
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 330,
+        "fields": {
+            "name": "湖西鄉",
+            "level": "district",
+            "parent": 20
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 331,
+        "fields": {
+            "name": "金沙鎮",
+            "level": "district",
+            "parent": 21
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 332,
+        "fields": {
+            "name": "金湖鎮",
+            "level": "district",
+            "parent": 21
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 333,
+        "fields": {
+            "name": "金寧鄉",
+            "level": "district",
+            "parent": 21
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 334,
+        "fields": {
+            "name": "金城鎮",
+            "level": "district",
+            "parent": 21
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 335,
+        "fields": {
+            "name": "烈嶼鄉",
+            "level": "district",
+            "parent": 21
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 336,
+        "fields": {
+            "name": "烏坵鄉",
+            "level": "district",
+            "parent": 21
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 337,
+        "fields": {
+            "name": "屏東市",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 338,
+        "fields": {
+            "name": "三地門鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 339,
+        "fields": {
+            "name": "霧臺鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 340,
+        "fields": {
+            "name": "瑪家鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 341,
+        "fields": {
+            "name": "九如鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 342,
+        "fields": {
+            "name": "里港鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 343,
+        "fields": {
+            "name": "高樹鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 344,
+        "fields": {
+            "name": "鹽埔鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 345,
+        "fields": {
+            "name": "長治鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 346,
+        "fields": {
+            "name": "麟洛鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 347,
+        "fields": {
+            "name": "竹田鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 348,
+        "fields": {
+            "name": "內埔鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 349,
+        "fields": {
+            "name": "萬丹鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 350,
+        "fields": {
+            "name": "潮州鎮",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 351,
+        "fields": {
+            "name": "泰武鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 352,
+        "fields": {
+            "name": "來義鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 353,
+        "fields": {
+            "name": "萬巒鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 354,
+        "fields": {
+            "name": "崁頂鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 355,
+        "fields": {
+            "name": "新埤鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 356,
+        "fields": {
+            "name": "南州鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 357,
+        "fields": {
+            "name": "林邊鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 358,
+        "fields": {
+            "name": "東港鎮",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 359,
+        "fields": {
+            "name": "琉球鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 360,
+        "fields": {
+            "name": "佳冬鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 361,
+        "fields": {
+            "name": "新園鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 362,
+        "fields": {
+            "name": "枋寮鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 363,
+        "fields": {
+            "name": "枋山鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 364,
+        "fields": {
+            "name": "春日鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 365,
+        "fields": {
+            "name": "獅子鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 366,
+        "fields": {
+            "name": "車城鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 367,
+        "fields": {
+            "name": "牡丹鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 368,
+        "fields": {
+            "name": "恆春鎮",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 369,
+        "fields": {
+            "name": "滿州鄉",
+            "level": "district",
+            "parent": 22
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 370,
+        "fields": {
+            "name": "臺東市",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 371,
+        "fields": {
+            "name": "綠島鄉",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 372,
+        "fields": {
+            "name": "蘭嶼鄉",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 373,
+        "fields": {
+            "name": "延平鄉",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 374,
+        "fields": {
+            "name": "卑南鄉",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 375,
+        "fields": {
+            "name": "鹿野鄉",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 376,
+        "fields": {
+            "name": "關山鎮",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 377,
+        "fields": {
+            "name": "海端鄉",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 378,
+        "fields": {
+            "name": "池上鄉",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 379,
+        "fields": {
+            "name": "東河鄉",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 380,
+        "fields": {
+            "name": "成功鎮",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 381,
+        "fields": {
+            "name": "長濱鄉",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 382,
+        "fields": {
+            "name": "太麻里鄉",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 383,
+        "fields": {
+            "name": "金峰鄉",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 384,
+        "fields": {
+            "name": "大武鄉",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 385,
+        "fields": {
+            "name": "達仁鄉",
+            "level": "district",
+            "parent": 23
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 386,
+        "fields": {
+            "name": "花蓮市",
+            "level": "district",
+            "parent": 24
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 387,
+        "fields": {
+            "name": "新城鄉",
+            "level": "district",
+            "parent": 24
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 388,
+        "fields": {
+            "name": "秀林鄉",
+            "level": "district",
+            "parent": 24
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 389,
+        "fields": {
+            "name": "吉安鄉",
+            "level": "district",
+            "parent": 24
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 390,
+        "fields": {
+            "name": "壽豐鄉",
+            "level": "district",
+            "parent": 24
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 391,
+        "fields": {
+            "name": "鳳林鎮",
+            "level": "district",
+            "parent": 24
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 392,
+        "fields": {
+            "name": "光復鄉",
+            "level": "district",
+            "parent": 24
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 393,
+        "fields": {
+            "name": "豐濱鄉",
+            "level": "district",
+            "parent": 24
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 394,
+        "fields": {
+            "name": "瑞穗鄉",
+            "level": "district",
+            "parent": 24
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 395,
+        "fields": {
+            "name": "萬榮鄉",
+            "level": "district",
+            "parent": 24
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 396,
+        "fields": {
+            "name": "玉里鎮",
+            "level": "district",
+            "parent": 24
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 397,
+        "fields": {
+            "name": "卓溪鄉",
+            "level": "district",
+            "parent": 24
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 398,
+        "fields": {
+            "name": "富里鄉",
+            "level": "district",
+            "parent": 24
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 399,
+        "fields": {
+            "name": "100",
+            "level": "postal_code",
+            "parent": 25
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 400,
+        "fields": {
+            "name": "103",
+            "level": "postal_code",
+            "parent": 26
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 401,
+        "fields": {
+            "name": "104",
+            "level": "postal_code",
+            "parent": 27
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 402,
+        "fields": {
+            "name": "105",
+            "level": "postal_code",
+            "parent": 28
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 403,
+        "fields": {
+            "name": "106",
+            "level": "postal_code",
+            "parent": 29
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 404,
+        "fields": {
+            "name": "108",
+            "level": "postal_code",
+            "parent": 30
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 405,
+        "fields": {
+            "name": "110",
+            "level": "postal_code",
+            "parent": 31
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 406,
+        "fields": {
+            "name": "111",
+            "level": "postal_code",
+            "parent": 32
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 407,
+        "fields": {
+            "name": "112",
+            "level": "postal_code",
+            "parent": 33
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 408,
+        "fields": {
+            "name": "114",
+            "level": "postal_code",
+            "parent": 34
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 409,
+        "fields": {
+            "name": "115",
+            "level": "postal_code",
+            "parent": 35
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 410,
+        "fields": {
+            "name": "116",
+            "level": "postal_code",
+            "parent": 36
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 411,
+        "fields": {
+            "name": "200",
+            "level": "postal_code",
+            "parent": 37
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 412,
+        "fields": {
+            "name": "201",
+            "level": "postal_code",
+            "parent": 38
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 413,
+        "fields": {
+            "name": "202",
+            "level": "postal_code",
+            "parent": 39
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 414,
+        "fields": {
+            "name": "203",
+            "level": "postal_code",
+            "parent": 40
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 415,
+        "fields": {
+            "name": "204",
+            "level": "postal_code",
+            "parent": 41
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 416,
+        "fields": {
+            "name": "205",
+            "level": "postal_code",
+            "parent": 42
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 417,
+        "fields": {
+            "name": "206",
+            "level": "postal_code",
+            "parent": 43
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 418,
+        "fields": {
+            "name": "207",
+            "level": "postal_code",
+            "parent": 44
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 419,
+        "fields": {
+            "name": "208",
+            "level": "postal_code",
+            "parent": 45
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 420,
+        "fields": {
+            "name": "220",
+            "level": "postal_code",
+            "parent": 46
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 421,
+        "fields": {
+            "name": "221",
+            "level": "postal_code",
+            "parent": 47
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 422,
+        "fields": {
+            "name": "222",
+            "level": "postal_code",
+            "parent": 48
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 423,
+        "fields": {
+            "name": "223",
+            "level": "postal_code",
+            "parent": 49
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 424,
+        "fields": {
+            "name": "224",
+            "level": "postal_code",
+            "parent": 50
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 425,
+        "fields": {
+            "name": "226",
+            "level": "postal_code",
+            "parent": 51
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 426,
+        "fields": {
+            "name": "227",
+            "level": "postal_code",
+            "parent": 52
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 427,
+        "fields": {
+            "name": "228",
+            "level": "postal_code",
+            "parent": 53
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 428,
+        "fields": {
+            "name": "231",
+            "level": "postal_code",
+            "parent": 54
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 429,
+        "fields": {
+            "name": "232",
+            "level": "postal_code",
+            "parent": 55
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 430,
+        "fields": {
+            "name": "233",
+            "level": "postal_code",
+            "parent": 56
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 431,
+        "fields": {
+            "name": "234",
+            "level": "postal_code",
+            "parent": 57
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 432,
+        "fields": {
+            "name": "235",
+            "level": "postal_code",
+            "parent": 58
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 433,
+        "fields": {
+            "name": "236",
+            "level": "postal_code",
+            "parent": 59
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 434,
+        "fields": {
+            "name": "237",
+            "level": "postal_code",
+            "parent": 60
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 435,
+        "fields": {
+            "name": "238",
+            "level": "postal_code",
+            "parent": 61
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 436,
+        "fields": {
+            "name": "239",
+            "level": "postal_code",
+            "parent": 62
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 437,
+        "fields": {
+            "name": "241",
+            "level": "postal_code",
+            "parent": 63
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 438,
+        "fields": {
+            "name": "242",
+            "level": "postal_code",
+            "parent": 64
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 439,
+        "fields": {
+            "name": "243",
+            "level": "postal_code",
+            "parent": 65
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 440,
+        "fields": {
+            "name": "244",
+            "level": "postal_code",
+            "parent": 66
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 441,
+        "fields": {
+            "name": "247",
+            "level": "postal_code",
+            "parent": 67
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 442,
+        "fields": {
+            "name": "248",
+            "level": "postal_code",
+            "parent": 68
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 443,
+        "fields": {
+            "name": "249",
+            "level": "postal_code",
+            "parent": 69
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 444,
+        "fields": {
+            "name": "251",
+            "level": "postal_code",
+            "parent": 70
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 445,
+        "fields": {
+            "name": "252",
+            "level": "postal_code",
+            "parent": 71
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 446,
+        "fields": {
+            "name": "253",
+            "level": "postal_code",
+            "parent": 72
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 447,
+        "fields": {
+            "name": "209",
+            "level": "postal_code",
+            "parent": 73
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 448,
+        "fields": {
+            "name": "210",
+            "level": "postal_code",
+            "parent": 74
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 449,
+        "fields": {
+            "name": "211",
+            "level": "postal_code",
+            "parent": 75
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 450,
+        "fields": {
+            "name": "212",
+            "level": "postal_code",
+            "parent": 76
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 451,
+        "fields": {
+            "name": "260",
+            "level": "postal_code",
+            "parent": 77
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 452,
+        "fields": {
+            "name": "263",
+            "level": "postal_code",
+            "parent": 78
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 453,
+        "fields": {
+            "name": "261",
+            "level": "postal_code",
+            "parent": 79
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 454,
+        "fields": {
+            "name": "262",
+            "level": "postal_code",
+            "parent": 80
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 455,
+        "fields": {
+            "name": "264",
+            "level": "postal_code",
+            "parent": 81
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 456,
+        "fields": {
+            "name": "265",
+            "level": "postal_code",
+            "parent": 82
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 457,
+        "fields": {
+            "name": "266",
+            "level": "postal_code",
+            "parent": 83
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 458,
+        "fields": {
+            "name": "267",
+            "level": "postal_code",
+            "parent": 84
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 459,
+        "fields": {
+            "name": "268",
+            "level": "postal_code",
+            "parent": 85
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 460,
+        "fields": {
+            "name": "269",
+            "level": "postal_code",
+            "parent": 86
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 461,
+        "fields": {
+            "name": "270",
+            "level": "postal_code",
+            "parent": 87
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 462,
+        "fields": {
+            "name": "272",
+            "level": "postal_code",
+            "parent": 88
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 463,
+        "fields": {
+            "name": "290",
+            "level": "postal_code",
+            "parent": 89
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 464,
+        "fields": {
+            "name": "290",
+            "level": "postal_code",
+            "parent": 90
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 465,
+        "fields": {
+            "name": "300",
+            "level": "postal_code",
+            "parent": 91
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 466,
+        "fields": {
+            "name": "300",
+            "level": "postal_code",
+            "parent": 92
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 467,
+        "fields": {
+            "name": "300",
+            "level": "postal_code",
+            "parent": 93
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 468,
+        "fields": {
+            "name": "308",
+            "level": "postal_code",
+            "parent": 94
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 469,
+        "fields": {
+            "name": "302",
+            "level": "postal_code",
+            "parent": 95
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 470,
+        "fields": {
+            "name": "303",
+            "level": "postal_code",
+            "parent": 96
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 471,
+        "fields": {
+            "name": "304",
+            "level": "postal_code",
+            "parent": 97
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 472,
+        "fields": {
+            "name": "305",
+            "level": "postal_code",
+            "parent": 98
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 473,
+        "fields": {
+            "name": "306",
+            "level": "postal_code",
+            "parent": 99
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 474,
+        "fields": {
+            "name": "307",
+            "level": "postal_code",
+            "parent": 100
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 475,
+        "fields": {
+            "name": "310",
+            "level": "postal_code",
+            "parent": 101
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 476,
+        "fields": {
+            "name": "311",
+            "level": "postal_code",
+            "parent": 102
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 477,
+        "fields": {
+            "name": "312",
+            "level": "postal_code",
+            "parent": 103
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 478,
+        "fields": {
+            "name": "313",
+            "level": "postal_code",
+            "parent": 104
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 479,
+        "fields": {
+            "name": "314",
+            "level": "postal_code",
+            "parent": 105
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 480,
+        "fields": {
+            "name": "315",
+            "level": "postal_code",
+            "parent": 106
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 481,
+        "fields": {
+            "name": "320",
+            "level": "postal_code",
+            "parent": 107
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 482,
+        "fields": {
+            "name": "324",
+            "level": "postal_code",
+            "parent": 108
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 483,
+        "fields": {
+            "name": "325",
+            "level": "postal_code",
+            "parent": 109
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 484,
+        "fields": {
+            "name": "326",
+            "level": "postal_code",
+            "parent": 110
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 485,
+        "fields": {
+            "name": "327",
+            "level": "postal_code",
+            "parent": 111
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 486,
+        "fields": {
+            "name": "328",
+            "level": "postal_code",
+            "parent": 112
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 487,
+        "fields": {
+            "name": "330",
+            "level": "postal_code",
+            "parent": 113
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 488,
+        "fields": {
+            "name": "333",
+            "level": "postal_code",
+            "parent": 114
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 489,
+        "fields": {
+            "name": "334",
+            "level": "postal_code",
+            "parent": 115
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 490,
+        "fields": {
+            "name": "335",
+            "level": "postal_code",
+            "parent": 116
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 491,
+        "fields": {
+            "name": "336",
+            "level": "postal_code",
+            "parent": 117
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 492,
+        "fields": {
+            "name": "337",
+            "level": "postal_code",
+            "parent": 118
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 493,
+        "fields": {
+            "name": "338",
+            "level": "postal_code",
+            "parent": 119
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 494,
+        "fields": {
+            "name": "350",
+            "level": "postal_code",
+            "parent": 120
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 495,
+        "fields": {
+            "name": "351",
+            "level": "postal_code",
+            "parent": 121
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 496,
+        "fields": {
+            "name": "352",
+            "level": "postal_code",
+            "parent": 122
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 497,
+        "fields": {
+            "name": "353",
+            "level": "postal_code",
+            "parent": 123
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 498,
+        "fields": {
+            "name": "354",
+            "level": "postal_code",
+            "parent": 124
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 499,
+        "fields": {
+            "name": "356",
+            "level": "postal_code",
+            "parent": 125
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 500,
+        "fields": {
+            "name": "357",
+            "level": "postal_code",
+            "parent": 126
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 501,
+        "fields": {
+            "name": "358",
+            "level": "postal_code",
+            "parent": 127
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 502,
+        "fields": {
+            "name": "360",
+            "level": "postal_code",
+            "parent": 128
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 503,
+        "fields": {
+            "name": "361",
+            "level": "postal_code",
+            "parent": 129
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 504,
+        "fields": {
+            "name": "362",
+            "level": "postal_code",
+            "parent": 130
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 505,
+        "fields": {
+            "name": "363",
+            "level": "postal_code",
+            "parent": 131
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 506,
+        "fields": {
+            "name": "364",
+            "level": "postal_code",
+            "parent": 132
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 507,
+        "fields": {
+            "name": "365",
+            "level": "postal_code",
+            "parent": 133
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 508,
+        "fields": {
+            "name": "366",
+            "level": "postal_code",
+            "parent": 134
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 509,
+        "fields": {
+            "name": "367",
+            "level": "postal_code",
+            "parent": 135
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 510,
+        "fields": {
+            "name": "368",
+            "level": "postal_code",
+            "parent": 136
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 511,
+        "fields": {
+            "name": "369",
+            "level": "postal_code",
+            "parent": 137
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 512,
+        "fields": {
+            "name": "400",
+            "level": "postal_code",
+            "parent": 138
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 513,
+        "fields": {
+            "name": "401",
+            "level": "postal_code",
+            "parent": 139
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 514,
+        "fields": {
+            "name": "402",
+            "level": "postal_code",
+            "parent": 140
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 515,
+        "fields": {
+            "name": "403",
+            "level": "postal_code",
+            "parent": 141
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 516,
+        "fields": {
+            "name": "404",
+            "level": "postal_code",
+            "parent": 142
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 517,
+        "fields": {
+            "name": "406",
+            "level": "postal_code",
+            "parent": 143
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 518,
+        "fields": {
+            "name": "407",
+            "level": "postal_code",
+            "parent": 144
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 519,
+        "fields": {
+            "name": "408",
+            "level": "postal_code",
+            "parent": 145
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 520,
+        "fields": {
+            "name": "411",
+            "level": "postal_code",
+            "parent": 146
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 521,
+        "fields": {
+            "name": "412",
+            "level": "postal_code",
+            "parent": 147
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 522,
+        "fields": {
+            "name": "413",
+            "level": "postal_code",
+            "parent": 148
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 523,
+        "fields": {
+            "name": "414",
+            "level": "postal_code",
+            "parent": 149
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 524,
+        "fields": {
+            "name": "420",
+            "level": "postal_code",
+            "parent": 150
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 525,
+        "fields": {
+            "name": "421",
+            "level": "postal_code",
+            "parent": 151
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 526,
+        "fields": {
+            "name": "422",
+            "level": "postal_code",
+            "parent": 152
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 527,
+        "fields": {
+            "name": "423",
+            "level": "postal_code",
+            "parent": 153
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 528,
+        "fields": {
+            "name": "424",
+            "level": "postal_code",
+            "parent": 154
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 529,
+        "fields": {
+            "name": "426",
+            "level": "postal_code",
+            "parent": 155
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 530,
+        "fields": {
+            "name": "427",
+            "level": "postal_code",
+            "parent": 156
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 531,
+        "fields": {
+            "name": "428",
+            "level": "postal_code",
+            "parent": 157
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 532,
+        "fields": {
+            "name": "429",
+            "level": "postal_code",
+            "parent": 158
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 533,
+        "fields": {
+            "name": "432",
+            "level": "postal_code",
+            "parent": 159
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 534,
+        "fields": {
+            "name": "433",
+            "level": "postal_code",
+            "parent": 160
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 535,
+        "fields": {
+            "name": "434",
+            "level": "postal_code",
+            "parent": 161
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 536,
+        "fields": {
+            "name": "435",
+            "level": "postal_code",
+            "parent": 162
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 537,
+        "fields": {
+            "name": "436",
+            "level": "postal_code",
+            "parent": 163
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 538,
+        "fields": {
+            "name": "437",
+            "level": "postal_code",
+            "parent": 164
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 539,
+        "fields": {
+            "name": "438",
+            "level": "postal_code",
+            "parent": 165
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 540,
+        "fields": {
+            "name": "439",
+            "level": "postal_code",
+            "parent": 166
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 541,
+        "fields": {
+            "name": "500",
+            "level": "postal_code",
+            "parent": 167
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 542,
+        "fields": {
+            "name": "502",
+            "level": "postal_code",
+            "parent": 168
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 543,
+        "fields": {
+            "name": "503",
+            "level": "postal_code",
+            "parent": 169
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 544,
+        "fields": {
+            "name": "504",
+            "level": "postal_code",
+            "parent": 170
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 545,
+        "fields": {
+            "name": "505",
+            "level": "postal_code",
+            "parent": 171
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 546,
+        "fields": {
+            "name": "506",
+            "level": "postal_code",
+            "parent": 172
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 547,
+        "fields": {
+            "name": "507",
+            "level": "postal_code",
+            "parent": 173
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 548,
+        "fields": {
+            "name": "508",
+            "level": "postal_code",
+            "parent": 174
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 549,
+        "fields": {
+            "name": "509",
+            "level": "postal_code",
+            "parent": 175
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 550,
+        "fields": {
+            "name": "510",
+            "level": "postal_code",
+            "parent": 176
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 551,
+        "fields": {
+            "name": "511",
+            "level": "postal_code",
+            "parent": 177
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 552,
+        "fields": {
+            "name": "512",
+            "level": "postal_code",
+            "parent": 178
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 553,
+        "fields": {
+            "name": "513",
+            "level": "postal_code",
+            "parent": 179
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 554,
+        "fields": {
+            "name": "514",
+            "level": "postal_code",
+            "parent": 180
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 555,
+        "fields": {
+            "name": "515",
+            "level": "postal_code",
+            "parent": 181
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 556,
+        "fields": {
+            "name": "516",
+            "level": "postal_code",
+            "parent": 182
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 557,
+        "fields": {
+            "name": "520",
+            "level": "postal_code",
+            "parent": 183
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 558,
+        "fields": {
+            "name": "521",
+            "level": "postal_code",
+            "parent": 184
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 559,
+        "fields": {
+            "name": "522",
+            "level": "postal_code",
+            "parent": 185
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 560,
+        "fields": {
+            "name": "523",
+            "level": "postal_code",
+            "parent": 186
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 561,
+        "fields": {
+            "name": "524",
+            "level": "postal_code",
+            "parent": 187
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 562,
+        "fields": {
+            "name": "525",
+            "level": "postal_code",
+            "parent": 188
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 563,
+        "fields": {
+            "name": "526",
+            "level": "postal_code",
+            "parent": 189
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 564,
+        "fields": {
+            "name": "527",
+            "level": "postal_code",
+            "parent": 190
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 565,
+        "fields": {
+            "name": "528",
+            "level": "postal_code",
+            "parent": 191
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 566,
+        "fields": {
+            "name": "530",
+            "level": "postal_code",
+            "parent": 192
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 567,
+        "fields": {
+            "name": "540",
+            "level": "postal_code",
+            "parent": 193
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 568,
+        "fields": {
+            "name": "541",
+            "level": "postal_code",
+            "parent": 194
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 569,
+        "fields": {
+            "name": "542",
+            "level": "postal_code",
+            "parent": 195
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 570,
+        "fields": {
+            "name": "544",
+            "level": "postal_code",
+            "parent": 196
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 571,
+        "fields": {
+            "name": "545",
+            "level": "postal_code",
+            "parent": 197
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 572,
+        "fields": {
+            "name": "546",
+            "level": "postal_code",
+            "parent": 198
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 573,
+        "fields": {
+            "name": "551",
+            "level": "postal_code",
+            "parent": 199
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 574,
+        "fields": {
+            "name": "552",
+            "level": "postal_code",
+            "parent": 200
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 575,
+        "fields": {
+            "name": "553",
+            "level": "postal_code",
+            "parent": 201
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 576,
+        "fields": {
+            "name": "555",
+            "level": "postal_code",
+            "parent": 202
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 577,
+        "fields": {
+            "name": "556",
+            "level": "postal_code",
+            "parent": 203
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 578,
+        "fields": {
+            "name": "557",
+            "level": "postal_code",
+            "parent": 204
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 579,
+        "fields": {
+            "name": "558",
+            "level": "postal_code",
+            "parent": 205
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 580,
+        "fields": {
+            "name": "600",
+            "level": "postal_code",
+            "parent": 206
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 581,
+        "fields": {
+            "name": "600",
+            "level": "postal_code",
+            "parent": 207
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 582,
+        "fields": {
+            "name": "602",
+            "level": "postal_code",
+            "parent": 208
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 583,
+        "fields": {
+            "name": "603",
+            "level": "postal_code",
+            "parent": 209
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 584,
+        "fields": {
+            "name": "604",
+            "level": "postal_code",
+            "parent": 210
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 585,
+        "fields": {
+            "name": "605",
+            "level": "postal_code",
+            "parent": 211
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 586,
+        "fields": {
+            "name": "606",
+            "level": "postal_code",
+            "parent": 212
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 587,
+        "fields": {
+            "name": "607",
+            "level": "postal_code",
+            "parent": 213
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 588,
+        "fields": {
+            "name": "608",
+            "level": "postal_code",
+            "parent": 214
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 589,
+        "fields": {
+            "name": "611",
+            "level": "postal_code",
+            "parent": 215
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 590,
+        "fields": {
+            "name": "612",
+            "level": "postal_code",
+            "parent": 216
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 591,
+        "fields": {
+            "name": "613",
+            "level": "postal_code",
+            "parent": 217
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 592,
+        "fields": {
+            "name": "614",
+            "level": "postal_code",
+            "parent": 218
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 593,
+        "fields": {
+            "name": "615",
+            "level": "postal_code",
+            "parent": 219
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 594,
+        "fields": {
+            "name": "616",
+            "level": "postal_code",
+            "parent": 220
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 595,
+        "fields": {
+            "name": "621",
+            "level": "postal_code",
+            "parent": 221
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 596,
+        "fields": {
+            "name": "622",
+            "level": "postal_code",
+            "parent": 222
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 597,
+        "fields": {
+            "name": "623",
+            "level": "postal_code",
+            "parent": 223
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 598,
+        "fields": {
+            "name": "624",
+            "level": "postal_code",
+            "parent": 224
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 599,
+        "fields": {
+            "name": "625",
+            "level": "postal_code",
+            "parent": 225
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 600,
+        "fields": {
+            "name": "630",
+            "level": "postal_code",
+            "parent": 226
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 601,
+        "fields": {
+            "name": "631",
+            "level": "postal_code",
+            "parent": 227
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 602,
+        "fields": {
+            "name": "632",
+            "level": "postal_code",
+            "parent": 228
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 603,
+        "fields": {
+            "name": "633",
+            "level": "postal_code",
+            "parent": 229
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 604,
+        "fields": {
+            "name": "634",
+            "level": "postal_code",
+            "parent": 230
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 605,
+        "fields": {
+            "name": "635",
+            "level": "postal_code",
+            "parent": 231
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 606,
+        "fields": {
+            "name": "636",
+            "level": "postal_code",
+            "parent": 232
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 607,
+        "fields": {
+            "name": "637",
+            "level": "postal_code",
+            "parent": 233
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 608,
+        "fields": {
+            "name": "638",
+            "level": "postal_code",
+            "parent": 234
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 609,
+        "fields": {
+            "name": "640",
+            "level": "postal_code",
+            "parent": 235
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 610,
+        "fields": {
+            "name": "643",
+            "level": "postal_code",
+            "parent": 236
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 611,
+        "fields": {
+            "name": "646",
+            "level": "postal_code",
+            "parent": 237
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 612,
+        "fields": {
+            "name": "647",
+            "level": "postal_code",
+            "parent": 238
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 613,
+        "fields": {
+            "name": "648",
+            "level": "postal_code",
+            "parent": 239
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 614,
+        "fields": {
+            "name": "649",
+            "level": "postal_code",
+            "parent": 240
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 615,
+        "fields": {
+            "name": "651",
+            "level": "postal_code",
+            "parent": 241
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 616,
+        "fields": {
+            "name": "652",
+            "level": "postal_code",
+            "parent": 242
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 617,
+        "fields": {
+            "name": "653",
+            "level": "postal_code",
+            "parent": 243
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 618,
+        "fields": {
+            "name": "654",
+            "level": "postal_code",
+            "parent": 244
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 619,
+        "fields": {
+            "name": "655",
+            "level": "postal_code",
+            "parent": 245
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 620,
+        "fields": {
+            "name": "700",
+            "level": "postal_code",
+            "parent": 246
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 621,
+        "fields": {
+            "name": "701",
+            "level": "postal_code",
+            "parent": 247
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 622,
+        "fields": {
+            "name": "702",
+            "level": "postal_code",
+            "parent": 248
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 623,
+        "fields": {
+            "name": "704",
+            "level": "postal_code",
+            "parent": 249
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 624,
+        "fields": {
+            "name": "708",
+            "level": "postal_code",
+            "parent": 250
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 625,
+        "fields": {
+            "name": "709",
+            "level": "postal_code",
+            "parent": 251
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 626,
+        "fields": {
+            "name": "710",
+            "level": "postal_code",
+            "parent": 252
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 627,
+        "fields": {
+            "name": "711",
+            "level": "postal_code",
+            "parent": 253
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 628,
+        "fields": {
+            "name": "712",
+            "level": "postal_code",
+            "parent": 254
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 629,
+        "fields": {
+            "name": "713",
+            "level": "postal_code",
+            "parent": 255
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 630,
+        "fields": {
+            "name": "714",
+            "level": "postal_code",
+            "parent": 256
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 631,
+        "fields": {
+            "name": "715",
+            "level": "postal_code",
+            "parent": 257
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 632,
+        "fields": {
+            "name": "716",
+            "level": "postal_code",
+            "parent": 258
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 633,
+        "fields": {
+            "name": "717",
+            "level": "postal_code",
+            "parent": 259
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 634,
+        "fields": {
+            "name": "718",
+            "level": "postal_code",
+            "parent": 260
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 635,
+        "fields": {
+            "name": "719",
+            "level": "postal_code",
+            "parent": 261
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 636,
+        "fields": {
+            "name": "720",
+            "level": "postal_code",
+            "parent": 262
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 637,
+        "fields": {
+            "name": "721",
+            "level": "postal_code",
+            "parent": 263
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 638,
+        "fields": {
+            "name": "722",
+            "level": "postal_code",
+            "parent": 264
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 639,
+        "fields": {
+            "name": "723",
+            "level": "postal_code",
+            "parent": 265
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 640,
+        "fields": {
+            "name": "724",
+            "level": "postal_code",
+            "parent": 266
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 641,
+        "fields": {
+            "name": "725",
+            "level": "postal_code",
+            "parent": 267
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 642,
+        "fields": {
+            "name": "726",
+            "level": "postal_code",
+            "parent": 268
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 643,
+        "fields": {
+            "name": "727",
+            "level": "postal_code",
+            "parent": 269
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 644,
+        "fields": {
+            "name": "730",
+            "level": "postal_code",
+            "parent": 270
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 645,
+        "fields": {
+            "name": "731",
+            "level": "postal_code",
+            "parent": 271
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 646,
+        "fields": {
+            "name": "732",
+            "level": "postal_code",
+            "parent": 272
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 647,
+        "fields": {
+            "name": "733",
+            "level": "postal_code",
+            "parent": 273
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 648,
+        "fields": {
+            "name": "734",
+            "level": "postal_code",
+            "parent": 274
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 649,
+        "fields": {
+            "name": "735",
+            "level": "postal_code",
+            "parent": 275
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 650,
+        "fields": {
+            "name": "736",
+            "level": "postal_code",
+            "parent": 276
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 651,
+        "fields": {
+            "name": "737",
+            "level": "postal_code",
+            "parent": 277
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 652,
+        "fields": {
+            "name": "741",
+            "level": "postal_code",
+            "parent": 278
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 653,
+        "fields": {
+            "name": "744",
+            "level": "postal_code",
+            "parent": 279
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 654,
+        "fields": {
+            "name": "742",
+            "level": "postal_code",
+            "parent": 280
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 655,
+        "fields": {
+            "name": "743",
+            "level": "postal_code",
+            "parent": 281
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 656,
+        "fields": {
+            "name": "745",
+            "level": "postal_code",
+            "parent": 282
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 657,
+        "fields": {
+            "name": "800",
+            "level": "postal_code",
+            "parent": 283
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 658,
+        "fields": {
+            "name": "801",
+            "level": "postal_code",
+            "parent": 284
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 659,
+        "fields": {
+            "name": "802",
+            "level": "postal_code",
+            "parent": 285
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 660,
+        "fields": {
+            "name": "803",
+            "level": "postal_code",
+            "parent": 286
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 661,
+        "fields": {
+            "name": "804",
+            "level": "postal_code",
+            "parent": 287
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 662,
+        "fields": {
+            "name": "805",
+            "level": "postal_code",
+            "parent": 288
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 663,
+        "fields": {
+            "name": "806",
+            "level": "postal_code",
+            "parent": 289
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 664,
+        "fields": {
+            "name": "807",
+            "level": "postal_code",
+            "parent": 290
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 665,
+        "fields": {
+            "name": "811",
+            "level": "postal_code",
+            "parent": 291
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 666,
+        "fields": {
+            "name": "812",
+            "level": "postal_code",
+            "parent": 292
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 667,
+        "fields": {
+            "name": "813",
+            "level": "postal_code",
+            "parent": 293
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 668,
+        "fields": {
+            "name": "814",
+            "level": "postal_code",
+            "parent": 294
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 669,
+        "fields": {
+            "name": "815",
+            "level": "postal_code",
+            "parent": 295
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 670,
+        "fields": {
+            "name": "817",
+            "level": "postal_code",
+            "parent": 296
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 671,
+        "fields": {
+            "name": "819",
+            "level": "postal_code",
+            "parent": 297
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 672,
+        "fields": {
+            "name": "820",
+            "level": "postal_code",
+            "parent": 298
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 673,
+        "fields": {
+            "name": "821",
+            "level": "postal_code",
+            "parent": 299
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 674,
+        "fields": {
+            "name": "822",
+            "level": "postal_code",
+            "parent": 300
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 675,
+        "fields": {
+            "name": "823",
+            "level": "postal_code",
+            "parent": 301
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 676,
+        "fields": {
+            "name": "824",
+            "level": "postal_code",
+            "parent": 302
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 677,
+        "fields": {
+            "name": "825",
+            "level": "postal_code",
+            "parent": 303
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 678,
+        "fields": {
+            "name": "826",
+            "level": "postal_code",
+            "parent": 304
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 679,
+        "fields": {
+            "name": "827",
+            "level": "postal_code",
+            "parent": 305
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 680,
+        "fields": {
+            "name": "828",
+            "level": "postal_code",
+            "parent": 306
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 681,
+        "fields": {
+            "name": "829",
+            "level": "postal_code",
+            "parent": 307
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 682,
+        "fields": {
+            "name": "830",
+            "level": "postal_code",
+            "parent": 308
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 683,
+        "fields": {
+            "name": "831",
+            "level": "postal_code",
+            "parent": 309
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 684,
+        "fields": {
+            "name": "832",
+            "level": "postal_code",
+            "parent": 310
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 685,
+        "fields": {
+            "name": "833",
+            "level": "postal_code",
+            "parent": 311
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 686,
+        "fields": {
+            "name": "840",
+            "level": "postal_code",
+            "parent": 312
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 687,
+        "fields": {
+            "name": "842",
+            "level": "postal_code",
+            "parent": 313
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 688,
+        "fields": {
+            "name": "843",
+            "level": "postal_code",
+            "parent": 314
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 689,
+        "fields": {
+            "name": "844",
+            "level": "postal_code",
+            "parent": 315
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 690,
+        "fields": {
+            "name": "845",
+            "level": "postal_code",
+            "parent": 316
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 691,
+        "fields": {
+            "name": "846",
+            "level": "postal_code",
+            "parent": 317
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 692,
+        "fields": {
+            "name": "847",
+            "level": "postal_code",
+            "parent": 318
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 693,
+        "fields": {
+            "name": "848",
+            "level": "postal_code",
+            "parent": 319
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 694,
+        "fields": {
+            "name": "849",
+            "level": "postal_code",
+            "parent": 320
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 695,
+        "fields": {
+            "name": "851",
+            "level": "postal_code",
+            "parent": 321
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 696,
+        "fields": {
+            "name": "852",
+            "level": "postal_code",
+            "parent": 322
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 697,
+        "fields": {
+            "name": "817",
+            "level": "postal_code",
+            "parent": 323
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 698,
+        "fields": {
+            "name": "819",
+            "level": "postal_code",
+            "parent": 324
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 699,
+        "fields": {
+            "name": "880",
+            "level": "postal_code",
+            "parent": 325
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 700,
+        "fields": {
+            "name": "881",
+            "level": "postal_code",
+            "parent": 326
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 701,
+        "fields": {
+            "name": "882",
+            "level": "postal_code",
+            "parent": 327
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 702,
+        "fields": {
+            "name": "883",
+            "level": "postal_code",
+            "parent": 328
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 703,
+        "fields": {
+            "name": "884",
+            "level": "postal_code",
+            "parent": 329
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 704,
+        "fields": {
+            "name": "885",
+            "level": "postal_code",
+            "parent": 330
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 705,
+        "fields": {
+            "name": "890",
+            "level": "postal_code",
+            "parent": 331
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 706,
+        "fields": {
+            "name": "891",
+            "level": "postal_code",
+            "parent": 332
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 707,
+        "fields": {
+            "name": "892",
+            "level": "postal_code",
+            "parent": 333
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 708,
+        "fields": {
+            "name": "893",
+            "level": "postal_code",
+            "parent": 334
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 709,
+        "fields": {
+            "name": "894",
+            "level": "postal_code",
+            "parent": 335
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 710,
+        "fields": {
+            "name": "896",
+            "level": "postal_code",
+            "parent": 336
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 711,
+        "fields": {
+            "name": "900",
+            "level": "postal_code",
+            "parent": 337
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 712,
+        "fields": {
+            "name": "901",
+            "level": "postal_code",
+            "parent": 338
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 713,
+        "fields": {
+            "name": "902",
+            "level": "postal_code",
+            "parent": 339
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 714,
+        "fields": {
+            "name": "903",
+            "level": "postal_code",
+            "parent": 340
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 715,
+        "fields": {
+            "name": "904",
+            "level": "postal_code",
+            "parent": 341
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 716,
+        "fields": {
+            "name": "905",
+            "level": "postal_code",
+            "parent": 342
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 717,
+        "fields": {
+            "name": "906",
+            "level": "postal_code",
+            "parent": 343
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 718,
+        "fields": {
+            "name": "907",
+            "level": "postal_code",
+            "parent": 344
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 719,
+        "fields": {
+            "name": "908",
+            "level": "postal_code",
+            "parent": 345
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 720,
+        "fields": {
+            "name": "909",
+            "level": "postal_code",
+            "parent": 346
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 721,
+        "fields": {
+            "name": "911",
+            "level": "postal_code",
+            "parent": 347
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 722,
+        "fields": {
+            "name": "912",
+            "level": "postal_code",
+            "parent": 348
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 723,
+        "fields": {
+            "name": "913",
+            "level": "postal_code",
+            "parent": 349
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 724,
+        "fields": {
+            "name": "920",
+            "level": "postal_code",
+            "parent": 350
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 725,
+        "fields": {
+            "name": "921",
+            "level": "postal_code",
+            "parent": 351
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 726,
+        "fields": {
+            "name": "922",
+            "level": "postal_code",
+            "parent": 352
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 727,
+        "fields": {
+            "name": "923",
+            "level": "postal_code",
+            "parent": 353
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 728,
+        "fields": {
+            "name": "924",
+            "level": "postal_code",
+            "parent": 354
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 729,
+        "fields": {
+            "name": "925",
+            "level": "postal_code",
+            "parent": 355
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 730,
+        "fields": {
+            "name": "926",
+            "level": "postal_code",
+            "parent": 356
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 731,
+        "fields": {
+            "name": "927",
+            "level": "postal_code",
+            "parent": 357
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 732,
+        "fields": {
+            "name": "928",
+            "level": "postal_code",
+            "parent": 358
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 733,
+        "fields": {
+            "name": "929",
+            "level": "postal_code",
+            "parent": 359
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 734,
+        "fields": {
+            "name": "931",
+            "level": "postal_code",
+            "parent": 360
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 735,
+        "fields": {
+            "name": "932",
+            "level": "postal_code",
+            "parent": 361
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 736,
+        "fields": {
+            "name": "940",
+            "level": "postal_code",
+            "parent": 362
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 737,
+        "fields": {
+            "name": "941",
+            "level": "postal_code",
+            "parent": 363
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 738,
+        "fields": {
+            "name": "942",
+            "level": "postal_code",
+            "parent": 364
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 739,
+        "fields": {
+            "name": "943",
+            "level": "postal_code",
+            "parent": 365
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 740,
+        "fields": {
+            "name": "944",
+            "level": "postal_code",
+            "parent": 366
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 741,
+        "fields": {
+            "name": "945",
+            "level": "postal_code",
+            "parent": 367
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 742,
+        "fields": {
+            "name": "946",
+            "level": "postal_code",
+            "parent": 368
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 743,
+        "fields": {
+            "name": "947",
+            "level": "postal_code",
+            "parent": 369
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 744,
+        "fields": {
+            "name": "950",
+            "level": "postal_code",
+            "parent": 370
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 745,
+        "fields": {
+            "name": "951",
+            "level": "postal_code",
+            "parent": 371
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 746,
+        "fields": {
+            "name": "952",
+            "level": "postal_code",
+            "parent": 372
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 747,
+        "fields": {
+            "name": "953",
+            "level": "postal_code",
+            "parent": 373
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 748,
+        "fields": {
+            "name": "954",
+            "level": "postal_code",
+            "parent": 374
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 749,
+        "fields": {
+            "name": "955",
+            "level": "postal_code",
+            "parent": 375
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 750,
+        "fields": {
+            "name": "956",
+            "level": "postal_code",
+            "parent": 376
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 751,
+        "fields": {
+            "name": "957",
+            "level": "postal_code",
+            "parent": 377
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 752,
+        "fields": {
+            "name": "958",
+            "level": "postal_code",
+            "parent": 378
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 753,
+        "fields": {
+            "name": "959",
+            "level": "postal_code",
+            "parent": 379
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 754,
+        "fields": {
+            "name": "961",
+            "level": "postal_code",
+            "parent": 380
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 755,
+        "fields": {
+            "name": "962",
+            "level": "postal_code",
+            "parent": 381
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 756,
+        "fields": {
+            "name": "963",
+            "level": "postal_code",
+            "parent": 382
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 757,
+        "fields": {
+            "name": "964",
+            "level": "postal_code",
+            "parent": 383
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 758,
+        "fields": {
+            "name": "965",
+            "level": "postal_code",
+            "parent": 384
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 759,
+        "fields": {
+            "name": "966",
+            "level": "postal_code",
+            "parent": 385
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 760,
+        "fields": {
+            "name": "970",
+            "level": "postal_code",
+            "parent": 386
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 761,
+        "fields": {
+            "name": "971",
+            "level": "postal_code",
+            "parent": 387
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 762,
+        "fields": {
+            "name": "972",
+            "level": "postal_code",
+            "parent": 388
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 763,
+        "fields": {
+            "name": "973",
+            "level": "postal_code",
+            "parent": 389
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 764,
+        "fields": {
+            "name": "974",
+            "level": "postal_code",
+            "parent": 390
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 765,
+        "fields": {
+            "name": "975",
+            "level": "postal_code",
+            "parent": 391
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 766,
+        "fields": {
+            "name": "976",
+            "level": "postal_code",
+            "parent": 392
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 767,
+        "fields": {
+            "name": "977",
+            "level": "postal_code",
+            "parent": 393
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 768,
+        "fields": {
+            "name": "978",
+            "level": "postal_code",
+            "parent": 394
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 769,
+        "fields": {
+            "name": "979",
+            "level": "postal_code",
+            "parent": 395
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 770,
+        "fields": {
+            "name": "981",
+            "level": "postal_code",
+            "parent": 396
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 771,
+        "fields": {
+            "name": "982",
+            "level": "postal_code",
+            "parent": 397
+        }
+    },
+    {
+        "model": "areas.region",
+        "pk": 772,
+        "fields": {
+            "name": "983",
+            "level": "postal_code",
+            "parent": 398
+        }
+    }
+]

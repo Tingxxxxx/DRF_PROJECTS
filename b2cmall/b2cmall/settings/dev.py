@@ -49,14 +49,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
      # 'rest_framework.authtoken',  # DRF自帶的TOKEN認證,
     'rest_framework',  # 開發RESTfull API 加上此行
     'rest_framework_simplejwt', # 啟用 jwt token
     'rest_framework_simplejwt.token_blacklist', # 啟用 Token 黑名單功能(添加後要在執行一次遷移)
+    'corsheaders', # 解決cors問題
+
     'b2cmall.apps.users', # 用戶相關
     'b2cmall.apps.verifications', # 驗證碼
     'b2cmall.apps.oauth', # 第三方登入
-    'corsheaders', # 解決cors問題
+    'b2cmall.apps.areas' # 收件地址相關
 ]
 
 AUTH_USER_MODEL = 'users.User'
