@@ -373,3 +373,12 @@ GOOGLE_CLIENT_ID = "330519594030-hcjartsmuu90bpur0ied1t0i1qq81mrv.apps.googleuse
 
 # 前端網址，上線時再改成正式的
 FRONTEND_URL = 'http://127.0.0.1:5500/front_end_pc/'  # 方便在一些view中可使用(ex:激活連結跳轉頁面)
+
+
+# DRF 使用redis 快取 API響應(DRF-EXTENSIONS擴展)
+REST_FRAMEWORK_EXTENSIONS = {
+    # 快取時間
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 60,
+    # 快取後端
+    'DEFAULT_USE_CACHE': 'default',
+}

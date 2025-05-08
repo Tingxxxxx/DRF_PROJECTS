@@ -2,11 +2,12 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.renderers import JSONRenderer, JSONOpenAPIRenderer # 返回 json(預設) 或 restful 風格的json
+from rest_framework_extensions.cache.mixins import ListCacheResponseMixin
 from .serializers import AreasListSerializer
 from .models import Region
 
 # Create your views here.
-class AreasListViwe(ListAPIView):
+class AreasListView(ListCacheResponseMixin, ListAPIView):
     """
     用於前端顯示三級行政區的資料選單（城市 → 區 → 郵遞區號）：
 
