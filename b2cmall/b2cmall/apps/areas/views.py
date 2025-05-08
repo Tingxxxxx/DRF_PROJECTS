@@ -27,7 +27,7 @@ class AreasListView(ListCacheResponseMixin, ListAPIView):
     """
     permission_classes = [IsAuthenticated]
     serializer_class = AreasListSerializer
-    queryset = Region.objects.all()
+    queryset = Region.objects.all().order_by('id')
     filter_backends = [DjangoFilterBackend] # 允許通過模型欄位篩選
     filterset_fields = ['parent', 'level']
     renderer_classes = [JSONRenderer]  # 直接在瀏覽器訪問記得加,不然會報錯(用JSONRenderer也可)

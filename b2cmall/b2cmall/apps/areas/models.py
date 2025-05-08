@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import UserAddress
 
 class Region(models.Model):
     """台灣行政區域靜態三級資料表"""
@@ -35,6 +36,15 @@ class Region(models.Model):
     # 返回區域名稱，便於顯示和查詢
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        """重寫save方法，用於如果行政區資料也變動時，直接更新對應的用戶收件地址資料"""
+        # 調用父類方法，這裡的 self 是指正在被保存的 Region 實例
+        super().save(*args, **kwargs)  
+        
+        # 更新所有與該 Region 相關的 UserAddress
+        UserAddress.objects.filter(postal_code=self).update(postal_code=self)  # 更新所有關聯的 UserAddress
+
 
     class Meta:
         verbose_name = '台灣行政區域'  
