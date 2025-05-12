@@ -175,8 +175,12 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
 
 class UserAddressSerializer  (serializers.ModelSerializer):
-    """用戶收件地址模型的序列化器
+    """
+    用戶收件地址模型的序列化器
     用於處理用戶的收件地址數據，包括序列化、反序列化以及資料驗證等操作。
+
+    自訂義新增的 'city_id', 'district_id', 'postal_code_id',僅作序列化輸出給前端方便使用的
+    反序列化時則是使用模型中的: 'title', 'receiver, 'place', 'mobile', 'tel', 'email', 'city', 'district', 'postal_code'
     """
 
     # 定義一個SerializerMethodField，用來序列化完整地址
@@ -226,3 +230,13 @@ class UserAddressSerializer  (serializers.ModelSerializer):
         model = UserAddress  # 連接到用戶收件地址模型
         exclude = ['user', 'created_at', 'updated_at', 'is_deleted']  # 排除不需要序列化的欄位
         read_only_fields  = ['city_id', 'district_id', 'postal_code_id'] # 只做序列化輸出給前端用
+
+
+class TitleOnlySerializer(serializers.ModelSerializer):
+    """
+    僅用於更新地址標題欄位的簡化序列化器
+    """
+
+    class Meta:
+        model = UserAddress
+        fields = ['title']

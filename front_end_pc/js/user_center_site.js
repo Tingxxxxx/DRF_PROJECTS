@@ -12,6 +12,7 @@ var vm = new Vue({
         addresses: [], // 使用者的地址列表
         limit: '', // 地址上限數量（由後端返回）
         default_address_id: '', // 預設地址的 ID
+
         form_address: { // 表單中的地址資料
             receiver: '', // 收件人姓名
             city: '', // 城市 ID
@@ -222,7 +223,7 @@ var vm = new Vue({
         },
         /// 設定為默認地址
         set_default: function(index){
-            axios.put(this.host + 'users/addresses/' + this.addresses[index].id + '/status/', {}, {
+            axios.patch(this.host + 'users/addresses/' + this.addresses[index].id + '/set_default/', {
                     responseType: 'json'
                 })
                 .then(response => {
@@ -232,20 +233,19 @@ var vm = new Vue({
                     console.log(error.response.data);
                 })
         },
+        
         // 顯示標題輸入欄位
-        show_edit_title: function(index){
+        show_edit_title: function(index) {
             this.input_title = this.addresses[index].title;
-            for(var i=0; i<index; i++) {
-                this.is_set_title.push(false);
-            }
-            this.is_set_title.push(true);
-        } ,
-        // 儲存地址標題
+            this.is_set_title = this.addresses.map((_, i) => i === index);
+        },
+        
+        // 儲存收件地址標題
         save_title: function(index){
             if (!this.input_title) {
                 alert("請填寫標題後再保存");
             } else {
-                axios.put(this.host + '/addresses/' + this.addresses[index].id + '/title/', {
+                axios.patch(this.host + 'users/addresses/' + this.addresses[index].id + '/title/', {
                         title: this.input_title
                     }, {
                         responseType: 'json'

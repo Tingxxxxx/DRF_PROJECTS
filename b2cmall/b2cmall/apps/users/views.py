@@ -1,15 +1,17 @@
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
+from django.db.models import Case, When, Value, IntegerField # 排序用
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import UpdateModelMixin, RetrieveModelMixin
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from rest_framework import status
 from .serializers import CreateUserSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import MyTokenObtainPairSerializer, UserDetailSerializer, UserAddressSerializer  
+from .serializers import MyTokenObtainPairSerializer, UserDetailSerializer, UserAddressSerializer, TitleOnlySerializer
 from celery_tasks.verifycode.tasks import send_verification_email
 from .models import User, UserAddress # 導入自訂義的用戶模型
 from .throttles import EmailRateThrottle
@@ -257,54 +259,95 @@ def get_object(self):
 
 class UserAddressViewSet(UpdateModelMixin, GenericViewSet):
     """
-    用戶收件地址 增刪改查視圖
-    API 接口
-    list    # GET /users/addresses/
-    create  # POST /users/addresses/
-    update  # PUT/PATCH /users/addresses/{pk}/
-    destroy # DELETE /users/addresses/{pk}/
-    沒有查詳情API(retrieve)
+    用戶收件地址視圖集（增、刪、改、查列表）
     
+    提供以下 API：
+    - GET    /users/addresses/           → list()
+    - POST   /users/addresses/           → create()
+    - PUT    /users/addresses/{pk}/      → update()
+    - PATCH  /users/addresses/{pk}/      → update()
+    - DELETE /users/addresses/{pk}/      → destroy()
+
+    使用@action 自訂額外的的API(預設路由同函數名)
+    - PATCH  /users/addresses/{pk}/title/       → title()    
+    - PATCH  /users/addresses/{pk}/set_default/ → set_default()    
+    
+    不提供 retrieve() 詳情查詢
     """
     permission_classes = [IsAuthenticated]
     serializer_class = UserAddressSerializer  
 
     def get_queryset(self):
-        """當前登入用戶只能操作自己的資料(且未被邏輯刪除的)"""
+        """
+        只返回當前登入用戶自己的地址，且必須未被邏輯刪除 (is_deleted=False)
+        """
         return UserAddress.objects.filter(user=self.request.user, is_deleted=False)
     
     # GET /users/addresses/
     def list(self, request, *args, **kwargs):
-        """重寫方法，自訂清單視圖的響應格式"""
+        """
+        列出當前使用者的所有地址（不含已刪除的）
+        加上預設地址ID與地址上限限制資訊
+
+        補充知識:
+        Case(
+            When(條件, then=Value(值)),  # 當條件符合時，返回指定的值
+            default=Value(默認值),  # 當條件不符合時，返回默認值
+            output_field=字段類型  # 設定返回值的類型，這通常是 IntegerField 或其他類型
+        )
+
+        """
         user = self.request.user
         queryset = self.get_queryset()
+
+        # 使用 Case When 來根據是否是默認地址進行排序
+        queryset = queryset.annotate(
+        is_default_case=Case(
+            When(id=user.default_address.id, then=Value(1)),  # 默認地址為 1
+            default=Value(0),  # 其他地址為 0
+            output_field=IntegerField()
+            )
+        ).order_by('-is_default_case', '-updated_at')  # -為大到小，故默認地址在最前面，更新時間排序
+
         serializer = self.get_serializer(queryset, many=True) # 序列化多筆資料故,many=True
+
         return Response({
             'user_id':user.id,
             # 如果直接返回.id,但資料庫user.default_address為Null就會報錯，故要記得加判斷
             'default_address_id':user.default_address.id if user.default_address else None, 
             'limit':20,
             'addresses':serializer.data # 用戶名下地址列表
-        })
+        }, status=status.HTTP_200_OK)
 
     # POST /users/addresses/
     def create(self, request, *args, **kwargs):
-        """重寫方法，POST請求時要先確認名下收件地址是否超過限制"""
+        """
+        建立一筆新的收件地址
+        - 限制最多只能有 20 筆
+        - 透過序列化器進行資料驗證與儲存
+        """
+
         user = request.user
         count = user.addresses.all().count()  # 通過 related_name 查詢用戶名下幾個收件地址
+
         if count >= 20:
-            return Response({'message':'收件地址數量不能超過20個'})
-        
+            return Response(
+                {'message': '收件地址數量不能超過20個'},
+                status=status.HTTP_400_BAD_REQUEST
+    )
         # 小於20,則創建序列化器並進行驗證
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True) # 較驗資料
         serializer.save() # 調用序列化器的create方法 
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
    
-    # DELETE /users/addresses/{pk}/
     def destroy(self, request, *args, **kwargs):
-        """邏輯刪除：將 is_deleted 設為 True，而不是實體刪除"""
+        """
+        邏輯刪除指定地址（將 is_deleted 設為 True）
+        - 不進行真正的 delete
+        - get_object() 若找不到會自動回傳 404
+        """
         instance = self.get_object() # 找不到指定pk的物件，則get_object()會自動拋404,故不用再判斷
         instance.is_deleted = True
         instance.save()
@@ -313,3 +356,33 @@ class UserAddressViewSet(UpdateModelMixin, GenericViewSet):
             'status': 'success',
             'message': '地址已成功刪除（邏輯刪除）'
         }, status=status.HTTP_200_OK)
+    
+    @action(detail=True, methods=['PATCH'])
+    def title(self, request, *args, **kwargs):
+        """
+        自訂 action：僅更新地址標題欄位
+        - 使用專用的 TitleOnlySerializer
+        """
+        useraddress = self.get_object()
+        serializer = TitleOnlySerializer(instance=useraddress, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['PATCH'])
+    def set_default(self, request, *args, **kwargs):
+        """
+        自訂 action：設定指定地址為使用者的預設地址
+        - 若本來就是預設地址則不變更
+        """
+        user = self.request.user
+        useraddress = self.get_object()
+
+        if user.default_address != useraddress:
+            user.default_address = useraddress
+            user.save()
+
+        return Response(
+            {'message':'預設地址設定成功'}, 
+            status=status.HTTP_200_OK)
