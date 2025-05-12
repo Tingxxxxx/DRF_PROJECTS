@@ -1,6 +1,6 @@
 from django.urls import path, re_path, include
 from .views import UserView, MobileCountView, UsernameCountView, UserInfoViewSet
-from .views import ActivateEmailView
+from .views import ActivateEmailView, UserAddressViewSet
 from rest_framework_simplejwt.views import  TokenRefreshView
 from .views import MyTokenObtainPairView # 自己擴寫的simple_jwt視圖
 from rest_framework.routers import DefaultRouter
@@ -9,7 +9,11 @@ app_name = 'users'
 
 # 用戶個人中心的視圖集路由(因為router 會預設成 users/me/pk 但我們寫視圖集修改成查當前了，故不能用這個)
 # router = DefaultRouter()
-# router.register(prefix='me', viewset=UserInfoViewSet, basename='user-info') # 記得路徑不加
+# router.register(prefix='me', viewset=UserInfoViewSet, basename='userinfo') # 記得路徑不加
+
+# 用戶收件地址路由器
+router = DefaultRouter()
+router.register(prefix='addresses', viewset=UserAddressViewSet, basename='useraddresses')
 
 urlpatterns = [
     # JWT Token 路由
@@ -24,6 +28,8 @@ urlpatterns = [
     
     # 激活信箱
     path('email/activate', ActivateEmailView.as_view(), name='email-activate'),
+
+    path('', include(router.urls)),
 
     # 用戶個人中心詳情/與更新信箱     
     # path('',include(router.urls) , 直接這麼註冊會導致路由有pk

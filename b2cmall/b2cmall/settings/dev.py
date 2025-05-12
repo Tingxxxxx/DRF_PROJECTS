@@ -269,7 +269,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',  # 使用 jwt token的認證方式
 
-        # 'rest_framework.authentication.BasicAuthentication',  # 使用者帳號+密碼（Basic Auth）
+        'rest_framework.authentication.BasicAuthentication',  # 使用者帳號+密碼（Basic Auth）
         # 'rest_framework.authentication.SessionAuthentication',  # 會話認證（與 Django 內建登入機制相容）
         # 'rest_framework.authentication.TokenAuthentication',  # Token 認證（需在APP安裝 `rest_framework.authtoken`）
     ],

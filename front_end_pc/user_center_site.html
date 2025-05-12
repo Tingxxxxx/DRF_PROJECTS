@@ -118,7 +118,7 @@
                     <!-- 顯示地址詳細內容 -->
                     <ul class="site_list">
                         <li><span>收貨人：</span><b>{{ address.receiver }}</b></li>
-                        <li><span>所在地區：</span><b>{{ address.city }} {{ address.district }} {{ address.postal_code }}</b></li>
+                        <li><span>所在地區：</span><b>{{ address.full_address }}</b></li>
                         <li><span>地址：</span><b>{{ address.place }}</b></li>
                         <li><span>手機：</span><b>{{ address.mobile }}</b></li>
                         <li><span>固定電話：</span><b>{{ address.tel }}</b></li>
@@ -154,7 +154,8 @@
             <div class="site_con site_pop">
                 <div class="site_pop_title">
                     <!-- 根據是否為編輯模式改變標題 -->
-                    <h3 v-if="editing_address_index">編輯收貨地址</h3>
+                    <!-- <h3 v-if="editing_address_index">編輯收貨地址</h3> -->
+                    <h3 v-if="editing_address_index !== null">編輯收貨地址</h3>
                     <h3 v-else>新增收貨地址</h3>
                     <a @click="is_show_edit=false">×</a>
                 </div>
@@ -169,16 +170,16 @@
 
                     <div class="form_group">
                         <label>*所在地區：</label>
-                        <select v-model="form_address.city_id"> 
+                        <select v-model="form_address.city"> 
                             <option value="">請選擇城市</option>
                             <option v-for="city in cities" :value="city.id">{{ city.name }}</option>
                         </select>
-                        <select v-model="form_address.district_id">
+                        <select v-model="form_address.district">
                             <option value="">請選擇行政區</option>
                             <option v-for="district in districts" :value="district.id">{{ district.name }}</option>
                         </select>
                         <!-- 郵遞區號 自動填入 無下拉框 -->
-                        <input type="text" v-model="form_address.postal_code_id" readonly style="width: 40px;" />
+                        <input type="text" :value="display_postal_code" readonly style="width: 40px;" />
 
                         <!-- <select v-model="form_address.postal_code_id">
                             <option v-for="postal_code in postal_codes" :value="postal_code.id">{{ postal_code.name }}</option>

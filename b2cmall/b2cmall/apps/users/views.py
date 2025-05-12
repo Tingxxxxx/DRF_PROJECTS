@@ -9,9 +9,9 @@ from rest_framework import status
 from .serializers import CreateUserSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import MyTokenObtainPairSerializer, UserDetailSerializer
+from .serializers import MyTokenObtainPairSerializer, UserDetailSerializer, UserAddressSerializer  
 from celery_tasks.verifycode.tasks import send_verification_email
-from .models import User # 導入自訂義的用戶模型
+from .models import User, UserAddress # 導入自訂義的用戶模型
 from .throttles import EmailRateThrottle
 from .utlis import generate_activation_link
 import logging
@@ -253,3 +253,63 @@ def get_object(self):
 #     def get_object(self):
 #         """重寫方法,直接從登入用戶取對應模型實例"""
 #         return self.request.user
+
+
+class UserAddressViewSet(UpdateModelMixin, GenericViewSet):
+    """
+    用戶收件地址 增刪改查視圖
+    API 接口
+    list    # GET /users/addresses/
+    create  # POST /users/addresses/
+    update  # PUT/PATCH /users/addresses/{pk}/
+    destroy # DELETE /users/addresses/{pk}/
+    沒有查詳情API(retrieve)
+    
+    """
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserAddressSerializer  
+
+    def get_queryset(self):
+        """當前登入用戶只能操作自己的資料(且未被邏輯刪除的)"""
+        return UserAddress.objects.filter(user=self.request.user, is_deleted=False)
+    
+    # GET /users/addresses/
+    def list(self, request, *args, **kwargs):
+        """重寫方法，自訂清單視圖的響應格式"""
+        user = self.request.user
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True) # 序列化多筆資料故,many=True
+        return Response({
+            'user_id':user.id,
+            # 如果直接返回.id,但資料庫user.default_address為Null就會報錯，故要記得加判斷
+            'default_address_id':user.default_address.id if user.default_address else None, 
+            'limit':20,
+            'addresses':serializer.data # 用戶名下地址列表
+        })
+
+    # POST /users/addresses/
+    def create(self, request, *args, **kwargs):
+        """重寫方法，POST請求時要先確認名下收件地址是否超過限制"""
+        user = request.user
+        count = user.addresses.all().count()  # 通過 related_name 查詢用戶名下幾個收件地址
+        if count >= 20:
+            return Response({'message':'收件地址數量不能超過20個'})
+        
+        # 小於20,則創建序列化器並進行驗證
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True) # 較驗資料
+        serializer.save() # 調用序列化器的create方法 
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+   
+    # DELETE /users/addresses/{pk}/
+    def destroy(self, request, *args, **kwargs):
+        """邏輯刪除：將 is_deleted 設為 True，而不是實體刪除"""
+        instance = self.get_object() # 找不到指定pk的物件，則get_object()會自動拋404,故不用再判斷
+        instance.is_deleted = True
+        instance.save()
+
+        return Response({
+            'status': 'success',
+            'message': '地址已成功刪除（邏輯刪除）'
+        }, status=status.HTTP_200_OK)

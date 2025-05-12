@@ -82,16 +82,29 @@ class UserAddress(models.Model):
         max_length=20,
         verbose_name='收件人',
         )  
+    
+    city = models.ForeignKey(
+        # 直接寫字符串"應用名.模型名",取代只寫 Region 可以省去導入模組步驟
+        'areas.Region', # 指向 Region 的 城市實例
+        on_delete=models.PROTECT,  # 當某個 Region（地區）已被使用時，不允許該地區被刪除
+        related_name='city_addresses', # 可通過region.city_addresses 快速統計用戶收件地址區域分布 
+        verbose_name='城市')
+    
+    district = models.ForeignKey(
+        'areas.Region', 
+        on_delete=models.PROTECT, 
+        related_name='district_addresses',
+        verbose_name='行政區')
 
     postal_code = models.ForeignKey(
-        # 直接寫字符串"應用名.模型名",取代只寫 Region 可以省去導入模組步驟
-        'areas.Region',  # 指向 Region 的 郵遞區號，因為可以直接藉此推算上面兩層
-        on_delete=models.PROTECT, # 當某個 Region（地區）已被使用時，不允許該地區被刪除
-        related_name='useraddresses', # 可通過region.useraddresses 快速統計用戶收件地址區域分布 
+        'areas.Region',  
+        on_delete=models.PROTECT, 
+        related_name='+', 
         verbose_name='郵遞區號'
     )      
     
     place = models.CharField(
+        
         max_length=50,
         verbose_name='詳細地址'
     )
@@ -132,6 +145,7 @@ class UserAddress(models.Model):
     def __str__(self):
         return f'{self.receiver}: {self.postal_code} {self.place}'
     
+    @property # 未來可直接使用屬性 obj.full_address 取道值，不需要()調用 
     def full_address(self):
         """通過郵遞區號回推完整地址,方便之後在序列化器中進行序列化時調用(響應給前端)"""
 
@@ -158,4 +172,4 @@ class UserAddress(models.Model):
         db_table= 'useraddresses'
         verbose_name = '用戶收件地址'
         verbose_name_plural = verbose_name
-        ordering = ['updated_at']  # 最近有更新的放前面
+        ordering = ['-updated_at']  # 最近有更新的放前面

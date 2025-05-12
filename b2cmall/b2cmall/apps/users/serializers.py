@@ -4,6 +4,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User # 導入自訂義的用戶模型
 from celery_tasks.verifycode.tasks import send_verification_email
+from areas.models import UserAddress
 import re
 import logging
 
@@ -171,3 +172,57 @@ class UserDetailSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = User
 #         fields = ['id', 'email']
+
+
+class UserAddressSerializer  (serializers.ModelSerializer):
+    """用戶收件地址模型的序列化器
+    用於處理用戶的收件地址數據，包括序列化、反序列化以及資料驗證等操作。
+    """
+
+    # 定義一個SerializerMethodField，用來序列化完整地址
+    # 注意: 此種欄位SerializerMethodField 為動態生成，不需要在Meta類中設定fields 還是 exclude
+    full_address = serializers.SerializerMethodField(label='縣市區與郵遞區號', read_only=True)  # 只做序列化時使用
+    city_id = serializers.IntegerField(source='city.id', read_only=True, label='城市ID')
+    district_id = serializers.IntegerField(source='district.id', read_only=True, label='區域ID')
+    postal_code_id = serializers.IntegerField(source='postal_code.id', read_only=True, label='郵遞區號ID')
+
+    
+    def get_full_address(self, obj):
+        """
+        自動傳入當前進行序列化的用戶收件地址實例，調用模型中定義的 `full_address()` 方法，
+        取得並返回完整的三級行政區地址。
+        
+        :param obj: 用戶收件地址實例
+        :return: 返回組裝好的完整地址字符串
+        """
+        return obj.full_address  # 在模型中已經使用 @property，因此可以直接當作屬性訪問，不用加括號
+    
+    def validate_mobile(self, value):
+        """
+        驗證手機號碼格式是否符合台灣的手機號碼格式。
+        
+        :param value: 用戶輸入的手機號碼
+        :return: 驗證後的手機號碼，如果格式正確
+        :raise serializers.ValidationError: 如果手機格式不正確，會拋出錯誤
+        """
+        if not re.match(r'^09\d{8}$', value):
+            raise serializers.ValidationError('手機格式不正確')
+        return value
+    
+    def create(self, validated_data):
+        """
+        重寫 create 方法，在新增地址(POST請求)時自動加入目前的登入用戶。
+        通用類視圖與視圖集都會提供 self.context['request']。
+        
+        :param validated_data: 驗證後的輸入資料
+        :return: 建立後的 UserAddress 實例
+        """
+        # 從視圖集的上下文中取得當前用戶，並將其添加到 validated_data 中
+        user = self.context['request'].user  # 等同於 self.request.user
+        validated_data['user'] = user  # 將當前用戶添加到已驗證的資料裡
+        return super().create(validated_data)
+    
+    class Meta:
+        model = UserAddress  # 連接到用戶收件地址模型
+        exclude = ['user', 'created_at', 'updated_at', 'is_deleted']  # 排除不需要序列化的欄位
+        read_only_fields  = ['city_id', 'district_id', 'postal_code_id'] # 只做序列化輸出給前端用

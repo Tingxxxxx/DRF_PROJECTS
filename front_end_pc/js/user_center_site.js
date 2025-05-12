@@ -3,20 +3,20 @@ var vm = new Vue({
     data: { // 定義 Vue 實例的數據
         host: host, // 主機位址變數（需外部定義）
         user_id: sessionStorage.user_id || localStorage.user_id, // 優先使用 sessionStorage 中的 user_id，否則使用 localStorage
-        token: sessionStorage.access || localStorage.access, // 同上，用於授權的 access token
+        // token: sessionStorage.access || localStorage.access, // 同上，用於授權的 access token
         username: sessionStorage.username || localStorage.username, // 同上，使用者名稱
         is_show_edit: false, // 是否顯示編輯地址的表單（true 表示顯示）
         cities: [], // 城市列表
         districts: [], // 儲存所選城市下的區域列表
-        postal_codes:[],// //所選區域下的郵遞區號
+        display_postal_code:'', //前端顯示的郵遞區號名
         addresses: [], // 使用者的地址列表
         limit: '', // 地址上限數量（由後端返回）
         default_address_id: '', // 預設地址的 ID
         form_address: { // 表單中的地址資料
             receiver: '', // 收件人姓名
-            city_id: '', // 城市 ID
-            district_id: '', // 區域 ID
-            postal_code_id:'', // 郵遞區號 ID
+            city: '', // 城市 ID
+            district: '', // 區域 ID
+            postal_code:'', // 郵遞區號 ID
             place: '', // 詳細地址
             mobile: '', // 手機號碼
             tel: '', // 固話（可選）
@@ -44,32 +44,24 @@ var vm = new Vue({
                 console.log(error.response.data);
             });
 
-        // 获取用户地址列表
-        // axios.get(this.host + '/addresses/', {
-        //         headers: {
-        //             'Authorization': 'JWT ' + this.token
-        //         },
-        //         responseType: 'json'
-        //     })
-        //     .then(response => {
-        //         this.addresses = response.data.addresses;
-        //         this.limit = response.data.limit;
-        //         this.default_address_id = response.data.default_address_id;
-        //     })
-        //     .catch(error => {
-        //         status = error.response.status;
-        //         if (status == 401 || status == 403) {
-        //             location.href = 'login.html?next=/user_center_site.html';
-        //         } else {
-        //             alert(error.response.data.detail);
-        //         }
-        //     })
+        // 向後端查詢並返回用戶名下所有收件地址
+        axios.get(this.host + 'users/addresses/', {
+                responseType: 'json'
+            })
+            .then(response => {
+                this.addresses = response.data.addresses;
+                this.limit = response.data.limit;
+                this.default_address_id = response.data.default_address_id;
+            })
+            .catch(error => {
+                console.log(error.response.data.detail)
+            })
     },
     watch: {
-        'form_address.city_id': function(){
-            if (this.form_address.city_id) {
+        'form_address.city': function(){
+            if (this.form_address.city) {
                 // 當選擇城市後載入對應的行政區
-                axios.get(this.host + 'areas/?parent='+ this.form_address.city_id + '&level=district', {
+                axios.get(this.host + 'areas/?parent='+ this.form_address.city + '&level=district', {
                         responseType: 'json'
                     })
                     .then(response => {
@@ -82,24 +74,27 @@ var vm = new Vue({
                     });
             }
         },
-        'form_address.district_id': function(){
-            if (this.form_address.district_id){
+        'form_address.district': function(){
+            if (this.form_address.district){
                 // 選擇行政區後載入對應的郵遞區號
-                axios.get(this.host + 'areas/?parent='+ this.form_address.district_id + '&level=postal_code', {
+                axios.get(this.host + 'areas/?parent='+ this.form_address.district + '&level=postal_code', {
                         responseType: 'json'
                     })
                     .then(response => {
                         // alert('查詢郵遞區號 請求發送成功 )
-                        this.postal_codes = response.data.results;
-                        if (this.postal_codes.length > 0) {
-                            this.form_address.postal_code_id = this.postal_codes[0].name;
+                        const postal = response.data.results[0];
+                        if (postal) {
+                            this.form_address.postal_code = postal.id; // 用於提交
+                            this.display_postal_code = postal.name;  // 顯示在畫面
                         } else {
-                            this.form_address.postal_code_id = '';
+                            this.form_address.postal_code = '';
+                            this.display_postal_code_name = '';
                         }
                     })                    
                     .catch(error => {
-                        console.log(error.response.data);
-                        this.postal_codes = [];
+                        console.log(error.response?.data || error);
+                        this.form_address.postal_code = '';
+                        this.display_postal_code_name = '';
                         
                     });
             }
@@ -124,9 +119,9 @@ var vm = new Vue({
             this.clear_all_errors();
             this.editing_address_index = '';
             this.form_address.receiver = '';
-            this.form_address.city_id = '';
-            this.form_address.district_id = '';
-            this.form_address.postal_code_id = '';
+            this.form_address.city = '';
+            this.form_address.district = '';
+            this.form_address.postal_code= '';
             this.form_address.place = '';
             this.form_address.mobile = '';
             this.form_address.tel = '';
@@ -138,7 +133,7 @@ var vm = new Vue({
             this.clear_all_errors();
             this.editing_address_index = index;
             // 只獲取數據，防止修改form_address影響到addresses數據
-            this.form_address = JSON.parse(JSON.stringify(this.addresses[index]));
+            this.form_address = Object.assign({}, this.addresses[index]);
             this.is_show_edit = true;
         },
         // 檢查收件人姓名
@@ -179,20 +174,17 @@ var vm = new Vue({
         },
         // 儲存地址（新增或修改）
         save_address: function(){
-            if (this.error_receiver || this.error_place || this.error_mobile || this.error_email || !this.form_address.city_id || !this.form_address.district_id || !this.form_address.postal_code_id ) {
-                alert('信息填写有误！');
+            if (this.error_receiver || this.error_place || this.error_mobile || this.error_email || !this.form_address.city|| !this.form_address.district || !this.form_address.postal_code) {
+                alert('資料有誤！');
             } else {
                 this.form_address.title = this.form_address.receiver;
                 if (this.editing_address_index === '') {
                     // 新增地址
-                    axios.post(this.host + '/addresses/', this.form_address, {
-                        headers: {
-                            'Authorization': 'Bearer ' + this.token
-                        },
+                    axios.post(this.host + 'users/addresses/', this.form_address, {
                         responseType: 'json'
                     })
                     .then(response => {
-                        // 将新地址添加大数组头部
+                        // 將新地址添加在addresses列表最前面，方便按保存時前端可以顯示在第一個
                         this.addresses.splice(0, 0, response.data);
                         this.is_show_edit = false;
                     })
@@ -200,12 +192,9 @@ var vm = new Vue({
                         console.log(error.response.data);
                     })
                 } else {
-
+                    
                     // 修改地址
-                    axios.put(this.host + '/addresses/' + this.addresses[this.editing_address_index].id + '/', this.form_address, {
-                        headers: {
-                            'Authorization': 'Bearer ' + this.token
-                        },
+                    axios.put(this.host + 'users/addresses/' + this.addresses[this.editing_address_index].id + '/', this.form_address, {
                         responseType: 'json'
                     })
                     .then(response => {
@@ -220,14 +209,11 @@ var vm = new Vue({
         },
         // 删除地址
         del_address: function(index){
-            axios.delete(this.host + '/addresses/' + this.addresses[index].id + '/', {
-                    headers: {
-                        'Authorization': 'Bearer ' + this.token
-                    },
+            axios.delete(this.host + 'users/addresses/' + this.addresses[index].id + '/', {
                     responseType: 'json'
                 })
                 .then(response => {
-                    // 从数组中移除地址
+                    // 從地址列表中移除指定地址
                     this.addresses.splice(index, 1);
                 })
                 .catch(error => {
@@ -236,10 +222,7 @@ var vm = new Vue({
         },
         /// 設定為默認地址
         set_default: function(index){
-            axios.put(this.host + '/addresses/' + this.addresses[index].id + '/status/', {}, {
-                    headers: {
-                        'Authorization': 'Bearer ' + this.token
-                    },
+            axios.put(this.host + 'users/addresses/' + this.addresses[index].id + '/status/', {}, {
                     responseType: 'json'
                 })
                 .then(response => {
@@ -260,14 +243,11 @@ var vm = new Vue({
         // 儲存地址標題
         save_title: function(index){
             if (!this.input_title) {
-                alert("请填写标题后再保存！");
+                alert("請填寫標題後再保存");
             } else {
                 axios.put(this.host + '/addresses/' + this.addresses[index].id + '/title/', {
                         title: this.input_title
                     }, {
-                        headers: {
-                            'Authorization': 'Bearer ' + token
-                        },
                         responseType: 'json'
                     })
                     .then(response => {
@@ -279,7 +259,7 @@ var vm = new Vue({
                     })
             }
         },
-        // 取消保存地址
+        // 取消保存標題
         cancel_title: function(index){
             this.is_set_title = [];
         }
