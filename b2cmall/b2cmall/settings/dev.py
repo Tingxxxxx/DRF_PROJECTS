@@ -59,7 +59,10 @@ INSTALLED_APPS = [
     'b2cmall.apps.users', # 用戶相關
     'b2cmall.apps.verifications', # 驗證碼
     'b2cmall.apps.oauth', # 第三方登入
-    'b2cmall.apps.areas' # 收件地址相關
+    'b2cmall.apps.areas', # 收件地址相關
+    'b2cmall.apps.goods', # 商品相關
+    'b2cmall.apps.contents' # 廣告相關
+
 ]
 
 AUTH_USER_MODEL = 'users.User'
