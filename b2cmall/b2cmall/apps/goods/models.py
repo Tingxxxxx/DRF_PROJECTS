@@ -164,3 +164,14 @@ class SKUSpecification(BaseModel):
 
     def __str__(self):
         return '%s: %s - %s' % (self.sku, self.spec.name, self.option.value)
+
+
+
+from storages.backends.s3boto3 import S3Boto3Storage
+
+class Test(BaseModel):
+    """測試S3文件上傳的模型"""
+    image1 = models.ImageField(upload_to='goods/', storage=S3Boto3Storage())
+
+    class Meta:
+        db_table = 'test_image_upload'

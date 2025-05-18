@@ -14,6 +14,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import sys
+import os
+from dotenv import load_dotenv
+
+# 載入.env檔 讀取settings中相關變量
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,18 +28,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z2eryher551tw-+f$@^zu(++1zd23ism+d58btf%aq$edbzd(+'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 # CORS 跨域請求白名單
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5500",  
-    "http://localhost:5500",  
-]
+CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
+
 # 允許攜帶 Cookie 等憑證
 CORS_ALLOW_CREDENTIALS = True  # 前端也要設置 Axios 請求的 withCredentials:true才可
 
@@ -64,6 +67,9 @@ INSTALLED_APPS = [
     'b2cmall.apps.contents' # 廣告相關
 
 ]
+
+
+
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -108,9 +114,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'HOST': '127.0.0.1',  # 本機資料庫
         'PORT': 3306,  
-        'USER': 'hellen',  
-        'PASSWORD': 'hellen',  
-        'NAME': 'drf_mall'  
+        'USER': os.getenv('DB_USER', ''),
+        'PASSWORD': os.getenv('DB_PASSWORD', ''),
+        'NAME': os.getenv('DB_NAME', ''),
     }
 }
 
@@ -341,8 +347,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # Gmail 的 SMTP 伺服器
 EMAIL_PORT = 587  # TLS 通訊埠號
 EMAIL_USE_TLS = True  # 啟用 TLS 加密
-EMAIL_HOST_USER = 'hellendjango@gmail.com'  # 您的 Gmail 帳號
-EMAIL_HOST_PASSWORD = 'jwja uwvh qbyk ylgn'  # 應用程式密碼，保留空格
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')#  Gmail 帳號
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # 應用程式密碼，保留空格
 
 
 
@@ -371,7 +377,8 @@ AUTHENTICATION_BACKENDS = [
 
 ]
 
-GOOGLE_CLIENT_ID = "330519594030-hcjartsmuu90bpur0ied1t0i1qq81mrv.apps.googleusercontent.com"
+# 第三方登入 - Google
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
 
 
 # 前端網址，上線時再改成正式的
@@ -385,3 +392,20 @@ REST_FRAMEWORK_EXTENSIONS = {
     # 快取後端
     'DEFAULT_USE_CACHE': 'default',
 }
+
+
+
+INSTALLED_APPS += ['storages']
+
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME') # s3桶名
+AWS_S3_REGION_NAME = 'ap-northeast-3'  # 根據你 S3 的區域設定
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+# 若有使用 CloudFront 或自定域名，可以改成你的域名
+# AWS_S3_CUSTOM_DOMAIN = 'cdn.example.com'
+
+# 媒體檔案儲存在 S3
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
