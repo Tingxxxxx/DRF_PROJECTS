@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt', # 啟用 jwt token
     'rest_framework_simplejwt.token_blacklist', # 啟用 Token 黑名單功能(添加後要在執行一次遷移)
     'corsheaders', # 解決cors問題
+    'ckeditor', # 文本編輯器
+    'ckeditor_uploader', # 文本編輯+圖片上傳
 
     'b2cmall.apps.users', # 用戶相關
     'b2cmall.apps.verifications', # 驗證碼
@@ -409,3 +411,16 @@ AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 # 媒體檔案儲存在 S3
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
+
+
+# 文本編輯器 ckeditor設定
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',  # 工具列
+        'height': 300,  # 編輯器高度
+        # 'width': 300,  # 編輯器寬
+    },
+}
+
+CKEDITOR_UPLOAD_PATH = '' 
+CKEDITOR_STORAGE_BACKEND = 'storages.backends.s3boto3.S3Boto3Storage' # 指定使用s3儲存

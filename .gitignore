@@ -118,3 +118,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+b2cmall/.devcontainer/workspace.code-workspace
+b2cmall/.devcontainer/Dockerfile
+b2cmall/.devcontainer/devcontainer.json

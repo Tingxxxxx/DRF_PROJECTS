@@ -1,5 +1,8 @@
 from django.db import models
 from b2cmall.utils.models import BaseModel
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField 
+
 
 # 對應前端左上方 商品三級分類選單
 class GoodsCategory(BaseModel):
@@ -64,6 +67,10 @@ class Goods(BaseModel):
     category3 = models.ForeignKey(GoodsCategory, on_delete=models.PROTECT, related_name='cat3_goods', verbose_name='三級類別')
     sales = models.IntegerField(default=0, verbose_name='銷量')
     comments = models.IntegerField(default=0, verbose_name='評價數')
+
+    desc_detail = RichTextUploadingField(default='', verbose_name='產品介紹') # 圖片+文字(html)
+    desc_pack = RichTextField(default='', verbose_name='產品包裝內容')        # 僅文字(html)
+    desc_service = RichTextUploadingField(default='', verbose_name='售後服務')
 
     class Meta:
         db_table = 'tb_goods'
@@ -169,9 +176,9 @@ class SKUSpecification(BaseModel):
 
 from storages.backends.s3boto3 import S3Boto3Storage
 
-class Test(BaseModel):
-    """測試S3文件上傳的模型"""
-    image1 = models.ImageField(upload_to='goods/', storage=S3Boto3Storage())
+# class Test(BaseModel):
+#     """測試S3文件上傳的模型"""
+#     image1 = models.ImageField(upload_to='goods/', storage=S3Boto3Storage())
 
-    class Meta:
-        db_table = 'test_image_upload'
+#     class Meta:
+#         db_table = 'test_image_upload'

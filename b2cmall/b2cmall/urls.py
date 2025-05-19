@@ -24,5 +24,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('oauth/', include('oauth.urls')),
     path('areas/', include('areas.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')), # 文本編輯器
+
 
 ]
