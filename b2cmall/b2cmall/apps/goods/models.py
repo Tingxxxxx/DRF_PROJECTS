@@ -2,7 +2,7 @@ from django.db import models
 from b2cmall.utils.models import BaseModel
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField 
-
+from storages.backends.s3boto3 import S3Boto3Storage
 
 # 對應前端左上方 商品三級分類選單
 class GoodsCategory(BaseModel):
@@ -36,7 +36,7 @@ class GoodsChannel(BaseModel):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.category.name
+        return '%s: %s' % (self.group_id, self.category.name)
 
 
 class Brand(BaseModel):
@@ -44,7 +44,7 @@ class Brand(BaseModel):
     品牌(蘋果、三星、小米.....)
     """
     name = models.CharField(max_length=20, verbose_name='名稱')
-    logo = models.ImageField(verbose_name='Logo圖片')
+    logo = models.ImageField(storage=S3Boto3Storage(), verbose_name='Logo圖片')
     first_letter = models.CharField(max_length=1, verbose_name='品牌首字母')
 
     class Meta:
@@ -145,7 +145,7 @@ class SKUImage(BaseModel):
     SKU圖片(點進具體商品頁時，多張產品圖圖片)
     """
     sku = models.ForeignKey(SKU, on_delete=models.CASCADE, verbose_name='SKU')
-    image = models.ImageField(verbose_name='圖片')
+    image = models.ImageField(storage=S3Boto3Storage(), verbose_name='圖片')
 
     class Meta:
         db_table = 'tb_sku_image'

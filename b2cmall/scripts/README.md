@@ -55,3 +55,11 @@ scripts/
 - json_path：原始資料 JSON 檔案路徑
 - output_path：產出的 fixture 檔案名稱
 - app_name：Django App 名稱（預設為 areas）
+
+
+
+## mysql資料庫備份命令
+
+mysqldump -u 使用者名稱 -p 資料庫名稱 > 輸出檔案.sql
+
+mysqldump -u 使用者名稱 -p 資料庫名稱 表1 表2 ... > 輸出檔案.sql

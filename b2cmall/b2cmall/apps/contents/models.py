@@ -1,5 +1,6 @@
 from django.db import models
 from b2cmall.utils.models import BaseModel
+from storages.backends.s3boto3 import S3Boto3Storage
 
 # Create your models here.
 class ContentCategory(BaseModel):
@@ -25,7 +26,7 @@ class Content(BaseModel):
     category = models.ForeignKey(ContentCategory, on_delete=models.PROTECT, verbose_name='類別')
     title = models.CharField(max_length=100, verbose_name='標題')
     url = models.CharField(max_length=300, verbose_name='內容連結')
-    image = models.ImageField(null=True, blank=True, verbose_name='圖片')
+    image = models.ImageField(null=True, blank=True, verbose_name='圖片', storage=S3Boto3Storage())
     text = models.TextField(null=True, blank=True, verbose_name='內容')
     sequence = models.IntegerField(verbose_name='排序') # 播放順序
     status = models.BooleanField(default=True, verbose_name='是否顯示') # 邏輯刪除

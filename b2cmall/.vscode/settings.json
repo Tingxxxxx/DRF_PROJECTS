@@ -1,0 +1,22 @@
+{
+  "python.pythonPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell",
+      "args": [
+        "-NoExit",
+        "-Command",
+        "& { . '${workspaceFolder}\\.venv\\Scripts\\Activate.ps1' }"
+      ]
+    },
+    "Command Prompt": {
+      "path": [
+        "${env:windir}\\Sysnative\\cmd.exe",
+        "${env:windir}\\System32\\cmd.exe"
+      ],
+      "args": ["/k", "${workspaceFolder}\\.venv\\Scripts\\activate.bat"]
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "PowerShell"
+}
