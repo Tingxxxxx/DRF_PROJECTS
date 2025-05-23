@@ -18,7 +18,10 @@ class GoodsCategory(BaseModel):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.name
+        if self.parent:
+            return f"{self.parent.name} - {self.name}"
+        else:
+            return f"{self.name}"
 
 # 將上面商品類別進行分組 ([手機.3C]、[機票、旅遊、生活])
 class GoodsChannel(BaseModel):

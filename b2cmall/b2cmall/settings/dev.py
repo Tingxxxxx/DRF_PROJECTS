@@ -91,7 +91,7 @@ ROOT_URLCONF = 'b2cmall.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -424,3 +424,8 @@ CKEDITOR_CONFIGS = {
 
 CKEDITOR_UPLOAD_PATH = '' 
 CKEDITOR_STORAGE_BACKEND = 'storages.backends.s3boto3.S3Boto3Storage' # 指定使用s3儲存
+
+# 靜態index.html 生成路徑(上線後改成前端網址)
+# BASE_DIR = drf_mall\b2cmall\b2cmall
+# 最終: D:\drf_mall\front_end_pc
+GENERATED_STATIC_HTML_FILES_DIR = BASE_DIR.parent.parent / "front_end_pc"
