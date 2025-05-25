@@ -9,7 +9,14 @@ from .models import ContentCategory
 
 
 def generate_static_index_html():
-    """生成靜態的主頁html文件"""
+    """
+    生成靜態的主頁html文件
+    搭配crontab觸發定時任務
+    指令:
+    python manage.py crontab add
+    python manage.py crontab show
+    python manage.py crontab remove    
+    """
 
     print('%s: ✅ 開始執行 generate_static_index_html' % time.ctime())
 

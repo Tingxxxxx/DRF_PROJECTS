@@ -60,6 +60,8 @@ INSTALLED_APPS = [
     'corsheaders', # 解決cors問題
     'ckeditor', # 文本編輯器
     'ckeditor_uploader', # 文本編輯+圖片上傳
+    'django_crontab',  # 定時任務(在電腦系統中執行而不是專案)
+
 
     'b2cmall.apps.users', # 用戶相關
     'b2cmall.apps.verifications', # 驗證碼
@@ -429,3 +431,9 @@ CKEDITOR_STORAGE_BACKEND = 'storages.backends.s3boto3.S3Boto3Storage' # 指定�
 # BASE_DIR = drf_mall\b2cmall\b2cmall
 # 最終: D:\drf_mall\front_end_pc
 GENERATED_STATIC_HTML_FILES_DIR = BASE_DIR.parent.parent / "front_end_pc"
+
+# 使用django-crontab模組 設置定時任務
+CRONJOBS = [
+    # 每5分鐘執行一次生成靜態文件首頁
+    ('*/5 * * * *', 'contents.crons.generate_static_index_html', '>> /mnt/d/drf_mall/b2cmall/logs/crontab.log')
+]
