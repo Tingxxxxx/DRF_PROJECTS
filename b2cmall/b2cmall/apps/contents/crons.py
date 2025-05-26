@@ -3,9 +3,11 @@ from django.conf import settings
 from django.template.loader import render_to_string
 import os
 import time
-from goods.models import GoodsChannel
 from .models import ContentCategory
+from goods.models import GoodsChannel
+import logging
 
+logger = logging.getLogger('django')
 
 
 def generate_static_index_html():
@@ -17,8 +19,7 @@ def generate_static_index_html():
     python manage.py crontab show
     python manage.py crontab remove    
     """
-
-    print('%s: ✅ 開始執行 generate_static_index_html' % time.ctime())
+    logger.info('%s: ✅ 開始執行 generate_static_index_html' % time.ctime())
 
     # 用來存放分類資料的三級目錄字典（有順序）
     categories = OrderedDict()
@@ -86,6 +87,6 @@ def generate_static_index_html():
     
     # 將渲染結果輸出為靜態 HTML 檔案
     file_path = os.path.join(settings.GENERATED_STATIC_HTML_FILES_DIR, 'index.html')
-    print(f'💾 輸出 HTML 到: {file_path}')
+    logger.info(f'💾 輸出 HTML 到: {file_path}')
     with open(file_path, 'w', encoding='utf-8') as f: # w模式:文件不存在自動新增，存在則覆寫
         f.write(html_text)

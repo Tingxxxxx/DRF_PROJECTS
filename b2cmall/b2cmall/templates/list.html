@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>美多商城-首頁</title>
+    <!-- 引入 CSS 樣式 -->
+    <link rel="stylesheet" href="css/reset.css"> <!-- 清除預設樣式 -->
+    <link rel="stylesheet" href="css/main.css">  <!-- 主樣式表 -->
+
+    <!-- 引入 JavaScript 函式庫與自定義腳本 -->
+    <script src="js/host.js"></script>               <!-- 主機設定檔 -->
+    <script src="js/axios-0.18.0.min.js"></script>   <!-- 用來發送 HTTP 請求的 axios 函式庫 -->
+    <script src="js/vue-2.5.16.js"></script>         <!-- Vue.js 前端框架 -->
+    <script src="js/jquery-1.12.4.min.js"></script>  <!-- jQuery 函式庫 -->
+</head>
+
+<body>
+	<div id="app" v-cloak>
+	<div class="header_con">
+		<div class="header">
+			<div class="welcome fl">歡迎來到美多商城！</div>
+			<div class="fr">
+				<div v-if="username" class="login_btn fl">
+					歡迎您：<em>[[ username ]]</em>
+					<span>|</span>
+					<a @click="logout">登出</a>
+				</div>
+				<div v-else class="login_btn fl">
+					<a href="login.html">登入</a>
+					<span>|</span>
+					<a href="register.html">註冊</a>
+				</div>
+				<div class="user_link fl">
+					<span>|</span>
+					<a href="user_center_info.html">用戶中心</a>
+					<span>|</span>
+					<a href="cart.html">我的購物車</a>
+					<span>|</span>
+					<a href="user_center_order.html">我的訂單</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="search_bar clearfix">
+		<a href="index.html" class="logo fl"><img src="images/logo.png"></a>
+		<div class="search_wrap fl">
+			<form method="get" action="/search.html" class="search_con">
+				<input type="text" class="input_text fl" name="q" placeholder="搜尋商品">
+				<input type="submit" class="input_btn fr" name="" value="搜尋">
+			</form>
+			<ul class="search_suggest fl">
+				<li><a href="#">索尼微單</a></li>
+				<li><a href="#">優惠15元</a></li>
+				<li><a href="#">美妝個護</a></li>
+				<li><a href="#">買2免1</a></li>
+			</ul>
+		</div>
+
+		<div @mouseenter="get_cart()" class="guest_cart fr">
+			<a href="#" class="cart_name fl">我的購物車</a>
+			<div class="goods_count fl" id="show_count">[[cart_total_count]]</div>
+
+			<ul class="cart_goods_show">
+				<li v-for="sku in cart">
+					<img :src="sku.default_image_url" alt="商品圖片">
+					<h4>[[sku.name]]</h4>
+					<div>[[sku.count]]</div>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+
+	<div class="navbar_con">
+		<div class="navbar">
+			<div class="sub_menu_con fl">
+				<h1 class="fl">商品分類</h1>
+				<ul class="sub_menu">
+					{% for group in categories.values %}
+					<li>
+						<div class="level1">
+							{% for channel in group.channels %}
+							<a href="{{ channel.url }}">{{ channel.name }}</a>
+							{% endfor %}
+						</div>
+						<div class="level2">
+							{% for cat2 in group.sub_cats %}
+							<div class="list_group">
+								<div class="group_name fl">{{cat2.name}} &gt;</div>
+								<div class="group_detail fl">
+									{% for cat3 in cat2.sub_cats %}
+									<a href="/list.html?cat={{cat3.id}}">{{cat3.name}}</a>
+									{% endfor %}
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+
+
+			<ul class="navlist fl">
+				<li><a href="index.html">首頁</a></li>
+				<li class="interval">|</li>
+				<li><a href="">超值特賣</a></li>
+				<li class="interval">|</li>
+				<li><a href="">抽獎</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="breadcrumb">
+		<a :href="cat1.url">[[cat1.category.name]]</a>
+		<span></span>
+		<span>[[cat2.name]]</span>
+		<span></span>
+		<a href="#">[[cat3.name]]</a>
+	</div>
+
+	<div class="main_wrap clearfix">
+		<div class="l_wrap fl clearfix">
+			<div class="new_goods">
+				<h3>熱銷排行</h3>
+				<ul>
+					<li>
+						<a href="#"><img src="/images/goods/goods001.jpg"></a>
+						<h4><a href="#">360手機 N6 Pro 全網通 6GB+128GB 極夜黑</a></h4>
+						<div class="prize">￥3.90</div>
+					</li>
+					<li>
+						<a href="#"><img src="/images/goods/goods002.jpg"></a>
+						<h4><a href="#">360手機 N6 Pro 全網通 6GB+128GB 極夜黑</a></h4>
+						<div class="prize">￥16.80</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="r_wrap fr clearfix">
+			<div class="sort_bar">
+				<a @click="on_sort('-create_time')" :class="ordering=='-create_time'?'active':''">預設</a>
+				<a @click="on_sort('price')" :class="ordering=='price'?'active':''">價格</a>
+				<a @click="on_sort('-sales')" :class="ordering=='-sales'?'active':''">人氣</a>
+			</div>
+
+			<ul class="goods_type_list clearfix">
+				<li v-for="sku in skus">
+					<a :href="sku.url"><img :src="sku.default_image_url"></a>
+					<h4><a :href="sku.url">[[sku.name]]</a></h4>
+					<div class="operate">
+						<span class="prize">￥[[sku.price]]</span>
+						<span>[[sku.comments]] 評價</span>
+					</div>
+				</li>
+			</ul>
+            <!--<div v-if="skus.length==0"><p>暫時沒有商品。</p></div>-->
+
+			<div class="pagenation">
+				<a v-show="previous" @click="on_page(previous)">上一頁</a>
+				<a v-for="num in page_nums" @click="on_page(num)" :class="num==page?'active':''">[[num]]</a>
+				<a v-show="next" @click="on_page(next)">下一頁</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer">
+		<div class="foot_link">
+			<a href="#">關於我們</a>
+			<span>|</span>
+			<a href="#">聯絡我們</a>
+			<span>|</span>
+			<a href="#">人才招募</a>
+			<span>|</span>
+			<a href="#">合作連結</a>
+		</div>
+		<p>版權所有 © 2016 北京美多商業股份有限公司 All Rights Reserved</p>
+		<p>電話：010-****888　京ICP備*******8號</p>
+	</div>
+	</div>
+    <script src="js/list.js"></script>
+</body>
+</html>
