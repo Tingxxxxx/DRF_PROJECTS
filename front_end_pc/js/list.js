@@ -66,7 +66,7 @@ var vm = new Vue({
         this.cat = this.get_query_string('cat');
 
         // 以下功能可以根據需求開啟
-        // this.get_skus(); // 獲取商品列表
+        this.get_skus(); // 獲取商品列表
         // this.get_categories(); // 獲取麵包屑分類
         // this.get_cart(); // 獲取購物車資料
         // this.get_hot_goods(); // 獲取熱銷商品
@@ -89,7 +89,7 @@ var vm = new Vue({
         },
         // 向伺服器請求商品列表資料
         get_skus: function(){
-            axios.get(this.host + '/categories/' + this.cat + '/skus/', {
+            axios.get(this.host + 'categories/' + this.cat + '/skus/', {
                     params: {
                         page: this.page,
                         page_size: this.page_size,
@@ -126,7 +126,7 @@ var vm = new Vue({
         },
         // 獲取類別的麵包屑資訊（例如：男裝 > 上衣 > T恤）
         get_categories: function () {
-            axios.get(this.host + '/categories/' + this.cat + '/', {
+            axios.get(this.host + 'categories/' + this.cat + '/', {
                 responseType:'json'
             })
             .then(response => {

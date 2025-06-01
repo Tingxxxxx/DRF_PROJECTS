@@ -252,8 +252,7 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'b2cmall.utils.exceptions.exception_handler',
 
     # ✅ 設定 API 頁面分頁（可選）
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',  # 使用分頁模式
-    'PAGE_SIZE': 50,  # 每頁顯示 50 筆資料
+    'DEFAULT_PAGINATION_CLASS': 'b2cmall.utils.paginations.StandardResultsSetPagination',  # 使用自訂的分頁類
 
     # ✅ 設定 API 返回的時間格式
     'DATETIME_FORMAT': "%Y-%m-%d %H:%M:%S",  # 例如：2025-03-03 14:30:00

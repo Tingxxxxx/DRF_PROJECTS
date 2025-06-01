@@ -1,3 +1,5 @@
+from django.core.cache import cache
+from rest_framework.response import Response
 from collections import OrderedDict
 from goods.models import GoodsChannel 
 
@@ -46,3 +48,32 @@ def get_categories():
             categories[group_id]['sub_cats'].append(cat2)
 
     return categories
+
+
+class RedisCacheListMixin:
+
+    def get_cache_key(self):
+        path = self.request.get_full_path()
+        return f"cache:{path}"  # 建立快取用的 key，例如：cache:/categories/115/skus/?page=1&page_size=5
+
+    def list(self, request, *args, **kwargs):
+        cache_key = self.get_cache_key()
+
+        result = cache.get(cache_key)  # 嘗試從 Redis 取出快取資料
+        if result:
+            return Response(result)  # 如果有快取結果，直接回傳，不查資料庫
+
+        # 如果 Redis 中沒有資料，呼叫父類別的 list 方法，從資料庫查資料
+
+        # 父類別的 list 方法會進行以下步驟：
+        # 1. self.get_queryset()：取得查詢集
+        # 2. self.filter_queryset(...)：執行 filter_backends 的排序、搜尋等操作
+        # 3. self.paginate_queryset(...)：執行分頁邏輯（如果有啟用 pagination）
+        # 4. self.get_serializer(...)：將查詢集轉換為 JSON 可序列化的資料格式
+        # 5. self.get_paginated_response(...)：回傳 RESTful 樣式的 Response 實例（包含 count、next、results 等欄位）
+        response = super().list(request, *args, **kwargs)
+
+        # 把序列化後的資料寫入 Redis 快取，設定有效時間為 60 秒
+        cache.set(cache_key, response.data, timeout=60)
+
+        return response  # 回傳查詢結果（已快取）

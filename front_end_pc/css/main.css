@@ -1,3 +1,4 @@
+
 body{font-family:'Microsoft Yahei';font-size:12px;color:#666;}
 html,body{height:100%}
 /* 顶部样式 */
@@ -451,13 +452,30 @@ html,body{height:100%}
 .footer p{text-align:center; margin-top:10px;}
 
 
-/* 二级页面面包屑导航 */
-.breadcrumb{
-	width:1200px;height:40px;margin:0 auto;
+.breadcrumb {
+  box-sizing: border-box;
+  width: 1200px;
+  height: 40px;
+  margin: 0 auto;
+  padding-left: 20px;
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
-.breadcrumb a{line-height:40px;color:#fe0000}
-.breadcrumb a:hover{color:#ff8800}
-.breadcrumb span{line-height:40px;color:#fe0000;padding:0 5px;}
+
+.breadcrumb a,
+.breadcrumb span {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  color: #fe0000;
+  padding: 0 5px;
+}
+
+.breadcrumb a:hover {
+  color: #ff8800;
+}
 
 
 .main_wrap{width:1200px;margin:0 auto;}
@@ -602,7 +620,8 @@ html,body{height:100%}
 .goods_type_list li h4{width:160px;margin:0 auto;}
 .goods_type_list li h4 a{font-weight:normal;color:#666;display:block;width:160px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 
-.operate{width:160px;margin:10px auto;position:relative;}
+.operate{width:160px;margin:10px auto;position:relative;text-align: center; /* ✅ 讓裡面所有文字 span 置中 */
+}
 .goods_type_list .operate .prize{color:#da260e; font-size:14px;} 
 .goods_type_list .operate .unit{color:#999;padding-left:5px;}
 .goods_type_list .operate .add_goods{display:inline-block;width:15px;height:15px;background:url(../images/shop_cart.png);position:absolute;right:0;top:3px;}
