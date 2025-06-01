@@ -67,7 +67,8 @@ var vm = new Vue({
 
         // 以下功能可以根據需求開啟
         this.get_skus(); // 獲取商品列表
-        // this.get_categories(); // 獲取麵包屑分類
+        this.get_categories(); // 
+        
         // this.get_cart(); // 獲取購物車資料
         // this.get_hot_goods(); // 獲取熱銷商品
     },
@@ -76,7 +77,7 @@ var vm = new Vue({
         logout(){
             sessionStorage.clear();
             localStorage.clear();
-            location.href = '/login.html';
+            location.href = './login.html';
         },
         // 從網址中取得指定名稱的參數值
         get_query_string: function(name){

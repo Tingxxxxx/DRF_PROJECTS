@@ -3,7 +3,7 @@ from .models import *
 from celery_tasks.html.tasks import generate_static_list_search_html
 # Register your models here.
 
-class Generate_list_html(admin.ModelAdmin):
+class Generate_list_html_Admin(admin.ModelAdmin):
     
     def save_model(self, request, obj, form, change):
         """
@@ -22,8 +22,8 @@ class Generate_list_html(admin.ModelAdmin):
 
 
 # 註冊模型
-admin.site.register(GoodsCategory, Generate_list_html)
-admin.site.register(GoodsChannel, Generate_list_html)
+admin.site.register(GoodsCategory, Generate_list_html_Admin)
+admin.site.register(GoodsChannel, Generate_list_html_Admin)
 admin.site.register(Goods)
 admin.site.register(Brand)
 admin.site.register(GoodsSpecification)
