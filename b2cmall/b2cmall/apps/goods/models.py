@@ -119,7 +119,21 @@ class SpecificationOption(BaseModel):
 # 與SPU表(一)對多(SKU)
 class SKU(BaseModel):
     """
-    商品SKU(實際上架銷售的商品單位 EX:紅色256G IPHONE、黑色三星S10....)
+    商品SKU(實際上架銷售的商品單位)
+
+    假設SPU是 iPhone10 規格選項如下：
+    螢幕尺寸(13.3/15.4)
+    顏色(紅色/灰色)
+    版本("i5/8G/128G" / "i5/8G/256G")
+
+    要先將不同選項的組合都個別獨立存成一筆SKU
+    EX (iPhone10: 紅/13.3/128G)、(iPhone10: 灰/15.4/256G)
+
+    每個 SKU實例：
+    - 都是一個實際可以被「加入購物車」的商品
+    - 都有獨立的庫存、圖片、價格
+    - 要能精準對應一組「規格選項」
+
     """
     name = models.CharField(max_length=50, verbose_name='名稱')
     caption = models.CharField(max_length=100, verbose_name='副標題')
