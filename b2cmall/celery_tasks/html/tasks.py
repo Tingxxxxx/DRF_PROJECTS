@@ -92,7 +92,7 @@ def generate_static_sku_detail_html(sku_id):
         key = [spec.option.id for spec in s_specs] # for循環取出每個模型實例，再取到option欄位，結果:[1, 4, 7]
         spec_sku_map[tuple(key)] = s.id # 將該SKU的規格選項組合 設為key, sku_id為value
 
-    print('所有SKU的產品規格表',spec_sku_map) # {(1, 4, 7): 1, (1, 3, 7): 2}
+    # print('所有SKU的產品規格表',spec_sku_map) # {(1, 4, 7): 1, (1, 3, 7): 2}
 
     # 取得SPU所有的規格種類
     # 注意: 一定要order_by排序 確保查詢集每次順序一致
@@ -142,7 +142,7 @@ def generate_static_sku_detail_html(sku_id):
 
     # 定義輸出路徑
     file_path = os.path.join(settings.GENERATED_STATIC_HTML_FILES_DIR, 'goods/' + str(sku_id) + '.html')
-    print(f"💾 準備輸出 HTML 到：{file_path}")
+    # print(f"💾 準備輸出 HTML 到：{file_path}")
 
     # 寫入檔案
     with open(file_path, 'w', encoding='utf-8') as f:
