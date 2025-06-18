@@ -103,13 +103,13 @@
                 <h3 class="common_title2">最近瀏覽</h3>
                 <div class="has_view_list">
                     <ul class="goods_type_list clearfix">
-                        <li>
-                            <a href="detail.html"><img src="images/goods/goods003.jpg" alt="商品圖"></a>
-                            <h4><a href="detail.html">360手機 N6 Pro 全網通</a></h4>
+                        <li v-for="sku in histories">
+                            <a :href="sku.url"><img :src="sku.default_image_url"></a>
+                            <h4><a :href="sku.url">{{sku.name}}</a></h4>
                             <div class="operate">
-                                <span class="prize">￥2699.00</span>
+                               <span class="prize">￥{{sku.price}}</span>
                                 <span class="unit">台</span>
-                                <a href="#" class="add_goods" title="加入購物車"></a>
+                                <span class="unit">{{sku.comments}}评价</span>
                             </div>
                         </li>
                         <!-- 你可以依照此格式加入更多商品 -->

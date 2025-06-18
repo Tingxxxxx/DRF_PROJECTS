@@ -5,6 +5,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User # 導入自訂義的用戶模型
 from celery_tasks.verifycode.tasks import send_verification_email
 from areas.models import UserAddress
+from goods.models import SKU
 import re
 import logging
 
@@ -240,3 +241,36 @@ class TitleOnlySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAddress
         fields = ['title']
+
+
+class UserBrowserHistorySerializer(serializers.Serializer):
+    """用戶商品瀏覽紀錄序列化器"""
+    sku_id = serializers.IntegerField(min_value=1, label='商品sku_id')
+
+    def validate_sku_id(self, value):
+        if not SKU.objects.filter(id=value).exists():
+            raise serializers.ValidationError('商品sku_id不存在')
+        return value
+
+    def create(self, validated_data):
+        """繼承serializers.Serializer，需要自訂實作create邏輯"""
+
+        # 取得當前用戶與瀏覽商品id
+        user_id = self.context['request'].user.id
+        sku_id = validated_data['sku_id']
+
+        # 創建redis連線，與管道優化請求
+        redis_conn = get_redis_connection('history')
+        pipe = redis_conn.pipeline()
+
+        # 先檢查該商品瀏覽紀錄是否已存在
+        key = f"history:{user_id}"
+        pipe.lrem(key, 0, sku_id) # count=0 代表移除匹配的所有
+        pipe.lpush(key, sku_id)   # 插入到列表最前面
+        pipe.ltrim(key, 0, 4)  # index = 0 ~4 最新五筆紀錄
+
+        pipe.execute() # 執行所有請求
+
+        return validated_data
+
+    

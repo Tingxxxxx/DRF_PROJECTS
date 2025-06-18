@@ -6,7 +6,7 @@ var vm = new Vue({
         host,
         username: sessionStorage.username || localStorage.username,
         user_id: sessionStorage.user_id || localStorage.user_id,
-        token: sessionStorage.token || localStorage.token,
+        // access: sessionStorage.token || localStorage.token,
         tab_content: {
             detail: true,    // 商品詳情
             pack: false,     // 包裝資訊
@@ -39,6 +39,14 @@ var vm = new Vue({
         // 新增使用者的瀏覽紀錄
         this.get_sku_id();
 
+        if (this.user_id) {
+            // 只有登入用戶才添加瀏覽紀錄商品詳情html中有引入攔截器了
+            axios.post(this.host + 'users/browse_histories/', { 
+                sku_id: this.sku_id
+            })
+        }
+
+
         // this.get_cart();        // 獲取購物車資料
         // this.get_hot_goods();   // 獲取熱銷商品
         // this.get_comments();    // 獲取評論資料
@@ -62,7 +70,7 @@ var vm = new Vue({
         },
         // 從網址中提取 SKU ID
         get_sku_id: function(){
-            var re = /^\/goods\/(\d+).html$/;
+            var re = /\/goods\/(\d+)\.html$/;
             this.sku_id = document.location.pathname.match(re)[1];
         },
         // 減少購買數量
@@ -78,9 +86,7 @@ var vm = new Vue({
         // 獲取購物車資訊
         get_cart: function(){
             axios.get(this.host + '/cart/', {
-                    headers: {
-                        'Authorization': 'JWT ' + this.token
-                    },
+                    
                     responseType: 'json',
                     withCredentials: true
                 })

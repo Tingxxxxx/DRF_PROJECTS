@@ -1,6 +1,6 @@
 from django.urls import path, re_path, include
 from .views import UserView, MobileCountView, UsernameCountView, UserInfoViewSet
-from .views import ActivateEmailView, UserAddressViewSet
+from .views import ActivateEmailView, UserAddressViewSet, UserBrowserHistoryView
 from rest_framework_simplejwt.views import  TokenRefreshView
 from .views import MyTokenObtainPairView # 自己擴寫的simple_jwt視圖
 from rest_framework.routers import DefaultRouter
@@ -29,7 +29,11 @@ urlpatterns = [
     # 激活信箱
     path('email/activate', ActivateEmailView.as_view(), name='email-activate'),
 
+    # 用戶收件地址
     path('', include(router.urls)),
+
+    # 用戶瀏覽紀錄
+    path('browse_histories/', UserBrowserHistoryView.as_view(), name='browser_history'),
 
     # 用戶個人中心詳情/與更新信箱     
     # path('',include(router.urls) , 直接這麼註冊會導致路由有pk

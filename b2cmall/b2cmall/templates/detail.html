@@ -8,6 +8,7 @@
     
     <script src="../js/host.js"></script>               <!-- 主機設定檔 -->
     <script src="../js/axios-0.18.0.min.js"></script>   <!-- 用來發送 HTTP 請求的 axios 函式庫 -->
+    <script src="../js/axios-interceptor.js"></script> <!-- 自定義的 axios 攔截器 -->
     <script src="../js/vue-2.5.16.js"></script>         <!-- Vue.js 前端框架 -->
 </head>
 <body>
@@ -22,9 +23,9 @@
 					<a @click="logout">登出</a>
 				</div>
 				<div v-else class="login_btn fl">
-					<a href="/login.html">登入</a>
+					<a href="../login.html">登入</a>
 					<span>|</span>
-					<a href="/register.html">註冊</a>
+					<a href="../register.html">註冊</a>
 				</div>
 				<div class="user_link fl">
 					<span>|</span>
@@ -174,12 +175,12 @@
 				<h3>熱銷排行</h3>
 				<ul>
 					<li>
-						<a href="#"><img src="https://drfmall.s3.ap-northeast-3.amazonaws.com/goods005.jpg"></a>
+						<a href="#"><img src="images/goods_450.jpg"></a>
 						<h4><a href="#">360手機 N6 Pro 全網通 6GB+128GB 極夜黑</a></h4>
 						<div class="prize">￥3.90</div>
 					</li>
 					<li>
-						<a href="#"><img src="https://drfmall.s3.ap-northeast-3.amazonaws.com/goods005.jpg"></a>
+						<a href="#"><img src="images/goods_450.jpg"></a>
 						<h4><a href="#">360手機 N6 Pro 全網通 6GB+128GB 極夜黑</a></h4>
 						<div class="prize">￥16.80</div>
 					</li>

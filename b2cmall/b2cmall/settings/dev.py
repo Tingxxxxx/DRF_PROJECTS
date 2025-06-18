@@ -153,6 +153,7 @@ CACHES = {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",  # 使用預設的客戶端類別
         }
     },
+
     'verify': {
         # 使用 django-redis 作為快取的後端
 
@@ -167,6 +168,20 @@ CACHES = {
             'KEY_PREFIX':"", # 禁用前綴
             "VERSION": "1",  # 確保版本一致
 
+        }
+    },
+
+    # "history" 配置，用於存放用戶瀏覽紀錄
+    "history": {
+        # 同樣使用 django-redis 
+        "BACKEND": "django_redis.cache.RedisCache",
+        
+        # Redis 伺服器的地址，這裡還是使用本地 Redis 伺服器
+        "LOCATION": "redis://127.0.0.1:6379/3",  # 默認使用 Redis 的第 3 數據庫
+        
+        # 配置選項，同樣指定使用預設的 Redis 客戶端
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",  # 使用預設的客戶端類別
         }
     },
 

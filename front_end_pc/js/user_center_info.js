@@ -5,6 +5,7 @@ new Vue({
     user_id: sessionStorage.user_id || localStorage.user_id,  // 優先從 sessionStorage 取得 user_id，若沒有則從 localStorage 取得
     token: sessionStorage.access || localStorage.access,  // 優先從 sessionStorage 取得 access token，否則從 localStorage 取得
     username: "",  // 使用者名稱
+    histories: [],  // 用戶最近瀏覽紀錄
     mobile: "",  // 使用者手機號碼
     email: "",  // 使用者電子郵件
     email_is_active: false,  // 郵箱是否已驗證，預設為 false
@@ -32,6 +33,18 @@ new Vue({
           this.mobile = response.data.mobile;
           this.email = response.data.email;
           this.email_is_active = response.data.email_is_active;
+
+          // 如果是登入用戶，則顯示最近瀏覽紀錄
+          axios.get(this.host + 'users/browse_histories/', {
+                responseType: 'json'
+              })
+              .then(response => {
+                this.histories = response.data;
+                for(var i=0; i<this.histories.length; i++){
+                this.histories[i].url = '/goods/' + this.histories[i].id + '.html';
+              }
+            })
+          
         })
         .catch((error) => {
           // 攔截器已處理 401/403，這裡只簡單印出錯誤

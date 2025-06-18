@@ -1,6 +1,7 @@
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 from django.db.models import Case, When, Value, IntegerField # 排序用
+from django_redis import get_redis_connection
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import UpdateModelMixin, RetrieveModelMixin
@@ -11,11 +12,13 @@ from rest_framework import status
 from .serializers import CreateUserSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import MyTokenObtainPairSerializer, UserDetailSerializer, UserAddressSerializer, TitleOnlySerializer
+from .serializers import MyTokenObtainPairSerializer, UserDetailSerializer, UserAddressSerializer, TitleOnlySerializer, UserBrowserHistorySerializer
 from celery_tasks.verifycode.tasks import send_verification_email
 from .models import User, UserAddress # 導入自訂義的用戶模型
 from .throttles import EmailRateThrottle
 from .utlis import generate_activation_link
+from goods.models import SKU
+from goods.serializers import SKUSerializer
 import logging
 
 logger = logging.getLogger('django')
@@ -81,6 +84,7 @@ class UserInfoViewSet(UpdateModelMixin, RetrieveModelMixin, GenericViewSet): # G
         避免從 URL 取得 PK 查找，直接回傳 request.user 對象
         """
         return self.request.user
+    
     def get_throttles(self):
         """動態獲取限流策略"""
         if self.request.method == 'PATCH':
@@ -386,3 +390,32 @@ class UserAddressViewSet(UpdateModelMixin, GenericViewSet):
         return Response(
             {'message':'預設地址設定成功'}, 
             status=status.HTTP_200_OK)
+
+
+class UserBrowserHistoryView(CreateAPIView):
+    serializer_class = UserBrowserHistorySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """新增get視圖查詢用戶的所有瀏覽紀錄"""
+        
+        # 獲取當前用戶
+        user_id = request.user.id
+
+        # 用來存放用戶瀏覽的sku實例
+        skus = []
+
+        # 創建redis連接
+        redis_conn = get_redis_connection('history')
+        history_list = redis_conn.lrange(f'history:{user_id}', 0, -1) # 取該列表所有元素
+        
+        # 為了保持元素順序，for循環取出元素，並查詢資料庫
+        for sku_id in history_list:
+            sku_id = int(sku_id) # 使用redis_conn查出來列表內元素會是bytes類型，未防止意外錯誤故轉成int
+            sku = SKU.objects.filter(id=sku_id).first() # 通常dajngo 會自動轉換成int，故不寫上面那行也可
+            skus.append(sku)
+        
+        # 創建序列化器並執行序列化
+        serializer = SKUSerializer(skus, many=True)
+
+        return Response(serializer.data)
