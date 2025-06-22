@@ -13,6 +13,10 @@
 </head>
 <body>
     <div id="app" v-cloak>
+
+     <!-- ✅ Toast 訊息顯示區（加入購物車後出現） -->
+    <div v-if="toastVisible" class="toast-message">[[ toastMessage ]]</div>
+
 	<div class="header_con">
 		<div class="header">
 			<div class="welcome fl">歡迎來到美多商城！</div>

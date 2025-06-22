@@ -25,6 +25,8 @@ urlpatterns = [
     path('oauth/', include('oauth.urls')),
     path('areas/', include('areas.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')), # 文本編輯器
-    path('', include('goods.urls'))
+    path('cart/', include('carts.urls')),
+    path('', include('goods.urls')),
+
 
 ]

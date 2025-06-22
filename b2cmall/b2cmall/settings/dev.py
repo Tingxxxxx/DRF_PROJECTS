@@ -68,8 +68,8 @@ INSTALLED_APPS = [
     'b2cmall.apps.oauth', # 第三方登入
     'b2cmall.apps.areas', # 收件地址相關
     'b2cmall.apps.goods', # 商品相關
-    'b2cmall.apps.contents' # 廣告相關
-
+    'b2cmall.apps.contents', # 廣告相關
+    'b2cmall.apps.carts' # 購物車相關
 ]
 
 
@@ -185,6 +185,19 @@ CACHES = {
         }
     },
 
+     # 購物車紀錄
+    "cart": {
+        # 同樣使用 django-redis 
+        "BACKEND": "django_redis.cache.RedisCache",
+        
+        # Redis 伺服器的地址，這裡還是使用本地 Redis 伺服器
+        "LOCATION": "redis://127.0.0.1:6379/4", 
+        
+        # 配置選項，同樣指定使用預設的 Redis 客戶端
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",  # 使用預設的客戶端類別
+        }
+    },
 }
 
 # 配置 Django 使用快取來儲存會話數據
@@ -287,7 +300,7 @@ REST_FRAMEWORK = {
 
     # ✅ 設定 API 權限管理（誰可以訪問 API）
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',  # 只有已驗證的使用者才能訪問
+        # 'rest_framework.permissions.IsAuthenticated',  # 只有已驗證的使用者才能訪問
         # 若要允許所有使用者訪問，可改成：
         # 'rest_framework.permissions.AllowAny',
     ],

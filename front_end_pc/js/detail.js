@@ -6,7 +6,9 @@ var vm = new Vue({
         host,
         username: sessionStorage.username || localStorage.username,
         user_id: sessionStorage.user_id || localStorage.user_id,
-        // access: sessionStorage.token || localStorage.token,
+        // access: sessionStorage.access || localStorage.access, //有用攔截器了
+        toastMessage: "",  // 用於顯示 Toast 訊息的內容
+        toastVisible: false,  // 控制 Toast 是否顯示
         tab_content: {
             detail: true,    // 商品詳情
             pack: false,     // 包裝資訊
@@ -40,7 +42,7 @@ var vm = new Vue({
         this.get_sku_id();
 
         if (this.user_id) {
-            // 只有登入用戶才添加瀏覽紀錄商品詳情html中有引入攔截器了
+            // 只有登入用戶才添加瀏覽紀錄，商品詳情html中有引入攔截器了故這裡不用寫
             axios.post(this.host + 'users/browse_histories/', { 
                 sku_id: this.sku_id
             })
@@ -79,13 +81,36 @@ var vm = new Vue({
                 this.sku_count--;
             }
         },
-        // 加入購物車（待實作）
+        // 加入商品到購物車
         add_cart: function(){
-
+            axios.post(this.host+'cart/', {
+                    sku_id: parseInt(this.sku_id),
+                    count: this.sku_count
+                }, {
+                    // headers: {
+                    //     'Authorization': 'Bearer ' + this.access  //有在html中引入攔截器了
+                    // },
+                    responseType: 'json',
+                    withCredentials: true // 前端在此跨域請求中要攜帶cookie，故需要在axios中設定 withCredentials: true
+                })
+                .then(response => {
+                    this.showToast('已加入到購物車');
+                    // alert('已加入到購物車');
+                    this.cart_total_count += response.data.count;
+                })
+                .catch(error => {
+                    if ('non_field_errors' in error.response.data) {
+                        alert(error.response.data.non_field_errors[0]);
+                    } else {
+                        this.showToast('購物車添加失敗');
+                        // alert('購物車添加失敗');
+                    }
+                    console.log(error.response.data);
+                })
         },
         // 獲取購物車資訊
         get_cart: function(){
-            axios.get(this.host + '/cart/', {
+            axios.get(this.host + 'cart/', {
                     
                     responseType: 'json',
                     withCredentials: true
@@ -123,6 +148,17 @@ var vm = new Vue({
         // 獲取商品評論資料（待實作）
         get_comments: function(){
             
+        },
+        // 添加購物車 彈窗提示訊息
+        showToast: function (message) {
+        // 顯示 Toast 訊息
+        this.toastMessage = message;
+        this.toastVisible = true;
+
+        // 設定 1.5 秒後自動隱藏 Toast
+        setTimeout(() => {
+        this.toastVisible = false;
+            }, 1500);
         }
     }
 });
