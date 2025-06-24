@@ -49,7 +49,7 @@ var vm = new Vue({
         }
 
 
-        // this.get_cart();        // 獲取購物車資料
+        this.get_cart();        // 獲取購物車資料
         // this.get_hot_goods();   // 獲取熱銷商品
         // this.get_comments();    // 獲取評論資料
     },
@@ -111,7 +111,6 @@ var vm = new Vue({
         // 獲取購物車資訊
         get_cart: function(){
             axios.get(this.host + 'cart/', {
-                    
                     responseType: 'json',
                     withCredentials: true
                 })

@@ -73,35 +73,18 @@
         </div>
 
         <!-- 購物車顯示 -->
-        <div class="guest_cart fr">
-            <a href="#" class="cart_name fl">我的購物車</a>
-            <!-- 顯示商品數量 -->
-            <div class="goods_count fl" id="show_count">15</div>
-       
-            <!-- 購物車中商品清單 -->
-            <ul class="cart_goods_show">
-                <li>
-                    <img src="/images/goods/goods001.jpg" alt="商品图片">
-                    <h4>商品名稱手機</h4>
-                    <div>4</div>
-                </li>
-                <li>
-                    <img src="/images/goods/goods002.jpg" alt="商品圖片">
-                    <h4>商品名稱手機</h4>
-                    <div>5</div>
-                </li>
-                <li>
-                    <img src="/images/goods/goods003.jpg" alt="商品圖片">
-                    <h4>商品名稱手機</h4>
-                    <div>6</div>
-                </li>
-                <li>
-                    <img src="/images/goods/goods003.jpg" alt="商品圖片">
-                    <h4>商品名稱手機</h4>
-                    <div>6</div>
-                </li>
-            </ul>
-        </div>
+        <div @mouseenter="get_cart()" class="guest_cart fr">
+			<a href="#" class="cart_name fl">我的購物車</a>
+			<div class="goods_count fl" id="show_count">[[cart_total_count]]</div>
+
+			<ul class="cart_goods_show">
+				<li v-for="sku in cart">
+					<img :src="sku.default_image_url" alt="商品圖片">
+					<h4>[[sku.name]]</h4>
+					<div>[[sku.count]]</div>
+				</li>
+			</ul>
+		</div>
     </div>
 
     <!-- 導覽列 -->
@@ -152,11 +135,11 @@
                 <!-- 第一層分類 -->
                 <div class="level1">
                     
-                    <a href="http://shouji.jd.com">手機</a>
+                    <a href="#">手機</a>
                     
-                    <a href="http://www.itcast.cn">相機</a>
+                    <a href="#">相機</a>
                     
-                    <a href="http://www.itcast.cn">數碼</a>
+                    <a href="#">數碼</a>
                     
                 </div>
 
@@ -303,7 +286,7 @@
                 <!-- 第一層分類 -->
                 <div class="level1">
                     
-                    <a href="http://www.itcast.cn">電腦</a>
+                    <a href="#">電腦</a>
                     
                     <a href="http://www.itcast.cn">辦公</a>
                     
@@ -318,7 +301,7 @@
                         <div class="group_name fl">電腦整機 &gt;</div>
                         <div class="group_detail fl">
                             
-                            <a href="./list.html?cat=157">筆記型電腦</a>
+                            <a href="./list.html?cat=157">筆電</a>
                             
                             <a href="./list.html?cat=158">遊戲本</a>
                             

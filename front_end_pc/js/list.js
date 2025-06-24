@@ -5,7 +5,7 @@ var vm = new Vue({
         host: host,
         username: sessionStorage.username || localStorage.username, // 儲存使用者名稱
         user_id: sessionStorage.user_id || localStorage.user_id, // 儲存使用者 ID
-        token: sessionStorage.token || localStorage.token, // 儲存使用者登入 token
+        token: sessionStorage.access || localStorage.access, // 儲存使用者登入 token
         cat: '', // 當前商品類別 ID
         page: 1, // 當前頁碼
         page_size: 5, // 每頁商品數量
@@ -69,7 +69,7 @@ var vm = new Vue({
         this.get_skus(); // 獲取商品列表
         this.get_categories(); // 
         
-        // this.get_cart(); // 獲取購物車資料
+        this.get_cart(); // 獲取購物車資料
         // this.get_hot_goods(); // 獲取熱銷商品
     },
     methods: {
@@ -141,9 +141,9 @@ var vm = new Vue({
         },
         // 獲取購物車資訊
         get_cart: function(){
-            axios.get(this.host + '/cart/', {
+            axios.get(this.host + 'cart/', {
                     headers: {
-                        'Authorization': 'JWT ' + this.token
+                        'Authorization': 'Bearer ' + this.token
                     },
                     responseType: 'json',
                     withCredentials: true

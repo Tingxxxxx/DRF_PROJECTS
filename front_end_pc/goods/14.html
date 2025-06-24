@@ -57,36 +57,20 @@
                     <li><a href="#">買2免1</a></li>
                 </ul>
             </div>
+        <!-- 購物車顯示 -->
+        <div @mouseenter="get_cart()" class="guest_cart fr">
+			<a href="#" class="cart_name fl">我的購物車</a>
+			<div class="goods_count fl" id="show_count">[[cart_total_count]]</div>
 
-            <div class="guest_cart fr">
-            <a href="#" class="cart_name fl">我的購物車</a>
-            <div class="goods_count fl" id="show_count">15</div>
-
-            <ul class="cart_goods_show">
-                <li>
-                    <img src="https://drfmall.s3.ap-northeast-3.amazonaws.com/goods002.jpg" alt="商品圖片">
-                    <h4>商品名稱手機</h4>
-                    <div>4</div>
-                </li>
-                <li>
-                    <img src="https://drfmall.s3.ap-northeast-3.amazonaws.com/goods002.jpg" alt="商品圖片">
-                    <h4>商品名稱手機</h4>
-                    <div>5</div>
-                </li>
-                <li>
-                    <img src="https://drfmall.s3.ap-northeast-3.amazonaws.com/goods002.jpgpg" alt="商品圖片">
-                    <h4>商品名稱手機</h4>
-                    <div>6</div>
-                </li>
-                <li>
-                    <img src="https://drfmall.s3.ap-northeast-3.amazonaws.com/goods002.jpg" alt="商品圖片">
-                    <h4>商品名稱手機</h4>
-                    <div>6</div>
-                </li>
-            </ul>
-        </div>
-
-        </div>
+			<ul class="cart_goods_show">
+				<li v-for="sku in cart">
+					<img :src="sku.default_image_url" alt="商品圖片">
+					<h4>[[sku.name]]</h4>
+					<div>[[sku.count]]</div>
+				</li>
+			</ul>
+		</div>
+    </div>
 
         <div class="navbar_con">
                 <div class="navbar">
