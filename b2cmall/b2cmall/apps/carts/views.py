@@ -3,8 +3,9 @@ from django_redis import get_redis_connection
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 from goods.models import SKU
-from .serializers import Cartserializer, SKUCartserializer
+from .serializers import Cartserializer, SKUCartserializer,CartDeleteSerializer
 from .constants import CART_COOKIE_EXPIRES
 import pickle
 import base64
@@ -275,8 +276,66 @@ class CartView(APIView):
 
             return response
 
-
-        
-
     def delete(self, request):
-        pass
+        """刪除購物車中的指定商品"""
+
+        # 1️⃣ 驗證請求資料（反序列化）
+        serializer = CartDeleteSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        sku_id = serializer.validated_data.get('sku_id')
+
+        # 2️⃣ 建立預設回應物件（204 No Content）
+        response = Response(status=status.HTTP_204_NO_CONTENT)
+
+        # 3️⃣ 延遲認證
+        try:
+            user = request.user
+        except Exception:
+            user = None
+
+        # 4️⃣ 登入使用者：使用 Redis 操作購物車
+        if user and user.is_authenticated:
+            # 組合 Redis 的購物車與勾選商品 key
+            cart_key = f'{user.id}:cart'
+            selected_key = f'{user.id}:selected'
+
+            redis_conn = get_redis_connection('cart')
+            pipe = redis_conn.pipeline()
+
+            # 從 Redis 中刪除購物車指定商品及其勾選狀態
+            pipe.hdel(cart_key, sku_id)
+            pipe.srem(selected_key, sku_id)
+            pipe.execute()
+
+        # 5️⃣ 未登入使用者：操作 Cookie 中的購物車資料
+        else:            
+            # 嘗試從 Cookie 中取得購物車資料
+            cart_str = request.COOKIES.get('cart')
+            
+            if cart_str is not None:
+                # 購物車有值則將資料由str->python字典方便後續刪除
+                cart_bytes = base64.b64decode(cart_str.encode())
+                cart_dict = pickle.loads(cart_bytes)
+
+            else: 
+                # 未獲取購物車資料，直接響應
+                return Response({'message': '未獲取到 cookie 資料'}, status=status.HTTP_400_BAD_REQUEST)
+
+            # 若指定商品存在於購物車中，則刪除
+            if sku_id in cart_dict:
+                # 刪除該商品sku_id 的 key
+                del cart_dict[sku_id]
+            else:
+                return Response({'message': '指定商品不在購物車中'}, status=status.HTTP_400_BAD_REQUEST)
+
+            # 判斷是否還有商品：若有 → 更新 Cookie；若無 → 刪除 Cookie
+            if cart_dict:
+                # 重新設置，更新後的cookie
+                new_cart_str = base64.b64encode(pickle.dumps(cart_dict)).decode()
+                response.set_cookie('cart', new_cart_str)
+            else:
+                # 刪除整個cookie
+                response.delete_cookie('cart')
+
+        # 6️⃣ 回傳刪除成功的回應
+        return response
