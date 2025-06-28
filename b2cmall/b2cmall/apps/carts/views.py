@@ -195,10 +195,88 @@ class CartView(APIView):
         # 8️⃣ 回傳購物車資料
         return Response(serializer.data)
 
-
-
     def put(self, request):
-        pass
+        """修改購物車中資料"""
+
+        # 1️⃣ 建立序列化器並進行資料驗證（反序列化）
+        serializer = Cartserializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # 2️⃣ 從驗證後的資料中取得欄位值
+        sku_id = serializer.validated_data.get('sku_id')
+        count = serializer.validated_data.get('count')
+        selected = serializer.validated_data.get('selected')
+
+        # 3️⃣ 預先建立回應對象
+        response  = Response(serializer.data)
+
+        # 4️⃣ 嘗試取得用戶資訊（觸發 DRF 延遲認證）
+        try:
+            user = request.user
+        except Exception:
+            user = None
+
+        # 5️⃣ 判斷是否登入
+        if user and user.is_authenticated:
+            # ➤ 登入狀態：操作 Redis
+
+            # 設定 Redis 中的 key 名稱
+            cart_key = f'{user.id}:cart'         # Hash：商品數量
+            selected_key = f'{user.id}:selected' # Set：勾選狀態
+
+            # 建立 Redis pipeline
+            redis_conn = get_redis_connection('cart')
+            pipe = redis_conn.pipeline()
+
+            # 修改購物車中商品數量（直接覆蓋）
+            pipe.hset(cart_key, sku_id, count)
+            
+            # 根據勾選狀態新增／移除商品
+            if selected:
+                pipe.sadd(selected_key, sku_id)
+            else:
+                pipe.srem(selected_key, sku_id)
+            
+            # 一次執行所有 Redis 操作
+            pipe.execute() 
+
+            return response
+
+        else:
+            # ➤ 未登入狀態：操作 Cookie
+
+             # 嘗試從 cookie 中獲取購物車資料
+            cart_str = request.COOKIES.get('cart')
+            
+            if cart_str is not None:
+                # 將 base64 字串轉回原始 dict 結構
+                cart_str_bytes = cart_str.encode()               # str → bytes(base64)
+                cart_bytes = base64.b64decode(cart_str_bytes)    # base64 → pickle bytes
+                cart_dict = pickle.loads(cart_bytes)             # bytes → dict
+
+            else:
+
+                cart_dict = {}
+
+            
+            # 更新對應商品的數量與勾選狀態
+            cart_dict[sku_id] = {
+                'count': count,
+                'selected': selected
+            }
+
+            # 序列化成可寫入 Cookie 的格式
+            cart_bytes = pickle.dumps(cart_dict)                 # dict → bytes
+            cart_str_bytes = base64.b64encode(cart_bytes)        # bytes → base64 bytes
+            cart_str = cart_str_bytes.decode()                   # base64 bytes → str
+
+            # 設定 cookie，將更新後的 cart 存回
+            response.set_cookie('cart', cart_str, expires=CART_COOKIE_EXPIRES)
+
+            return response
+
+
+        
 
     def delete(self, request):
         pass
