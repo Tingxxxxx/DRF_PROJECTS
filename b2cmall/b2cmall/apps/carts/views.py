@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from goods.models import SKU
-from .serializers import Cartserializer, SKUCartserializer,CartDeleteSerializer
+from .serializers import Cartserializer, SKUCartserializer,CartDeleteSerializer,CartSelectAllSerializer
 from .constants import CART_COOKIE_EXPIRES
 import pickle
 import base64
@@ -115,7 +115,7 @@ class CartView(APIView):
             cart_str = cart_str_bytes.decode()                   # base64 bytes → str
 
             # 購物車 寫入 Cookie，有效期為 3 月（秒數）
-            response.set_cookie('cart', cart_str, expires=CART_COOKIE_EXPIRES)
+            response.set_cookie('cart', cart_str, max_age=CART_COOKIE_EXPIRES)
 
         # 7️⃣ 最終回傳 Response（登入與未登入邏輯共用）
         return response
@@ -272,7 +272,7 @@ class CartView(APIView):
             cart_str = cart_str_bytes.decode()                   # base64 bytes → str
 
             # 設定 cookie，將更新後的 cart 存回
-            response.set_cookie('cart', cart_str, expires=CART_COOKIE_EXPIRES)
+            response.set_cookie('cart', cart_str, max_age=CART_COOKIE_EXPIRES)
 
             return response
 
@@ -332,10 +332,70 @@ class CartView(APIView):
             if cart_dict:
                 # 重新設置，更新後的cookie
                 new_cart_str = base64.b64encode(pickle.dumps(cart_dict)).decode()
-                response.set_cookie('cart', new_cart_str)
+                response.set_cookie('cart', new_cart_str, max_age=CART_COOKIE_EXPIRES)
             else:
                 # 刪除整個cookie
                 response.delete_cookie('cart')
 
         # 6️⃣ 回傳刪除成功的回應
+        return response
+
+
+class CartSelectAllView(APIView):
+    """購物車全選 / 全不選"""
+
+    def perform_authentication(self, request):
+        # 延遲觸發認證，避免未登入用戶報錯
+        pass
+
+    def put(self, request):
+        
+        # 1️⃣ 驗證請求資料（selected: True/False）
+        serializer = CartSelectAllSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        selected = serializer.validated_data.get('selected')
+
+        # 建立初步回應物件（回傳前端原資料）
+        response = Response(serializer.data)
+
+        # 2️⃣ 嘗試取得使用者（延遲認證）
+        try:
+            user = request.user
+        except Exception:
+            user = None
+
+        # 3️⃣ 已登入使用者 → 操作 Redis
+        if user and user.is_authenticated:
+            # 組合key
+            cart_key = f'{user.id}:cart'
+            selected_key = f'{user.id}:selected'
+
+            redis_conn = get_redis_connection('cart')
+            cart_dict = redis_conn.hgetall(cart_key)
+            sku_ids = cart_dict.keys()  # 注意：這裡是 bytes 型別
+
+            if selected:
+                redis_conn.sadd(selected_key, *sku_ids) # *解包列表
+            else:
+                redis_conn.srem(selected_key, *sku_ids)
+
+        # 4️⃣ 未登入使用者 → 操作 Cookie
+        else:
+            cart_str = request.COOKIES.get('cart')
+
+            if cart_str:
+                # str轉換成python字典
+                cart_dict = pickle.loads(base64.b64decode(cart_str.encode()))
+
+            else:
+                return Response({'message':'未獲取到到cookie數據'})
+
+            # 更新所有商品的 selected 狀態
+            for sku_id in cart_dict:
+                cart_dict[sku_id]['selected'] = selected
+
+            # 將更新後的 cart_dict 存回 cookie
+            new_cart_str = base64.b64encode(pickle.dumps(cart_dict)).decode()
+            response.set_cookie('cart', new_cart_str, max_age=CART_COOKIE_EXPIRES)
+
         return response
