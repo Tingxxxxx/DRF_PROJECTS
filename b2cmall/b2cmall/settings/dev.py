@@ -69,7 +69,8 @@ INSTALLED_APPS = [
     'b2cmall.apps.areas', # 收件地址相關
     'b2cmall.apps.goods', # 商品相關
     'b2cmall.apps.contents', # 廣告相關
-    'b2cmall.apps.carts' # 購物車相關
+    'b2cmall.apps.carts', # 購物車相關
+    'b2cmall.apps.orders', # 訂單相關
 ]
 
 
