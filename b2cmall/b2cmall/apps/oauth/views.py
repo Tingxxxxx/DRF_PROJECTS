@@ -15,12 +15,26 @@ from users.models import User  # 自定義 User model
 from .serializers import GoogleQuickRigisterSerializer
 from .models import UserSocialAccount
 from .utils import jwt_response,hash_uid # 自定義的 jwt 響應數據
+from carts.utils import merge_cart_cookie_to_redis # 自訂義的合併購物車功能函數
 import logging
 
 logger = logging.getLogger('django')  # 使用 django 或自定義 logger
 
 class GoogleLoginAPIView(APIView):
-    """google帳號登入"""
+    """
+    Google 帳號登入 API
+
+    流程說明：
+    1. 接收前端傳來的 Google id_token
+    2. 驗證 id_token 是否有效，並確認 email 是否已驗證
+    3. 取得 Google uid（sub）並加密後，用於查找本站綁定的社交帳號
+    4. 判斷是否已有本站帳號綁定該 Google 帳號：
+       - 有綁定：登入成功，發放 JWT Token，並合併 cookie 購物車到 redis 購物車
+       - 尚未綁定：
+         a) 若本站已有對應 email 的帳號，回傳提示前端導向「綁定帳號」頁面
+         b) 若無對應 email，回傳提示前端導向「快速註冊及綁定」頁面
+    5. 若驗證失敗或 token 無效，拋出認證失敗異常
+    """
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -59,10 +73,16 @@ class GoogleLoginAPIView(APIView):
 
                     logger.info(f'用戶 {user.username} 登入成功，已有綁定 Google 社交帳號')
 
-                    # 使用自訂義的jwt響數據生成函數
-                    response = jwt_response(user, refresh, message='登入成功（已有綁定）')
+                    # 使用自訂義的jwt響應數據生成函數
+                    response_data = jwt_response(user, refresh, message='登入成功（已有綁定）')
 
-                    return Response(response, status=status.HTTP_200_OK)
+                    # 建立 DRF Response 實例
+                    response = Response(response_data, status=status.HTTP_200_OK)
+ 
+                    # 執行合併 cookie購物車到 redis 購物車
+                    merge_cart_cookie_to_redis(request, user, response)
+
+                    return response
 
                 # ❗ 尚未綁定，嘗試根據信箱找 User
                 user = User.objects.get(email=email) # 找不到會觸發 User.DoesNotExist 異常
@@ -115,8 +135,21 @@ google token 驗證後返回的用戶資料如下:
 
 
 class BindGoogleAPIView(APIView):
-    """google登入並綁定本站對應信箱帳號"""
+    """
+    Google 登入並綁定本站對應信箱帳號 API
+    
+    流程說明：
+    1. 前端送來 username、email、Google uid（已加密）及密碼
+    2. 檢查資料是否齊全，缺少則回報錯誤
+    3. 使用 Django 內建 authenticate 驗證帳密
+    4. 若帳密驗證失敗，回傳登入失敗訊息
+    5. 確認該 Google uid 尚未被其他帳號綁定，避免重複綁定
+    6. 綁定成功後建立 UserSocialAccount 紀錄
+    7. 產生 JWT token 回應前端，代表綁定並登入成功
+    8. 呼叫合併購物車函數，將 cookie 購物車合併至 redis
+    """
     permission_classes = [AllowAny]
+
     def post(self, request):
         username = request.data.get('username')
         email = request.data.get('email')
@@ -127,7 +160,7 @@ class BindGoogleAPIView(APIView):
         if not all([username, email, google_uid, password]):  # all() 檢查可迭代對象（例如列表、元組、集合等）中的每個元素是否都為真
             logger.warning('缺少必要的用戶資料')
 
-            return ValidationError({
+            raise  ValidationError({
                 'code':'invalid_user_info',
                 'message':'無效的用戶資料'
             })
@@ -136,7 +169,7 @@ class BindGoogleAPIView(APIView):
         user = authenticate(username=username, password=password) # 成功返回user 失敗返回None
         if not user:
             logger.warning(f'使用者{username} 帳密驗證失敗')  # 因user無效，故使用 username，而非 user.username
-            return AuthenticationFailed({
+            raise  AuthenticationFailed({
                 'code': 'error_userinfo',
                 'message':'帳號登入失敗，請確認用戶名及密碼'
             })
@@ -151,13 +184,41 @@ class BindGoogleAPIView(APIView):
         # 生成 jwt_token 
         refresh = RefreshToken.for_user(user)
 
-        response = jwt_response(user, refresh, message='已成功綁定 Google 帳號')
-        # 使用自訂義的jwt響數據生成函數
-        return Response(response, status=status.HTTP_200_OK)
+        # 使用自訂義的jwt響應數據生成函數
+        response_data = jwt_response(user, refresh, message='已成功綁定 Google 帳號')
+
+        # 建立 DRF Response 實例
+        response = Response(response_data, status=status.HTTP_200_OK)
+ 
+        # 執行合併 cookie購物車到 redis 購物車
+        merge_cart_cookie_to_redis(request, user, response)
+
+        return response
+
         
 
 class GoogleQuickRigister(CreateAPIView):
     """google登入快速註冊本站帳號"""
     permission_classes = [AllowAny]
     serializer_class = GoogleQuickRigisterSerializer
-    
+
+    def create(self, request, *args, **kwargs):
+        """複寫create方法，添加合併購物車邏輯"""
+
+        # 1️⃣ 建立序列化器並驗證資料
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # 2️⃣ 執行儲存（觸發 serializer.create()）
+        self.perform_create(serializer)
+
+        # 3️⃣ 準備回應資料
+        headers = self.get_success_headers(serializer.data)
+        response = Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+        # 4️⃣ 合併購物車
+        user = serializer.instance  # ✅ .instance 是剛創建的 user 實體
+        merge_cart_cookie_to_redis(request, user, response)
+
+        # 5️⃣ 回傳完整 Response
+        return response

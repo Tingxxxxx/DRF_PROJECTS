@@ -55,7 +55,10 @@ if (!email || !uid || !provider) {
             password: this.password,
             email: this.email,
             uid: this.uid
-          }).then(response => {
+          },{
+              responseType: 'json',
+              withCredentials: true  // ✅ 允許攜帶 cookie，因為未登入用戶的購物車資料存於 cookie 中，若不加此行後端將無法取得，後續就無法合併購物車
+            }).then(response => {
             // 成功綁定，導向首頁或顯示訊息
             const data = response.data;
             alert("綁定成功！");

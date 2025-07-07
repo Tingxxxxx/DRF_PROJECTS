@@ -107,14 +107,16 @@ function getQueryParam(param) {
                 this.check_email();  // 在提交時檢查電子郵件
                 this.check_allow();
                 if (!this.error_name && !this.error_phone && !this.error_email && !this.error_allow) {
-                    axios.post(this.host + "oauth/quick-register/" + this.provider + "/", {
-                        username: this.username,
-                        email: this.email,
-                        mobile: this.mobile,
-                        uid: this.uid,
-                        allow: this.allow
-                    })
-                    .then(response => {
+                axios.post(this.host + "oauth/quick-register/" + this.provider + "/", {
+                    username: this.username,
+                    email: this.email,
+                    mobile: this.mobile,
+                    uid: this.uid,
+                    allow: this.allow
+                    }, {
+                    responseType: 'json',
+                    withCredentials: true // ✅ 允許攜帶 cookie，因為未登入用戶的購物車資料存於 cookie 中，若不加此行後端將無法取得，後續就無法合併購物車
+                    }).then(response => {
                         sessionStorage.clear();
                         localStorage.clear();
                         localStorage.access = response.data.access;

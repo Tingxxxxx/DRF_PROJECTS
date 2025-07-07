@@ -85,7 +85,9 @@ var vm = new Vue({
             axios.post(this.host + 'oauth/google-login/', {
                 id_token: id_token
             }, {
-                responseType: 'json'
+                responseType: 'json',
+                withCredentials: true  // ✅ 允許攜帶 cookie，因為未登入用戶的購物車資料存於 cookie 中，若不加此行後端將無法取得，後續就無法合併購物車
+
             }).then(response => {
                 const status = response.data.status;
                 const email = response.data.email;

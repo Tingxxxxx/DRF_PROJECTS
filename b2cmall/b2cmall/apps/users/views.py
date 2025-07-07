@@ -19,6 +19,7 @@ from .throttles import EmailRateThrottle
 from .utlis import generate_activation_link
 from goods.models import SKU
 from goods.serializers import SKUSerializer
+from carts.utils import merge_cart_cookie_to_redis
 import logging
 
 logger = logging.getLogger('django')
@@ -67,6 +68,28 @@ class MobileCountView(APIView):
 class MyTokenObtainPairView(TokenObtainPairView):
     """重寫simple_jwt登入視圖, 擴展響應內容"""
     serializer_class = MyTokenObtainPairSerializer # 使用自訂義的序列化器(加入了user相關響應)
+
+    def post(self, request, *args, **kwargs):
+        """重寫父類的 post 方法，添加合併購物車功能"""
+        serializer = self.get_serializer(data=request.data)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except TokenError as e:
+            raise InvalidToken(e.args[0])
+
+        # 到此上面為TokenObtainPairView繼承的父類TokenViewBase原本的代碼
+
+        # 下面為額外添加的購物車相關
+        user = serializer.user  # ✅ 此屬性由 TokenObtainPairSerializer 驗證成功後自動綁定
+        response = Response(serializer.validated_data, status=status.HTTP_200_OK)
+
+        # ✅ 合併購物車 cookie → redis
+        merge_cart_cookie_to_redis(request, user, response)
+
+        return response
+
+
 
 # 只需 GET 查詢當前用戶 / PATCH 更新當前用戶的EMAIL  故不用ModelViewSet
 class UserInfoViewSet(UpdateModelMixin, RetrieveModelMixin, GenericViewSet): # GenericViewSet 提供基礎ViewSet功能，且繼承一定要在最後
