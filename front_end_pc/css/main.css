@@ -844,11 +844,63 @@ html,body{height:100%}
 
 .common_list_con{width:1200px;border:1px solid #dddddd;border-top:2px solid #e3101e;margin:10px auto 0;background-color:#f7f7f7;position:relative;}
 
+
+/*訂單結算頁面*/
 .common_list_con dl{margin:20px;}
 .common_list_con dt{font-size:14px;font-weight:bold;margin-bottom:10px}
 .common_list_con dd input{vertical-align:bottom;margin-right:10px}
 
-.edit_site{position:absolute; right:20px;top:30px;width:100px;height:30px;background-color:#fe0000;text-align:center;line-height:30px;color:#fff}
+.common_list_con dd {
+  display: flex;
+  align-items: flex-start;
+  max-width: 1000px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;          /* ✅ 細的淺灰邊框 */
+  border-radius: 10px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
+  font-weight: 500;                /* ✅ 內文字體稍加粗（比 normal 粗一點） */
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.common_list_con dd input[type="radio"] {
+  margin-right: 10px;
+  accent-color: #409eff;          /* ✅ 選中時藍色圈圈 */
+}
+
+/* ✅ 選中地址樣式：淡藍邊框 + 淡藍背景 */
+.common_list_con dd.current {
+  border-color: #a0cfff;          /* ✅ 柔和藍色邊框 */
+  background-color: #f0f9ff;      /* ✅ 淡藍底色 */
+  font-weight: 550;               /* ✅ 字體再稍微加粗（更強調） */
+}
+
+.edit_site {
+    position: absolute;             /* 絕對定位，讓元素可以精確地放在父元素內指定位置 */
+    right: 20px;                    /* 距離父元素右邊 20 像素 */
+    top: 15px;                      /* 距離父元素上方 15 像素 */
+    padding: 6px 14px;              /* 內距：上下 6px，左右 14px，讓按鈕內容不貼邊 */
+    background-color: #fe0000;      /* 背景色為紅色（鮮紅） */
+    color: #fff;                    /* 字體顏色為白色 */
+    text-align: center;             /* 文字置中對齊 */
+    font-size: 14px;                /* 字體大小為 14 像素 */
+    font-weight: 500;               /* 字體粗細為 500（略粗，介於正常和粗體之間） */
+    cursor: pointer;                /* 滑鼠移過去會變成手指，表示可以點擊 */
+	border-radius: 6px;           /* 加個圓角更好看（可選） */
+    text-decoration: none;          /* 移除文字的底線（通常 a 連結會有底線） */
+    display: inline-block;          /* 讓元素像文字一樣可並排，但也可設定寬高 */
+    line-height: normal;            /* 行高設為預設值，避免文字太擠或太鬆 */
+}
+
+.edit_site:hover {
+    background-color: #d60000;      /* 滑鼠懸停時背景變成稍深的紅色，提升互動感 */
+}
+
+
+/* .edit_site{position:absolute; right:20px;top:15px;width:90px;height:30px;background-color:#fe0000;text-align:center;line-height:30px;color:#fff} */
 
 .pay_style_con{margin:20px;}
 .pay_style_con input{float:left;margin:14px 7px 0 0;}
@@ -857,7 +909,7 @@ html,body{height:100%}
 .pay_style_con .cash{background:url(../images/pay_icons.png) 8px top no-repeat #fff;}
 .pay_style_con .weixin{background:url(../images/pay_icons.png) 6px -36px no-repeat #fff;}
 
-.pay_style_con .zhifubao{background:url(../images/pay_icons.png) 12px -72px no-repeat #fff;width:50px;height:16px}
+.pay_style_con .zhifubao{background:url(../images/linepay_icon1.jpg) 4px 2px no-repeat #fff;width:50px;height:16px}
 
 .pay_style_con .bank{background:url(../images/pay_icons.png) 6px -108px no-repeat #fff;}
 
@@ -889,8 +941,29 @@ html,body{height:100%}
 .total_goods_count,.transit,.total_pay{line-height:24px;text-align:right}
 .total_goods_count em,.total_goods_count b,.transit b,.total_pay b{font-size:14px;color:#ff4200;padding:0 5px;}
 
-.order_submit{width:1200px;margin:20px auto;}
-.order_submit a{width:160px;height:40px;line-height:40px;text-align:center;background-color:#fe0000;color:#fff;font-size:16px;display:block;float:right}
+.order_submit {
+    width: 1200px;
+    margin: 20px auto; /* 區塊寬度為 1200px，並垂直外距 20px，水平置中 */
+}
+
+.order_submit a {
+    width: 160px;
+    height: 40px;
+    line-height: 40px;             /* 垂直置中文字 */
+    text-align: center;            /* 文字置中 */
+    background-color: #fe0000;     /* 按鈕背景紅色 */
+    color: #fff;                   /* 文字白色 */
+    font-size: 16px;               /* 字體大小 */
+    display: block;                /* 設為區塊元素，才能指定寬高 */
+    float: right;                 /* 浮動靠右 */
+    cursor: pointer;              /* 滑鼠移過去會變成手指，表示可以點擊 */
+    border-radius: 6px;           /* 加個圓角更好看（可選） */
+    transition: background-color 0.3s ease;  /* 加平滑過渡效果（可選） */
+}
+
+.order_submit a:hover {
+    background-color: #d60000;     /* 滑鼠懸停時背景變成稍深的紅色，提升互動感 */
+}
 
 
 .order_list_th{width:1198px;border:1px solid #ddd;background-color:#f7f7f7;margin:20px auto 0;}

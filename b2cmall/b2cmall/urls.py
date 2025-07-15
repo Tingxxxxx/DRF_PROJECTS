@@ -27,6 +27,7 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')), # 文本編輯器
     path('cart/', include('carts.urls')),
     path('', include('goods.urls')),
+    path('orders/', include('orders.urls')),
 
 
 ]
