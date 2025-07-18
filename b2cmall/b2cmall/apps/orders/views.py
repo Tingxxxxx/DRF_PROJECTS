@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import  CreateAPIView
 from django_redis import get_redis_connection
 from rest_framework.response import Response
 from rest_framework import status
 from decimal import Decimal
 
 from goods.models import SKU
-from .serializers import OrderSettlementSerializer
+from .serializers import OrderSettlementSerializer, CommitOrderSerializer
 
 # Create your views here.
 class OrderSettlementView(APIView):
@@ -61,3 +62,9 @@ class OrderSettlementView(APIView):
         })
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CommitOrderView(CreateAPIView):
+    """提交訂單"""
+    permission_classes = [IsAuthenticated]
+    serializer_class = CommitOrderSerializer
