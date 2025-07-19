@@ -122,6 +122,10 @@ DATABASES = {
         'USER': os.getenv('DB_USER', ''),
         'PASSWORD': os.getenv('DB_PASSWORD', ''),
         'NAME': os.getenv('DB_NAME', ''),
+        'OPTIONS':{
+            'init_command':'SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED'  # 設置MySQL默認隔離級別為讀已提交(訂單提交視圖需要)
+        }
+        
     }
 }
 
