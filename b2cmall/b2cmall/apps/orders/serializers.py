@@ -269,7 +269,7 @@ class CommitOrderSerializer(serializers.ModelSerializer):
         }
 
     def _generate_order_id(self,user):
-        order_id = timezone.localtime().strftime('%Y%m%d%H%M%S') + '%08d' % user.id # ex: 2025071522593 + 00000042(不足8位補0)
+        order_id = timezone.localtime().strftime('%Y%m%d%H%M%S') + str(user.id).zfill(4) # 
         logger.info(f'用戶:{user.username}，生成訂單編號:{order_id}')
         return order_id
     

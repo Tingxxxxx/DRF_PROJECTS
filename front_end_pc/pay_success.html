@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美多商城-付款結果</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script type="text/javascript" src="js/hosts.js"></script>
+    <script type="text/javascript" src="js/vue-2.5.16.js"></script>
+    <script type="text/javascript" src="js/axios-0.18.0.min.js"></script>
+</head>
+<body>
+    <div id="app">
+    <div class="header_con">
+        <div class="header">
+            <div class="welcome fl">歡迎來到美多商城!</div>
+            <div class="fr">
+                <div class="user_link fl">
+                    <span>|</span>
+                    <a href="user_center_info.html">使用者中心</a>
+                    <span>|</span>
+                    <a href="cart.html">我的購物車</a>
+                    <span>|</span>
+                    <a href="user_center_order.html">我的訂單</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search_bar clearfix">
+        <a href="index.html" class="logo fl"><img src="images/logo.png"></a>
+        <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;支付完成</div>
+        <form method="get" action="/search.html" class="search_con fr mt40">
+            <input type="text" class="input_text fl" name="q" placeholder="搜索商品">
+            <input type="submit" class="input_btn fr" name="" value="搜索">
+        </form>
+    </div>
+
+
+
+    <div class="common_list_con clearfix">
+        <div class="order_success">
+            <p><b>訂單支付成功</b></p>
+            <p>您的訂單已成功支付，支付交易号：{{trade_id}}</p>
+            <p><a href="/user_center_order.html">您可以在使用者中心，我的訂單中查看詳細訊息</a></p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="foot_link">
+            <a href="#">關於我們</a>
+            <span>|</span>
+            <a href="#">聯絡我們</a>
+            <span>|</span>
+            <a href="#">招聘人才</a>
+            <span>|</span>
+            <a href="#">友情連結</a>
+        </div>
+        <p>CopyRight © 2016 北京美多商業股份有限公司 All Rights Reserved</p>
+        <p>電話：010-****888    京ICP備*******8號</p>
+    </div>
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                host,
+                trade_id: '',
+            },
+            mounted: function(){
+                axios.put(this.host+'/payment/status/'+document.location.search,{}, {
+                        responseType: 'json'
+                    })
+                    .then(response => {
+                        this.trade_id = response.data.trade_id;
+                    })
+                    .catch(error => {
+                        console.log(error.response);
+                    })
+            }
+        })
+    </script>
+</body>
+</html>

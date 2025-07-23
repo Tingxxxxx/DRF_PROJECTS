@@ -1,0 +1,84 @@
+
+import logging
+
+from django.http import HttpResponse
+from django.conf import settings
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+
+from .utils import check_order_valid, build_ecpay_order_form
+
+logger = logging.getLogger('django')
+
+# Create your views here.
+"""
+購物車付款串接 ECPAY 流程:
+
+[1] 前端送出付款請求 (order_id) ➜
+[2] 進入 /api/payment/ecpay/request/ 進行驗證 ➜
+[3] 回傳 redirect_url 給前端 ➜
+[4] 前端跳轉至 /api/payment/ecpay/redirect/?order_id=xxxx ➜
+[5] 後端產生綠界 HTML 表單並 auto-submit ➜
+[6] 綠界付款畫面 ➜
+[7] 付款完成後，ECPay Server ➜ POST NotifyURL ➜ /api/payment/ecpay/notify/ ➜ 更新訂單狀態
+[8] 用戶從綠界按「返回商店」 ➜ ClientBackURL ➜ 前端付款完成頁面
+"""
+
+class ECPayPaymentRequestView(APIView):
+    """驗證訂單後，回傳引導使用者前往建立綠界付款表單的後端連結。"""
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        order_id = request.data.get('order_id')  # 從請求體獲得
+        user = request.user
+
+        logger.info(f'用戶:{user.username}，訂單編號:{order_id}，請求付款')
+        logger.info(f'訂單編號:{order_id}，訂單資訊驗證中...')
+
+        # 驗證訂單是否存在 & 狀態是否符合付款條件
+        order, error_response = check_order_valid(
+            user, order_id, check_paymethod=True, check_status=True
+        )
+
+        if error_response:
+            logger.error(f'用戶:{user.username}，訂單編號:{order_id}，訂單驗證失敗')
+            return error_response
+
+        logger.info(f'訂單編號:{order_id}，訂單驗證通過，生成跳轉連結')
+
+        host = settings.BACKEND_HOST
+        redirect_url = host + f"/payment/ecpay/redirect/?order_id={order_id}"  # 跳轉到下一步建立綠界付款資訊的 URL
+        return Response({'redirect_url': redirect_url})
+
+
+class ECPayPaymentRedirectView(APIView):
+    """創建綠界付款訂單 - 回傳一段 HTML 表單，給前端跳轉到綠界付款頁"""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        order_id = request.GET.get('order_id')
+        user = request.user
+
+        # 驗證訂單是否存在 & 狀態是否符合付款條件
+        order, error_response = check_order_valid(
+            user, order_id, check_paymethod=True, check_status=True
+        )
+
+        if error_response:
+            return error_response
+
+        # 建立綠界訂單表單 HTML
+        logger.info(f'用戶:{user.username}，訂單編號:{order_id}，創建付款綠界訂單，跳轉 ECPAY 付款頁面')
+        html = build_ecpay_order_form(order)
+        return HttpResponse(html, content_type='text/html')  # 將 HTML 表單直接回傳給前端
+
+
+class ECPayPaymentNotifyView(APIView):
+    permission_classes = []  # 綠界不會帶 token，通常設公開或用 IP 白名單保護
+
+    def post(self, request):
+        pass
+        return HttpResponse("1|OK")

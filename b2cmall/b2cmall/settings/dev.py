@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     'b2cmall.apps.contents', # 廣告相關
     'b2cmall.apps.carts', # 購物車相關
     'b2cmall.apps.orders', # 訂單相關
+    'b2cmall.apps.payment', # 付款相關
 ]
 
 
@@ -417,8 +418,9 @@ AUTHENTICATION_BACKENDS = [
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
 
 
-# 前端網址，上線時再改成正式的
+# 前端與後端網址，上線時再改成正式的
 FRONTEND_URL = 'http://127.0.0.1:5500/front_end_pc/'  # 方便在一些view中可使用(ex:激活連結跳轉頁面)
+BACKEND_HOST = "http://127.0.0.1:8000"  # 開發用
 
 
 # DRF 使用redis 快取 API響應(DRF-EXTENSIONS擴展)
@@ -469,3 +471,15 @@ CRONJOBS = [
     # 每5分鐘執行一次生成靜態文件首頁
     ('*/5 * * * *', 'contents.crons.generate_static_index_html', '>> /mnt/d/drf_mall/b2cmall/logs/crontab.log')
 ]
+
+
+# 綠界金流基本設定（測試環境）
+ECPAY = {
+    'MerchantID': os.getenv('MerchantID'), # 特店編號（Merchant ID）)(告訴綠界「是哪一家商店發起交易」)
+    'HashKey': os.getenv('HashKey'), # 加密金鑰
+    'HashIV': os.getenv('HashIV'),  # 加密金鑰
+    'SERVER_MODE': 'Stage',  # 'Stage' for 測試環境，'Prod' for 正式
+    'RETURN_URL': 'https://a06013855096.ngrok-free.app/payment/ecpay/notify/',  # 綠界付款完成通知（後端）
+    'CLIENT_BACK_URL': 'http://127.0.0.1:5500/front_end_pc/pay_success.html',  # 用戶付款完返回頁面（前端）
+    # 'ORDER_RESULT_URL': 'https://yourdomain.com/order/result/',  # 選填，用來指定付款結果頁面（可額外顯示付款細節），不設定默認導回 CLIENT_BACK_URL
+}
