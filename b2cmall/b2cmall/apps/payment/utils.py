@@ -108,6 +108,6 @@ def build_ecpay_order_form(order):
         parameters=order_info
     )
 
-    return html
+    return html, order_params.get('MerchantTradeNo'), order_params.get('TotalAmount')
 
     

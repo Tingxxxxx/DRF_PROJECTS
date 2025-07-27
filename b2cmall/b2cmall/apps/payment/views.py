@@ -1,12 +1,19 @@
 
+import json
 import logging
+from datetime import datetime
 
+from django.db import DatabaseError
 from django.http import HttpResponse
 from django.conf import settings
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+from .serializers import ECPayPaymentNotifySerializer
+from .models import ECPayTransaction
+from .libs.ecpay.sdk.ecpay_payment_sdk import ECPayPaymentSdk
 from .utils import check_order_valid, build_ecpay_order_form
 
 logger = logging.getLogger('django')
@@ -68,11 +75,40 @@ class ECPayPaymentRedirectView(APIView):
         )
 
         if error_response:
+            logger.error(f'用戶:{user.username}，訂單編號:{order_id}，訂單驗證失敗')
             return error_response
 
         # 建立綠界訂單表單 HTML
         logger.info(f'用戶:{user.username}，訂單編號:{order_id}，創建付款綠界訂單，跳轉 ECPAY 付款頁面')
-        html = build_ecpay_order_form(order)
+        html, merchant_trade_no, trade_amt = build_ecpay_order_form(order)
+
+        try:
+            # 新增此筆綠界訂單到資料庫
+            if not ECPayTransaction.objects.filter(merchant_trade_no=merchant_trade_no,order=order).exists():
+
+                if trade_amt != int(order.total_amount): # order的金額是decimal類型，綠界則一定是整數
+                    return Response({'error':'訂單付款金額錯誤'},status=status.HTTP_400_BAD_REQUEST)
+                
+                logger.info(f'初始化訂單編號:{order_id}，綠界付款訂單到資料庫')
+
+                ECPayTransaction.objects.create(
+                    order = order,
+                    merchant_trade_no= merchant_trade_no,
+                    trade_amt = trade_amt,
+                )
+
+            else:
+                logger.warning(f'訂單編號:{order_id} 對應的 merchant_trade_no:{merchant_trade_no} 已存在，不重複建立')
+
+
+        except DatabaseError:
+            logger.exception(f'訂單編號:{order_id}, merchant_trade_no:{merchant_trade_no}，建立綠界付款訂單失敗')
+            return Response({'error': '伺服器資料庫錯誤'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        except Exception:
+            logger.exception(f'訂單編號:{order_id}, merchant_trade_no:{merchant_trade_no}，建立綠界付款訂單失敗')
+            return Response({'error': '伺服器錯誤'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+ 
         return HttpResponse(html, content_type='text/html')  # 將 HTML 表單直接回傳給前端
 
 
@@ -80,5 +116,50 @@ class ECPayPaymentNotifyView(APIView):
     permission_classes = []  # 綠界不會帶 token，通常設公開或用 IP 白名單保護
 
     def post(self, request):
-        pass
+
+        # 獲取綠界回傳的付款結果
+        post_data = request.data # 綠界回傳欄位資料類型都是str
+        merchant_id = post_data.get('MerchantID')
+        merchant_trade_no = post_data.get('MerchantTradeNo')
+        logger.info(f'編號:{merchant_trade_no}，獲取綠界付款結果......')
+
+        # for k,v in post_data.items():  
+        #     logger.info(f'{k}:{v}，資料類型:{type(v).__name__}')
+        
+        # 初始化 綠界SDK
+        ecpay = ECPayPaymentSdk(
+            MerchantID=merchant_id,
+            HashKey=settings.ECPAY['HashKey'],
+            HashIV=settings.ECPAY['HashIV']
+        )
+
+        # 根據回傳結果重新計算checkvalue簽章
+        check_mac_value = post_data.get('CheckMacValue', '')
+        calculated_mac_value = ecpay.generate_check_value(post_data)
+
+        # 比對簽章
+        if check_mac_value != calculated_mac_value:
+            logger.error(f'''
+                簽章驗證失敗:
+                原始 CheckMacValue: {check_mac_value}
+                計算後 CheckMacValue: {calculated_mac_value}
+                商店訂單號: {merchant_trade_no}
+                原始資料: {json.dumps(post_data, ensure_ascii=False)}
+            ''')
+            return HttpResponse('0|Fail', status=400)
+        
+        logger.info(f"簽章驗證通過，更新資料庫中綠界訂單資訊")
+
+        # 通過則修改綠界付款訂單狀態
+        ecpay_order = ECPayTransaction.objects.filter(merchant_trade_no=merchant_trade_no).first()
+
+        if ecpay_order:
+            serializer = ECPayPaymentNotifySerializer(data=request.data, instance=ecpay_order, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save() # 較驗通過後存到資料庫
+
+        else:
+            logger.warning(f'找不到符合的 ECPayTransaction 訂單: {merchant_trade_no}')
+            return HttpResponse("0|OrderNotFound", status=404)
+
         return HttpResponse("1|OK")
