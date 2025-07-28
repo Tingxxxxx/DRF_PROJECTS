@@ -472,7 +472,7 @@ CRONJOBS = [
     ('*/5 * * * *', 'contents.crons.generate_static_index_html', '>> /mnt/d/drf_mall/b2cmall/logs/crontab.log')
 ]
 
-NGROK_IP = "https://4198214628e7.ngrok-free.app"
+NGROK_IP = "https://ad6f2c52c281.ngrok-free.app"
 
 # 綠界金流基本設定（測試環境）
 ECPAY = {
@@ -481,6 +481,6 @@ ECPAY = {
     'HashIV': os.getenv('HashIV'),  # 加密金鑰
     'SERVER_MODE': 'Stage',  # 'Stage' for 測試環境，'Prod' for 正式
     'RETURN_URL': f'{NGROK_IP}/payment/ecpay/notify/',  # 綠界付款完成通知（後端）
-    'CLIENT_BACK_URL': 'http://127.0.0.1:5500/front_end_pc/pay_success.html',  # 用戶付款完返回頁面（前端）
+    'CLIENT_BACK_URL': 'http://127.0.0.1:5500/front_end_pc/pay_success.html?token={merchant_trade_no}',  # 用戶付款完返回頁面（前端)
     # 'ORDER_RESULT_URL': 'https://yourdomain.com/order/result/',  # 選填，用來指定付款結果頁面（可額外顯示付款細節），不設定默認導回 CLIENT_BACK_URL
 }

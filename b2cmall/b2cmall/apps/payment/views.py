@@ -1,20 +1,21 @@
 
 import json
 import logging
-from datetime import datetime
 
 from django.db import DatabaseError
 from django.http import HttpResponse
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 from rest_framework import status
+from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from .serializers import ECPayPaymentNotifySerializer
+from .serializers import ECPayPaymentNotifySerializer, ECPaymentStatusSerializer
 from .models import ECPayTransaction
 from .libs.ecpay.sdk.ecpay_payment_sdk import ECPayPaymentSdk
-from .utils import check_order_valid, build_ecpay_order_form
+from .utils import check_order_valid, build_ecpay_order_form, usign_token_to_trade_no
 
 logger = logging.getLogger('django')
 
@@ -79,28 +80,34 @@ class ECPayPaymentRedirectView(APIView):
             return error_response
 
         # 建立綠界訂單表單 HTML
-        logger.info(f'用戶:{user.username}，訂單編號:{order_id}，創建付款綠界訂單，跳轉 ECPAY 付款頁面')
         html, merchant_trade_no, trade_amt = build_ecpay_order_form(order)
 
         try:
-            # 新增此筆綠界訂單到資料庫
-            if not ECPayTransaction.objects.filter(merchant_trade_no=merchant_trade_no,order=order).exists():
+            # 查詢該order在資料庫是否已有未付款的綠界訂單
+            ecpay_order = ECPayTransaction.objects.filter(
+                order=order, 
+                status=ECPayTransaction.STATUS_ENUM['待付款']
+            ).first()
 
-                if trade_amt != int(order.total_amount): # order的金額是decimal類型，綠界則一定是整數
-                    return Response({'error':'訂單付款金額錯誤'},status=status.HTTP_400_BAD_REQUEST)
+            if ecpay_order:
+                # 更新merchant_trade_no(因為綠界要求同單號不能從送)
+                ecpay_order.merchant_trade_no = merchant_trade_no
+                ecpay_order.trade_amt = trade_amt  
+                ecpay_order.save()
                 
-                logger.info(f'初始化訂單編號:{order_id}，綠界付款訂單到資料庫')
+                logger.info(f'訂單編號:{order_id}，資料庫已有待付款的交易紀錄，更新merchant_trade_no....')
 
+            else:
+                # 資料庫無紀錄，則初始化
                 ECPayTransaction.objects.create(
                     order = order,
                     merchant_trade_no= merchant_trade_no,
                     trade_amt = trade_amt,
                 )
+                
+                logger.info(f'初始化訂單編號:{order_id}，綠界付款訂單到資料庫')
 
-            else:
-                logger.warning(f'訂單編號:{order_id} 對應的 merchant_trade_no:{merchant_trade_no} 已存在，不重複建立')
-
-
+    
         except DatabaseError:
             logger.exception(f'訂單編號:{order_id}, merchant_trade_no:{merchant_trade_no}，建立綠界付款訂單失敗')
             return Response({'error': '伺服器資料庫錯誤'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -108,8 +115,10 @@ class ECPayPaymentRedirectView(APIView):
         except Exception:
             logger.exception(f'訂單編號:{order_id}, merchant_trade_no:{merchant_trade_no}，建立綠界付款訂單失敗')
             return Response({'error': '伺服器錯誤'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
- 
-        return HttpResponse(html, content_type='text/html')  # 將 HTML 表單直接回傳給前端
+        
+        logger.info(f'用戶:{user.username}，訂單編號:{order_id}、交易號:{merchant_trade_no}，html跳轉至綠界付款介面...')
+
+        return HttpResponse(html, content_type='text/html')  # 將 HTML 表單直接回傳給前端    
 
 
 class ECPayPaymentNotifyView(APIView):
@@ -163,3 +172,26 @@ class ECPayPaymentNotifyView(APIView):
             return HttpResponse("0|OrderNotFound", status=404)
 
         return HttpResponse("1|OK")
+
+
+class ECPaymentStatusView(RetrieveAPIView):
+
+    permission_classes = [] # 綠界跳轉回來不會有user故置為None，用加簽保證安全
+    queryset = ECPayTransaction.objects.filter()
+    serializer_class = ECPaymentStatusSerializer
+
+    def get_object(self):
+        """"
+        重寫方法，加入解密前端傳來的merchant_trade_no邏輯
+        例:payment/ecpay/status/eyJJjGFu0cm:1ugRbv:hzshvwr_yQ
+        """
+        
+        token = self.kwargs['merchant_trade_no'] 
+        logger.info(f'token:{token}')
+
+        # 解簽 token，失敗會 raise ValidationError，自動被 DRF 捕捉
+        mtn = usign_token_to_trade_no(token) # 解回 NO2025072901260399
+
+        return get_object_or_404(ECPayTransaction, merchant_trade_no = mtn)
+    
+        

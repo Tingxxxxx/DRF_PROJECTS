@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import ECPayPaymentRequestView, ECPayPaymentRedirectView,ECPayPaymentNotifyView
+from .views import ECPayPaymentRequestView, ECPayPaymentRedirectView,ECPayPaymentNotifyView, ECPaymentStatusView
 
 
 urlpatterns = [
@@ -7,5 +7,6 @@ urlpatterns = [
     path('ecpay/request/', ECPayPaymentRequestView.as_view(), name='ecpay_request'),
     path('ecpay/redirect/', ECPayPaymentRedirectView.as_view(), name='ecpay_redirect'),
     path('ecpay/notify/', ECPayPaymentNotifyView.as_view(), name='ecpay_notify'),
+    path('ecpay/status/<str:merchant_trade_no>', ECPaymentStatusView.as_view(), name='ecpay_status'),
     
 ]

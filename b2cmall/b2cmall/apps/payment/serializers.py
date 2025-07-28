@@ -112,3 +112,14 @@ class ECPayPaymentNotifySerializer(serializers.ModelSerializer):
             'TradeAmt', 'SimulatePaid'
         ]
 
+
+class ECPaymentStatusSerializer(serializers.ModelSerializer):
+    """查詢綠界訂單付款狀態的序列化器"""
+    status = serializers.SerializerMethodField(label='訂單狀態')
+
+    def get_status(self, obj):
+        return obj.get_status_display()
+    
+    class Meta:
+        model = ECPayTransaction
+        fields = ['id', 'merchant_trade_no', 'order', 'status', 'trade_amt']

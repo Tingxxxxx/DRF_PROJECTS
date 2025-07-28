@@ -1,13 +1,21 @@
-
+import logging
+import random
 from datetime import datetime
 
+from django.core.signing import BadSignature, SignatureExpired
+from django.core import signing
 from django.conf import settings
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework import status
 
 from .libs.ecpay.sdk.ecpay_payment_sdk import ECPayPaymentSdk
 from orders.models import OrderInfo
 
+logger = logging.getLogger('django')
+
+# 常量區
+TOKEN_EXPIRATION_SECONDS = 10 * 60
 
 def check_order_valid(user, order_id, check_paymethod=True, check_status=True):
     """
@@ -43,6 +51,26 @@ def check_order_valid(user, order_id, check_paymethod=True, check_status=True):
     return order, None
 
 
+def sign_trade_no_to_token(merchant_trade_no):
+    """用於簽名、加密 merchant_trade_no"""
+    token = signing.dumps({'merchant_trade_no': merchant_trade_no}) # 簽名 + 序列化
+    return token
+
+
+def usign_token_to_trade_no(token):
+    """將 token 解簽回 merchant_trade_no，失敗則拋出例外(在視圖自動被DRF捕捉處理)"""
+    try:
+        data_dict = signing.loads(token, max_age=TOKEN_EXPIRATION_SECONDS)
+        return data_dict['merchant_trade_no']
+    
+    except SignatureExpired:
+        logger.warning("Token 已過期")
+        raise ValidationError({'error': 'Token 已過期'})
+
+    except BadSignature:
+        logger.warning("Token 簽章無效或被竄改")
+        raise ValidationError({'error': 'Token 無效'})
+
 
 def build_ecpay_order_form(order):
     """
@@ -60,11 +88,16 @@ def build_ecpay_order_form(order):
     ordergoods = order.order_goods.select_related('sku').all()  # 用 select_related JOIN OrderGoods 跟 SKU
     item_names = [og.sku.name for og in ordergoods]              # 取得所有商品名稱
     names = '#'.join(item_names)                                 # 用 # 串接成字串，如 '商品1#商品2#商品3'
-    total_amount = int(order.total_amount)                       # 原本是 Decimal(0.00)，需轉為整數
+    total_amount = int(order.total_amount)  # 綠界只接收int，而資料庫為decimal 
+
+    # 加密merchant_trade_no拼接到ClientBackURL，方便綠界付款完後在前端直接查詢訂單狀態
+    merchant_trade_no = datetime.now().strftime("NO%Y%m%d%H%M%S") + str(random.randint(10,99))
+    token = sign_trade_no_to_token(merchant_trade_no)
+    
 
     # 綠界訂單參數
     order_params = {
-        'MerchantTradeNo': datetime.now().strftime("NO%Y%m%d%H%M%S"), # NO20250723173015
+        'MerchantTradeNo': merchant_trade_no , # NO20250723173015
         # 必填：特店訂單編號，需唯一
 
         'MerchantTradeDate': datetime.now().strftime("%Y/%m/%d %H:%M:%S"),
@@ -91,7 +124,7 @@ def build_ecpay_order_form(order):
         'IgnorePayment': 'ApplePay#WeiXin#TWQR#BNPL',
         # 選填：排除不想開放的付款方式
 
-        'ClientBackURL': settings.ECPAY['CLIENT_BACK_URL'],
+        'ClientBackURL': settings.ECPAY['CLIENT_BACK_URL'].format(merchant_trade_no=token), # http://....?token={merchant_trade_no}'
         # 選填：付款完成後，使用者點「返回商店」時會跳回這個網址（通常是訂單成功頁）
 
         'EncryptType': 1
