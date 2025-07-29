@@ -74,13 +74,19 @@
 
         <!-- 購物車顯示 -->
         <div @mouseenter="get_cart()" class="guest_cart fr">
-			<a href="#" class="cart_name fl">我的購物車</a>
+			<a href="./cart.html" class="cart_name fl">我的購物車</a>
 			<div class="goods_count fl" id="show_count">[[cart_total_count]]</div>
 
 			<ul class="cart_goods_show">
 				<li v-for="sku in cart">
-					<img :src="sku.default_image_url" alt="商品圖片">
-					<h4>[[sku.name]]</h4>
+					<a :href="`${goodsBaseUrl}${sku.id}.html`">
+						<img :src="sku.default_image_url" alt="商品圖片">
+					</a>
+					<h4>
+						<a :href="`${goodsBaseUrl}${sku.id}.html`">
+						[[sku.name]]
+						</a>
+					</h4>
 					<div>[[sku.count]]</div>
 				</li>
 			</ul>
@@ -107,13 +113,13 @@
         <!-- 幻燈片區塊（Django 模板語法） -->
         <ul class="slide">
             
-            <li><a href="http://www.itcast.cn"><img src="https://drfmall.s3.amazonaws.com/slide01.jpg" alt="美圖M8S"></a></li>
+            <li><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115"><img src="https://drfmall.s3.amazonaws.com/slide01.jpg" alt="美圖M8S"></a></li>
             
-            <li><a href="http://www.itcast.cn"><img src="https://drfmall.s3.amazonaws.com/slide02.jpg" alt="黑色星期五"></a></li>
+            <li><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115"><img src="https://drfmall.s3.amazonaws.com/slide02.jpg" alt="黑色星期五"></a></li>
             
-            <li><a href="http://www.itcast.cn"><img src="https://drfmall.s3.amazonaws.com/slide03.jpg" alt="廚衛365"></a></li>
+            <li><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115"><img src="https://drfmall.s3.amazonaws.com/slide03.jpg" alt="廚衛365"></a></li>
             
-            <li><a href="http://www.itcast.cn"><img src="https://drfmall.s3.amazonaws.com/slide04.jpg" alt="君樂寶買一送一"></a></li>
+            <li><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115"><img src="https://drfmall.s3.amazonaws.com/slide04.jpg" alt="君樂寶買一送一"></a></li>
             
         </ul>
         <!-- 幻燈片左右按鈕 -->
@@ -1736,24 +1742,24 @@
             </div>
             <ul class="news_list">
                 
-                <li><a href="http://www.itcast.cn">i7頑石低至4199元</a></li>
+                <li><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">i7頑石低至4199元</a></li>
                 
-                <li><a href="http://www.itcast.cn">奧克斯專場 正1匹空調1313元搶</a></li>
+                <li><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">奧克斯專場 正1匹空調1313元搶</a></li>
                 
-                <li><a href="http://www.itcast.cn">榮耀9青春版 高配 領券立減220元</a></li>
+                <li><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">榮耀9青春版 高配 領券立減220元</a></li>
                 
-                <li><a href="http://www.itcast.cn">美多探索公益新模式</a></li>
+                <li><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">美多探索公益新模式</a></li>
                 
-                <li><a href="http://www.itcast.cn">冰箱洗衣機專場 套購9折</a></li>
+                <li><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">冰箱洗衣機專場 套購9折</a></li>
                 
-                <li><a href="http://www.itcast.cn">超市美食家 滿188減100</a></li>
+                <li><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">超市美食家 滿188減100</a></li>
                 
-                <li><a href="http://www.itcast.cn">電競之日 電腦最高減1000元</a></li>
+                <li><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">電競之日 電腦最高減1000元</a></li>
                 
             </ul>
             <!-- 廣告圖片 -->
             
-            <a href="http://www.itcast.cn" class="advs"><img src="https://drfmall.s3.amazonaws.com/adv01.jpg"></a>
+            <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="advs"><img src="https://drfmall.s3.amazonaws.com/adv01.jpg"></a>
             
         </div>
     </div>
@@ -1775,34 +1781,34 @@
                 <img src="https://drfmall.s3.amazonaws.com/banner01.jpg">
                 <div class="channel">
                     
-                    <a href="http://www.itcast.cn">手機</a>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">手機</a>
                     
-                    <a href="http://www.itcast.cn">配件</a>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">配件</a>
                     
-                    <a href="http://www.itcast.cn">儲值</a>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">儲值</a>
                     
-                    <a href="http://www.itcast.cn">優惠券</a>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">優惠券</a>
                     
                 </div>
                 <div class="key_words">
                     
-                    <a href="http://www.itcast.cn">榮耀手機</a>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">榮耀手機</a>
                     
-                    <a href="http://www.itcast.cn">國美手機</a>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">國美手機</a>
                     
-                    <a href="http://www.itcast.cn">華為手機</a>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">華為手機</a>
                     
-                    <a href="http://www.itcast.cn">熱銷推薦</a>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">熱銷推薦</a>
                     
-                    <a href="http://www.itcast.cn">以舊換新</a>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">以舊換新</a>
                     
-                    <a href="http://www.itcast.cn">潮3C</a>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">潮3C</a>
                     
-                    <a href="http://www.itcast.cn">全面屏</a>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">全面屏</a>
                     
-                    <a href="http://www.itcast.cn">守護寶</a>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">守護寶</a>
                     
-                    <a href="http://www.itcast.cn">記憶卡</a>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">記憶卡</a>
                     
                 </div>
 
@@ -1811,62 +1817,62 @@
             <ul v-show="f1_tab===1" class="goods_list fl">
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods003.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="360手機 N6 Pro 全網通">360手機 N6 Pro 全網通</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods003.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="360手機 N6 Pro 全網通">360手機 N6 Pro 全網通</a></h4>
                     <div class="prize">￥ 2699.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="iPhone X">iPhone X</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="iPhone X">iPhone X</a></h4>
                     <div class="prize">￥ 7788.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods005.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="榮耀 暢玩7A 全網通 極光藍">榮耀 暢玩7A 全網通 極光藍</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods005.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="榮耀 暢玩7A 全網通 極光藍">榮耀 暢玩7A 全網通 極光藍</a></h4>
                     <div class="prize">￥ 749.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="魅藍 S6 全網通">魅藍 S6 全網通</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="魅藍 S6 全網通">魅藍 S6 全網通</a></h4>
                     <div class="prize">￥1199.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="紅米5Plus 全網通 淺藍">紅米5Plus 全網通 淺藍</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="紅米5Plus 全網通 淺藍">紅米5Plus 全網通 淺藍</a></h4>
                     <div class="prize">￥1299.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="OPPO A1 全網通 深海藍">OPPO A1 全網通 深海藍</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="OPPO A1 全網通 深海藍">OPPO A1 全網通 深海藍</a></h4>
                     <div class="prize">￥1399.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="華為 nova3e 全網通 幻夜黑">華為 nova3e 全網通 幻夜黑</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="華為 nova3e 全網通 幻夜黑">華為 nova3e 全網通 幻夜黑</a></h4>
                     <div class="prize">￥1999.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="OPPO R15 全網通 夢鏡紅">OPPO R15 全網通 夢鏡紅</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="OPPO R15 全網通 夢鏡紅">OPPO R15 全網通 夢鏡紅</a></h4>
                     <div class="prize">￥3299.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="榮耀V10 全網通 標配版 沙灘金">榮耀V10 全網通 標配版 沙灘金</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="榮耀V10 全網通 標配版 沙灘金">榮耀V10 全網通 標配版 沙灘金</a></h4>
                     <div class="prize">￥2499.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="vivo X21 異形全面屏 全網通">vivo X21 異形全面屏 全網通</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="vivo X21 異形全面屏 全網通">vivo X21 異形全面屏 全網通</a></h4>
                     <div class="prize">￥3198.00</div>
                 </li>
                 
@@ -1874,62 +1880,62 @@
             <ul v-show="f1_tab===2" class="goods_list fl">
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="華為P10 全網通">華為P10 全網通</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="華為P10 全網通">華為P10 全網通</a></h4>
                     <div class="prize">￥3488.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="小米 紅米5 全網通版">小米 紅米5 全網通版</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="小米 紅米5 全網通版">小米 紅米5 全網通版</a></h4>
                     <div class="prize">￥699.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="魅藍 Note6 全網通公眾版">魅藍 Note6 全網通公眾版</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="魅藍 Note6 全網通公眾版">魅藍 Note6 全網通公眾版</a></h4>
                     <div class="prize">￥1499.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="紅米5Plus 全網通">紅米5Plus 全網通</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="紅米5Plus 全網通">紅米5Plus 全網通</a></h4>
                     <div class="prize">￥1299.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="榮耀9青春版 標配版">榮耀9青春版 標配版</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="榮耀9青春版 標配版">榮耀9青春版 標配版</a></h4>
                     <div class="prize">￥1099.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="華為 暢享8 全網通">華為 暢享8 全網通</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="華為 暢享8 全網通">華為 暢享8 全網通</a></h4>
                     <div class="prize">￥1299.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="榮耀 暢玩7X 尊享版">榮耀 暢玩7X 尊享版</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="榮耀 暢玩7X 尊享版">榮耀 暢玩7X 尊享版</a></h4>
                     <div class="prize">￥1799.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="華為 nova3e 全網通 幻夜黑">華為 nova3e 全網通 幻夜黑</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="華為 nova3e 全網通 幻夜黑">華為 nova3e 全網通 幻夜黑</a></h4>
                     <div class="prize">￥1999.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="魅族 PRO 7 Plus 全網通">魅族 PRO 7 Plus 全網通</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="魅族 PRO 7 Plus 全網通">魅族 PRO 7 Plus 全網通</a></h4>
                     <div class="prize">￥2799.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="三星 S8 Plus 全網通">三星 S8 Plus 全網通</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="三星 S8 Plus 全網通">三星 S8 Plus 全網通</a></h4>
                     <div class="prize">￥5499.00</div>
                 </li>
                 
@@ -1937,56 +1943,56 @@
             <ul v-show="f1_tab===3" class="goods_list fl">
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="Aogress一體雙用資料線DC-28金">Aogress一體雙用資料線DC-28金</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="Aogress一體雙用資料線DC-28金">Aogress一體雙用資料線DC-28金</a></h4>
                     <div class="prize">￥29.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="黑客iPhone X 鋼化膜">黑客iPhone X 鋼化膜</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="黑客iPhone X 鋼化膜">黑客iPhone X 鋼化膜</a></h4>
                     <div class="prize">￥29.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="黑客 3D曲面 全屏鋼化膜">黑客 3D曲面 全屏鋼化膜</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="黑客 3D曲面 全屏鋼化膜">黑客 3D曲面 全屏鋼化膜</a></h4>
                     <div class="prize">￥99.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="三星（SAMSUNG）儲存卡 64G">三星（SAMSUNG）儲存卡 64G</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="三星（SAMSUNG）儲存卡 64G">三星（SAMSUNG）儲存卡 64G</a></h4>
                     <div class="prize">￥169.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="浦諾菲(pivoful) PUC-15 Type-C 資料線">浦諾菲(pivoful) PUC-15 Type-C 資料線</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="浦諾菲(pivoful) PUC-15 Type-C 資料線">浦諾菲(pivoful) PUC-15 Type-C 資料線</a></h4>
                     <div class="prize">￥19.90</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="好格(Aogress) A-100E移動電源">好格(Aogress) A-100E移動電源</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="好格(Aogress) A-100E移動電源">好格(Aogress) A-100E移動電源</a></h4>
                     <div class="prize">￥99.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="卡士奇 儲存卡">卡士奇 儲存卡</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="卡士奇 儲存卡">卡士奇 儲存卡</a></h4>
                     <div class="prize">￥29.90</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="捷波朗(Jabra)OTE23 運動藍牙耳機">捷波朗(Jabra)OTE23 運動藍牙耳機</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="捷波朗(Jabra)OTE23 運動藍牙耳機">捷波朗(Jabra)OTE23 運動藍牙耳機</a></h4>
                     <div class="prize">￥299.00</div>
                 </li>
                 
                 <li>
-                    <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                    <h4><a href="http://www.itcast.cn" title="besiterBST-0109FO強尼思">besiterBST-0109FO強尼思</a></h4>
+                    <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                    <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="besiterBST-0109FO強尼思">besiterBST-0109FO強尼思</a></h4>
                     <div class="prize">￥99.00</div>
                 </li>
                 
@@ -2009,34 +2015,34 @@
                     <img src="https://drfmall.s3.amazonaws.com/banner02.jpg">
                     <div class="channel">
                         
-                        <a href="http://www.itcast.cn">電腦</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">電腦</a>
                         
-                        <a href="http://www.itcast.cn">數碼</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">數碼</a>
                         
-                        <a href="http://www.itcast.cn">配件</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">配件</a>
                         
-                        <a href="http://www.itcast.cn">潮電子</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">潮電子</a>
                         
                     </div>
                     <div class="key_words">
                         
-                        <a href="http://www.itcast.cn">iPad</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">iPad</a>
                         
-                        <a href="http://www.itcast.cn">限量購</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">限量購</a>
                         
-                        <a href="http://www.itcast.cn">單眼相機</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">單眼相機</a>
                         
-                        <a href="http://www.itcast.cn">智慧傢俱</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">智慧傢俱</a>
                         
-                        <a href="http://www.itcast.cn">分享器</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">分享器</a>
                         
-                        <a href="http://www.itcast.cn">限時搶</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">限時搶</a>
                         
-                        <a href="http://www.itcast.cn">頌拓</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">頌拓</a>
                         
-                        <a href="http://www.itcast.cn">微單眼</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">微單眼</a>
                         
-                        <a href="http://www.itcast.cn">耳機</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">耳機</a>
                         
                     </div>
                 </div>
@@ -2044,62 +2050,62 @@
                 <ul v-show="f2_tab===1" class="goods_list fl">
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="小米九號平衡車">小米九號平衡車</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="小米九號平衡車">小米九號平衡車</a></h4>
                         <div class="prize">加100元送小米汽車</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="小米空氣淨化器2">小米空氣淨化器2</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="小米空氣淨化器2">小米空氣淨化器2</a></h4>
                         <div class="prize">加價10元送濾芯</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="Apple Watch S3 GPS版">Apple Watch S3 GPS版</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="Apple Watch S3 GPS版">Apple Watch S3 GPS版</a></h4>
                         <div class="prize">加1元換購藍牙耳機</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="裴訊智慧體脂秤S7P">裴訊智慧體脂秤S7P</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="裴訊智慧體脂秤S7P">裴訊智慧體脂秤S7P</a></h4>
                         <div class="prize">加1元換購南浮電池</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="360兒童手錶電話SE2">360兒童手錶電話SE2</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="360兒童手錶電話SE2">360兒童手錶電話SE2</a></h4>
                         <div class="prize">￥169.00</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="S2PGHW-521藍牙耳機">S2PGHW-521藍牙耳機</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="S2PGHW-521藍牙耳機">S2PGHW-521藍牙耳機</a></h4>
                         <div class="prize">￥449.00</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="科大訊飛 翻譯機">科大訊飛 翻譯機</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="科大訊飛 翻譯機">科大訊飛 翻譯機</a></h4>
                         <div class="prize">加1元換購電池</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="Apple AirPods藍牙耳機">Apple AirPods藍牙耳機</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="Apple AirPods藍牙耳機">Apple AirPods藍牙耳機</a></h4>
                         <div class="prize">￥1288.00</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="ILIFE V5 智慧掃地機器人">ILIFE V5 智慧掃地機器人</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="ILIFE V5 智慧掃地機器人">ILIFE V5 智慧掃地機器人</a></h4>
                         <div class="prize">加1元換購充電器</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="360記錄儀M301">360記錄儀M301</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="360記錄儀M301">360記錄儀M301</a></h4>
                         <div class="prize">￥319.00</div>
                     </li>
                     
@@ -2108,62 +2114,62 @@
                 <ul v-show="f2_tab===2" class="goods_list fl">
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="Apple iPad 平板電腦 2018款">Apple iPad 平板電腦 2018款</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="Apple iPad 平板電腦 2018款">Apple iPad 平板電腦 2018款</a></h4>
                         <div class="prize">￥2388.00</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="華碩飛行堡壘五代遊戲本">華碩飛行堡壘五代遊戲本</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="華碩飛行堡壘五代遊戲本">華碩飛行堡壘五代遊戲本</a></h4>
                         <div class="prize">￥5999.00</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="ThinkPad T480">ThinkPad T480</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="ThinkPad T480">ThinkPad T480</a></h4>
                         <div class="prize">￥8399.00</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="華碩飛行堡壘五代遊戲筆電">華碩飛行堡壘五代遊戲筆電</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="華碩飛行堡壘五代遊戲筆電">華碩飛行堡壘五代遊戲筆電</a></h4>
                         <div class="prize">￥6299.00</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="艾比格特 無線移動WIFI">艾比格特 無線移動WIFI</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="艾比格特 無線移動WIFI">艾比格特 無線移動WIFI</a></h4>
                         <div class="prize">￥1399.00</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="360 巴迪龍兒童手錶">360 巴迪龍兒童手錶</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="360 巴迪龍兒童手錶">360 巴迪龍兒童手錶</a></h4>
                         <div class="prize">￥999.00</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="Lenovo 星際大戰 絕地挑戰 AR眼鏡">Lenovo 星際大戰 絕地挑戰 AR眼鏡</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="Lenovo 星際大戰 絕地挑戰 AR眼鏡">Lenovo 星際大戰 絕地挑戰 AR眼鏡</a></h4>
                         <div class="prize">￥1999.00</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="HTC VR眼鏡">HTC VR眼鏡</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="HTC VR眼鏡">HTC VR眼鏡</a></h4>
                         <div class="prize">￥4299.00</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="Apple Watch S3 蜂窩版">Apple Watch S3 蜂窩版</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods002.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="Apple Watch S3 蜂窩版">Apple Watch S3 蜂窩版</a></h4>
                         <div class="prize">￥3188.00</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods001.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="360電話手錶 X1Pro">360電話手錶 X1Pro</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods001.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="360電話手錶 X1Pro">360電話手錶 X1Pro</a></h4>
                         <div class="prize">￥1499.00</div>
                     </li>
                     
@@ -2187,32 +2193,32 @@
                     <img src="https://drfmall.s3.amazonaws.com/banner03.jpg">
                     <div class="channel">
                         
-                        <a href="http://www.itcast.cn">家具日用</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">家具日用</a>
                         
-                        <a href="http://www.itcast.cn">家紡寢具</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">家紡寢具</a>
                         
-                        <a href="http://www.itcast.cn">住宅家具</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">住宅家具</a>
                         
                     </div>
                     <div class="key_words">
                         
-                        <a href="http://www.itcast.cn">廚具餐飲</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">廚具餐飲</a>
                         
-                        <a href="http://www.itcast.cn">被子</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">被子</a>
                         
-                        <a href="http://www.itcast.cn">實木床</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">實木床</a>
                         
-                        <a href="http://www.itcast.cn">箭牌馬桶</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">箭牌馬桶</a>
                         
-                        <a href="http://www.itcast.cn">指紋鎖</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">指紋鎖</a>
                         
-                        <a href="http://www.itcast.cn">電飯煲</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">電飯煲</a>
                         
-                        <a href="http://www.itcast.cn">熱水器</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">熱水器</a>
                         
-                        <a href="http://www.itcast.cn">席夢思</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">席夢思</a>
                         
-                        <a href="http://www.itcast.cn">沙發</a>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115">沙發</a>
                         
                     </div>
                 </div>
@@ -2220,62 +2226,62 @@
                 <ul v-show="f3_tab===1" class="goods_list fl">
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="潔柔紙巾">潔柔紙巾</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="潔柔紙巾">潔柔紙巾</a></h4>
                         <div class="prize">￥45.90</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="花仙子除濕劑">花仙子除濕劑</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="花仙子除濕劑">花仙子除濕劑</a></h4>
                         <div class="prize">￥19.90</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="超能洗衣液">超能洗衣液</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="超能洗衣液">超能洗衣液</a></h4>
                         <div class="prize">驚喜價</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="創簡坊 掃帚">創簡坊 掃帚</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="創簡坊 掃帚">創簡坊 掃帚</a></h4>
                         <div class="prize">驚喜價</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="萬象玻璃杯">萬象玻璃杯</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="萬象玻璃杯">萬象玻璃杯</a></h4>
                         <div class="prize">爆款熱銷</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="愛麗絲收納箱">愛麗絲收納箱</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="愛麗絲收納箱">愛麗絲收納箱</a></h4>
                         <div class="prize">￥66.00</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="塑膠袋 加厚">塑膠袋 加厚</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="塑膠袋 加厚">塑膠袋 加厚</a></h4>
                         <div class="prize">跳樓價</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="特白惠 塑膠杯">特白惠 塑膠杯</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="特白惠 塑膠杯">特白惠 塑膠杯</a></h4>
                         <div class="prize">實惠價</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="Bormioli Rocco 義大利進口水果杯">Bormioli Rocco 義大利進口水果杯</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="Bormioli Rocco 義大利進口水果杯">Bormioli Rocco 義大利進口水果杯</a></h4>
                         <div class="prize">買一送一</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="宜興紫砂壺">宜興紫砂壺</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="宜興紫砂壺">宜興紫砂壺</a></h4>
                         <div class="prize">￥220.00</div>
                     </li>
                     
@@ -2284,62 +2290,62 @@
                 <ul v-show="f3_tab===2" class="goods_list fl">
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="蘇泊爾 炒鍋">蘇泊爾 炒鍋</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="蘇泊爾 炒鍋">蘇泊爾 炒鍋</a></h4>
                         <div class="prize">￥329.00 惠</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="雙立人 多用雙刀">雙立人 多用雙刀</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="雙立人 多用雙刀">雙立人 多用雙刀</a></h4>
                         <div class="prize">驚喜價</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="愛仕達高壓鍋">愛仕達高壓鍋</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="愛仕達高壓鍋">愛仕達高壓鍋</a></h4>
                         <div class="prize">特惠價</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="維艾圓形不鏽鋼盆">維艾圓形不鏽鋼盆</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="維艾圓形不鏽鋼盆">維艾圓形不鏽鋼盆</a></h4>
                         <div class="prize">￥69.90</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="家栢利304不鏽鋼壁掛">家栢利304不鏽鋼壁掛</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="家栢利304不鏽鋼壁掛">家栢利304不鏽鋼壁掛</a></h4>
                         <div class="prize">￥198.00</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="生物海瓷">生物海瓷</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="生物海瓷">生物海瓷</a></h4>
                         <div class="prize">震撼價</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="實木筷">實木筷</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="實木筷">實木筷</a></h4>
                         <div class="prize">買二送一</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="菜板">菜板</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="菜板">菜板</a></h4>
                         <div class="prize">只要￥149.00</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="刻度玻璃瓶">刻度玻璃瓶</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="刻度玻璃瓶">刻度玻璃瓶</a></h4>
                         <div class="prize">白菜價</div>
                     </li>
                     
                     <li>
-                        <a href="http://www.itcast.cn" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
-                        <h4><a href="http://www.itcast.cn" title="韓國進口 密封盒">韓國進口 密封盒</a></h4>
+                        <a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" class="goods_pic"><img src="https://drfmall.s3.amazonaws.com/goods009.jpg"></a>
+                        <h4><a href="http://127.0.0.1:5500/front_end_pc/list.html?cat=115" title="韓國進口 密封盒">韓國進口 密封盒</a></h4>
                         <div class="prize">￥39.00</div>
                     </li>
                     

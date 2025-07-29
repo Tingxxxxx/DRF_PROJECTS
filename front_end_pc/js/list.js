@@ -3,6 +3,7 @@ var vm = new Vue({
     delimiters: ['[[', ']]'], // 修改 Vue 模板符號，避免與 Django 的模板符號衝突
     data: {
         host: host,
+        goodsBaseUrl:'/front_end_pc/goods/',
         username: sessionStorage.username || localStorage.username, // 儲存使用者名稱
         user_id: sessionStorage.user_id || localStorage.user_id, // 儲存使用者 ID
         token: sessionStorage.access || localStorage.access, // 儲存使用者登入 token
@@ -70,7 +71,7 @@ var vm = new Vue({
         this.get_categories(); // 
         
         this.get_cart(); // 獲取購物車資料
-        // this.get_hot_goods(); // 獲取熱銷商品
+        this.get_hot_goods(); // 獲取熱銷商品
     },
     methods: {
         // 使用者登出，清除儲存資訊並跳轉至登入頁面
@@ -102,9 +103,9 @@ var vm = new Vue({
                     this.count = response.data.count; // 更新總商品數
                     this.skus = response.data.results; // 更新商品列表
                     // 為每個商品添加商品詳情頁面的 URL
-                    for (var i = 0; i < this.skus.length; i++) {
-                        this.skus[i].url = '/goods/' + this.skus[i].id + ".html";
-                    }
+                    // for (var i = 0; i < this.skus.length; i++) {
+                    //     this.skus[i].url = '/goods/' + this.skus[i].id + ".html";
+                    // }
                 })
                 .catch(error => {
                     console.log(error.response.data);
@@ -165,14 +166,11 @@ var vm = new Vue({
         },
         // 獲取熱銷商品資料
         get_hot_goods: function(){
-            axios.get(this.host + '/categories/' + this.cat + '/hotskus/', {
+            axios.get(this.host + 'categories/' + this.cat + '/skus/hot', {
                     responseType: 'json'
                 })
                 .then(response => {
-                    this.hots = response.data;
-                    for (var i = 0; i < this.hots.length; i++) {
-                        this.hots[i].url = '/goods/' + this.hots[i].id + '.html';
-                    }
+                    this.hots = response.data.results;
                 })
                 .catch(error => {
                     console.log(error.response.data);

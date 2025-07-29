@@ -74,13 +74,19 @@
 
         <!-- 購物車顯示 -->
         <div @mouseenter="get_cart()" class="guest_cart fr">
-			<a href="#" class="cart_name fl">我的購物車</a>
+			<a href="./cart.html" class="cart_name fl">我的購物車</a>
 			<div class="goods_count fl" id="show_count">[[cart_total_count]]</div>
 
 			<ul class="cart_goods_show">
 				<li v-for="sku in cart">
-					<img :src="sku.default_image_url" alt="商品圖片">
-					<h4>[[sku.name]]</h4>
+					<a :href="`${goodsBaseUrl}${sku.id}.html`">
+						<img :src="sku.default_image_url" alt="商品圖片">
+					</a>
+					<h4>
+						<a :href="`${goodsBaseUrl}${sku.id}.html`">
+						[[sku.name]]
+						</a>
+					</h4>
 					<div>[[sku.count]]</div>
 				</li>
 			</ul>

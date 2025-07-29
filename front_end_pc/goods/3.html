@@ -59,13 +59,19 @@
             </div>
         <!-- 購物車顯示 -->
         <div @mouseenter="get_cart()" class="guest_cart fr">
-			<a href="#" class="cart_name fl">我的購物車</a>
+			<a href="/cart.html" class="cart_name fl">我的購物車</a>
 			<div class="goods_count fl" id="show_count">[[cart_total_count]]</div>
 
 			<ul class="cart_goods_show">
 				<li v-for="sku in cart">
-					<img :src="sku.default_image_url" alt="商品圖片">
-					<h4>[[sku.name]]</h4>
+                        <a :href="`${goodsBaseUrl}${sku.id}.html`">
+					        <img :src="sku.default_image_url" alt="商品圖片">
+                        </a>
+					<h4>
+                        <a :href="`${goodsBaseUrl}${sku.id}.html`">
+                            [[sku.name]]
+                        </a>
+                    </h4>
 					<div>[[sku.count]]</div>
 				</li>
 			</ul>
@@ -1687,11 +1693,11 @@
                 
                 
                 
-                <a href="/goods/5.html">深空灰</a>
+                <a href="./5.html">深空灰</a>
                 
                 
                 
-                <a href="/goods/7.html">銀色</a>
+                <a href="./7.html">銀色</a>
                 
                 
             </div>
@@ -1704,7 +1710,7 @@
                 
                 
                 
-                <a href="/goods/4.html">256GB</a>
+                <a href="./4.html">256GB</a>
                 
                 
             </div>
@@ -1721,16 +1727,19 @@
 			<div class="new_goods">
 				<h3>熱銷排行</h3>
 				<ul>
-					<li>
-						<a href="#"><img src="images/goods_450.jpg"></a>
-						<h4><a href="#">360手機 N6 Pro 全網通 6GB+128GB 極夜黑</a></h4>
-						<div class="prize">￥3.90</div>
-					</li>
-					<li>
-						<a href="#"><img src="images/goods_450.jpg"></a>
-						<h4><a href="#">360手機 N6 Pro 全網通 6GB+128GB 極夜黑</a></h4>
-						<div class="prize">￥16.80</div>
-					</li>
+					<li v-for="hot in hots" :key="hot.id">
+					<a :href="`${goodsBaseUrl}${hot.id}.html`">
+						<img :src="hot.default_image_url" :alt="hot.name" />
+					</a>
+					<div class="hot-info">
+						<h4>
+							<a :href="`${goodsBaseUrl}${hot.id}.html`">
+								[[ hot.name ]]
+							</a>
+						</h4>
+						<div class="prize">$[[ hot.price|floatformat:0 ]]</div>
+					</div>
+				</li>
 				</ul>
 			</div>
 		</div>

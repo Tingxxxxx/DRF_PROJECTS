@@ -4,6 +4,7 @@ var vm = new Vue({
     delimiters: ['[[', ']]'],
     data: {
         host,
+        goodsBaseUrl:'/front_end_pc/goods/',
         username: sessionStorage.username || localStorage.username,
         user_id: sessionStorage.user_id || localStorage.user_id,
         // access: sessionStorage.access || localStorage.access, //有用攔截器了
@@ -48,9 +49,8 @@ var vm = new Vue({
             })
         }
 
-
         this.get_cart();        // 獲取購物車資料
-        // this.get_hot_goods();   // 獲取熱銷商品
+        this.get_hot_goods();   // 獲取熱銷商品
         // this.get_comments();    // 獲取評論資料
     },
     methods: {
@@ -131,13 +131,13 @@ var vm = new Vue({
         },
         // 獲取熱銷商品資料
         get_hot_goods: function(){
-            axios.get(this.host + '/categories/' + this.cat + '/hotskus/', {
+            axios.get(this.host + 'categories/' + this.cat + '/skus/hot', {
                     responseType: 'json'
                 })
                 .then(response => {
-                    this.hots = response.data;
+                    this.hots = response.data.results;
                     for (var i = 0; i < this.hots.length; i++) {
-                        this.hots[i].url = '/goods/' + this.hots[i].id + '.html';
+                        this.hots[i].url = this.goodsBaseUrl + this.hots[i].id + '.html';
                     }
                 })
                 .catch(error => {

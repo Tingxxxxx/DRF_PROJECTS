@@ -2,7 +2,7 @@ from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListAPIView, GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from .serializers import SKUSerializer, CategorySerializer, ChannelSerializer
+from .serializers import SKUSerializer, CategorySerializer, ChannelSerializer, HotSKUSerializer
 from .models import SKU, GoodsCategory
 from .utils import RedisCacheListMixin 
 import json
@@ -102,3 +102,14 @@ class CategoryView(GenericAPIView):
             ret['cat2'] = CategorySerializer(category).data
 
         return Response(ret)
+
+
+class HotSKUListView(ListAPIView):
+    """當前商品分類中熱銷商品清單視圖"""
+    permission_classes = []
+    permission_classes = [AllowAny]
+    serializer_class = HotSKUSerializer
+
+    def get_queryset(self):
+        category_id = self.kwargs['category_id']
+        return SKU.objects.filter(category_id=category_id).order_by('-sales')[:2] # 取得指定分類下，銷量最高的前2筆商品資料，避免一次查出全部
