@@ -9,6 +9,7 @@ from rest_framework import serializers
 
 from .models import OrderGoods, OrderInfo
 from goods.models import SKU, Goods
+from payment.models import ECPayTransaction
 
 # 常數定義
 MAX_RETRY_TIME = 5  # 訂單提交最大可重試次數
@@ -246,3 +247,30 @@ class CommitOrderSerializer(serializers.ModelSerializer):
 
         return order_info
 
+
+class OrderInfoListSerializer(serializers.ModelSerializer):
+    """"""
+    status = serializers.SerializerMethodField()
+    pay_method = serializers.SerializerMethodField()
+    skus = serializers.SerializerMethodField()
+
+    def get_status(self,obj):
+        return obj.get_status_display()
+    
+    def get_pay_method(self, obj):
+        return obj.get_pay_method_display()
+    
+    def get_skus(self, obj):
+        order_goods = obj.order_goods.all() # 所有order_goods模型實例
+        skus = []
+        for og in order_goods:
+            sku = og.sku # 取到sku模型
+            sku.count = og.count # 動態加上購買數量，不存入資料庫(故不用.save())
+            skus.append(sku)
+        return CartSKUSerializer(skus,many=True).data #  serializer.data 回傳序列化後的結果（字典、JSON）
+
+    class Meta:
+        model = OrderInfo
+        fields = ['create_time', 'order_id', 'skus','status', 'pay_method', 'total_amount', 'freight']
+    
+    

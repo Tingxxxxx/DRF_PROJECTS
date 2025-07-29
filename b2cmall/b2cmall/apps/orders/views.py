@@ -1,14 +1,23 @@
-from django.shortcuts import render
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import  CreateAPIView
-from django_redis import get_redis_connection
-from rest_framework.response import Response
-from rest_framework import status
+import logging
 from decimal import Decimal
 
+from django_redis import get_redis_connection
+from rest_framework.filters import OrderingFilter
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import  CreateAPIView, ListAPIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.exceptions import ValidationError, NotFound
+
 from goods.models import SKU
+from orders.models import OrderInfo
+from orders.serializers import OrderInfoListSerializer
 from .serializers import OrderSettlementSerializer, CommitOrderSerializer
+from .peginations import OrderStatusPagination
+
+
+logger = logging.getLogger('django')
 
 # Create your views here.
 class OrderSettlementView(APIView):
@@ -68,3 +77,21 @@ class CommitOrderView(CreateAPIView):
     """提交訂單"""
     permission_classes = [IsAuthenticated]
     serializer_class = CommitOrderSerializer
+
+
+class OrderInfoListView(ListAPIView):
+
+    permission_classes = [IsAuthenticated]
+
+    serializer_class = OrderInfoListSerializer
+    pagination_class = OrderStatusPagination
+    filter_backends = [OrderingFilter] # 允許排序
+    ordering = ['-create_time'] # 默認排序:新訂單在前
+
+    def get_queryset(self):
+        user = self.request.user
+        return OrderInfo.objects.filter(user=user)
+
+    
+
+        
