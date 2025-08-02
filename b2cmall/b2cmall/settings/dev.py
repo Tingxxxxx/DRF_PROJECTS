@@ -61,7 +61,8 @@ INSTALLED_APPS = [
     'ckeditor', # 文本編輯器
     'ckeditor_uploader', # 文本編輯+圖片上傳
     'django_crontab',  # 定時任務(在電腦系統中執行而不是專案)
-
+    'django_elasticsearch_dsl', # 商品搜索擴展
+    'django_elasticsearch_dsl_drf', # 商品搜索擴展
 
     'b2cmall.apps.users', # 用戶相關
     'b2cmall.apps.verifications', # 驗證碼
@@ -483,4 +484,12 @@ ECPAY = {
     'RETURN_URL': f'{NGROK_IP}/payment/ecpay/notify/',  # 綠界付款完成通知（後端）
     'CLIENT_BACK_URL': 'http://127.0.0.1:5500/front_end_pc/pay_success.html?token={merchant_trade_no}',  # 用戶付款完返回頁面（前端)
     # 'ORDER_RESULT_URL': 'https://yourdomain.com/order/result/',  # 選填，用來指定付款結果頁面（可額外顯示付款細節），不設定默認導回 CLIENT_BACK_URL
+}
+
+# Elasticsearch 主機設定
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts':'localhost:9200'  # 專案在WSL本機.ELASTICSEARCH在Docker跑
+        # 'http://elasticsearch:9200' # 如果專案跟ELASTICSEARCH都在Docker跑
+    },
 }

@@ -121,3 +121,4 @@ dmypy.json
 b2cmall/.devcontainer/workspace.code-workspace
 b2cmall/.devcontainer/Dockerfile
 b2cmall/.devcontainer/devcontainer.json
+b2cmall/elasticsearch_with_ik_v1.tar
