@@ -1,11 +1,14 @@
+import logging
+
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+
+from goods.documents import GoodsDocument
+from celery_tasks.html.tasks import generate_static_sku_detail_html
 from .models import (
     GoodsCategory, GoodsChannel, Goods, GoodsSpecification,
     SpecificationOption, SKU, SKUImage, SKUSpecification
 )
-from celery_tasks.html.tasks import generate_static_sku_detail_html
-import logging
 
 logger = logging.getLogger('django')
 
@@ -114,3 +117,24 @@ def SKUSpecification_changed_callback(sender, instance, **kwargs):
     SKU規格變動後，重新生成該SKU的詳情頁。
     """
     generate_static_sku_detail_html.delay(instance.sku.id)
+
+
+# ----- Elasticsearch 索引同步信號區塊 -----
+
+# 當 SKU 模型資料被新增或更新時，自動同步到 Elasticsearch 索引中
+@receiver([post_save], sender=SKU)
+def update_goods_document(sender, instance, **kwargs):
+    # 使用 django-elasticsearch-dsl 提供的 update 方法：
+    # 若該資料已存在於 Elasticsearch 索引中 → 執行更新；
+    # 若資料不存在於索引中 → 自動新增。
+    GoodsDocument().update(instance)
+    logger.info(f'商品:{instance.name} 資料異動，更新索引')
+
+
+# 當 SKU 模型資料被刪除時，自動從 Elasticsearch 索引中移除對應文件
+@receiver([post_delete], sender=SKU)
+def delete_goods_document(sender, instance, **kwargs):
+    # 使用 delete 方法將該資料從 Elasticsearch 中移除
+    GoodsDocument().delete(instance)
+    logger.info(f'商品:{instance.name} 資料異動，更新索引')
+
