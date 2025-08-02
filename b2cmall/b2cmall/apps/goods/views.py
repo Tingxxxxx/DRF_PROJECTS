@@ -2,10 +2,21 @@ from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListAPIView, GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from .serializers import SKUSerializer, CategorySerializer, ChannelSerializer, HotSKUSerializer
+from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
+from elasticsearch_dsl.query import MultiMatch
+from django_elasticsearch_dsl_drf.filter_backends import (
+    OrderingFilterBackend,
+    FilteringFilterBackend,
+    SearchFilterBackend,
+    DefaultOrderingFilterBackend)
+
+from .serializers import SKUSerializer, CategorySerializer, ChannelSerializer, HotSKUSerializer, GoodsDocumentSerializer
 from .models import SKU, GoodsCategory
 from .utils import RedisCacheListMixin 
-import json
+from .documents import GoodsDocument
+from b2cmall.utils.paginations import StandardResultsSetPagination
+
+
 # Create your views here.
 
 
@@ -104,12 +115,82 @@ class CategoryView(GenericAPIView):
         return Response(ret)
 
 
-class HotSKUListView(ListAPIView):
+class HotSKUListView(RedisCacheListMixin, ListAPIView):
     """當前商品分類中熱銷商品清單視圖"""
-    permission_classes = []
     permission_classes = [AllowAny]
     serializer_class = HotSKUSerializer
 
     def get_queryset(self):
         category_id = self.kwargs['category_id']
         return SKU.objects.filter(category_id=category_id).order_by('-sales')[:2] # 取得指定分類下，銷量最高的前2筆商品資料，避免一次查出全部
+
+
+class SKUSearchViewSet(DocumentViewSet):
+    """
+        商品搜尋 ViewSet，基於 Elasticsearch 實現的全文檢索與篩選功能。
+
+        可以在瀏覽器或 API 工具透過以下方式訪問：
+        GET /skus/search/?search=關鍵字            # 透過 search 參數模糊搜尋 name 和 caption
+        GET /skus/search/?name=精確名稱            # 透過 name 精確篩選
+        GET /skus/search/?ordering=-sales          # 依銷量降序排序
+        GET /skus/search/?search=關鍵字&ordering=price&name=精確名稱 # 多條件組合查詢
+
+        其他可用參數：
+        - filter_fields 中定義的欄位可直接當 query string 篩選
+        - search_fields 支援全文模糊搜尋
+        - ordering_fields 支援排序，使用 ordering=欄位名 或 ordering=-欄位名(降序)
+        - 支援分頁，使用 page 和 page_size 參數控制
+
+        範例：
+        http://localhost:8000/skus/search/?search=MacBook&page=1&page_size=5&ordering=-price
+    """
+    document = GoodsDocument # 指定索引文件
+    serializer_class = GoodsDocumentSerializer
+    pagination_class = StandardResultsSetPagination
+    filter_backends = [
+        FilteringFilterBackend,
+        OrderingFilterBackend,
+        SearchFilterBackend,
+    ]
+
+    # 可以用來精確匹配篩選(注意:dict)
+    filter_fields = {
+        'name': 'name.keyword', # 對應到doument中定義的keyword子欄位
+    }
+
+    # 模糊搜尋支援欄位(注意:tuple）
+    search_fields = (
+        'name',  # 對應到doument中定義的TextField
+        'caption',
+    )
+
+    # 可用的排序欄位(注意:dict)
+    ordering_fields = {
+        'category': 'category',
+        'price': 'price',
+        'sales': 'sales',
+        'create_time': 'create_time',
+    }
+
+    def get_queryset(self):
+        # 取得 elasticsearch-dsl 的 Search 物件
+        search = super().get_queryset()
+        
+        # 加入條件：只搜尋 is_launched=True 的商品 
+        # 'term':精確匹配  'match':模糊搜尋
+        search = search.filter('term', is_launched=True)  # 搜尋物件.filter()執行過濾  
+        
+        # 取得使用者輸入的搜尋關鍵字
+        query = self.request.query_params.get('search') # ?search=....
+        
+        # 如果有輸入關鍵字，執行 MultiMatch 搜尋，提高 name 欄位權重
+        if query:
+            search = search.query(  # 搜尋物件.query()執行搜索
+                MultiMatch(
+                    query=query,
+                    fields=['name^10', 'caption'], # 提高name欄位權重
+                    type='most_fields', # 綜合多欄位評分
+                    )
+                )
+        # 回傳修改過的 Search 物件
+        return search
