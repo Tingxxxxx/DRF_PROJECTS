@@ -1,14 +1,16 @@
+from elasticsearch import Elasticsearch
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListAPIView, GenericAPIView
 from rest_framework.permissions import AllowAny
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
 from elasticsearch_dsl.query import MultiMatch
+from elasticsearch import Elasticsearch, ConnectionError
 from django_elasticsearch_dsl_drf.filter_backends import (
     OrderingFilterBackend,
     FilteringFilterBackend,
-    SearchFilterBackend,
-    DefaultOrderingFilterBackend)
+    CompoundSearchFilterBackend )
 
 from .serializers import SKUSerializer, CategorySerializer, ChannelSerializer, HotSKUSerializer, GoodsDocumentSerializer
 from .models import SKU, GoodsCategory
@@ -150,7 +152,7 @@ class SKUSearchViewSet(DocumentViewSet):
     filter_backends = [
         FilteringFilterBackend,
         OrderingFilterBackend,
-        SearchFilterBackend,
+        CompoundSearchFilterBackend ,
     ]
 
     # 可以用來精確匹配篩選(注意:dict)
@@ -194,3 +196,76 @@ class SKUSearchViewSet(DocumentViewSet):
                 )
         # 回傳修改過的 Search 物件
         return search
+
+# 建立 Elasticsearch 連線
+es = Elasticsearch()
+
+class GoodsNameSuggestView(APIView):
+    """
+    商品名稱自動補全 API
+    GET /skus/suggestions/?q=關鍵字
+
+    回傳格式：
+    {
+        "suggest": ["建議詞1", "建議詞2"]
+    }
+    """
+
+    def get(self, request):
+        # 從查詢參數中取得關鍵字，並去除前後空白
+        keyword = request.query_params.get('q', '').strip()
+
+        # 若關鍵字為空，直接回傳空列表
+        if not keyword:
+            return Response({"suggest": []})
+
+        # Elasticsearch 補全查詢 body
+        body = {
+            "suggest": {  # ES 固定參數名
+                "name_suggest": {  # 自訂的補全查詢名稱（之後取結果要用這個 key）
+                    "prefix": keyword,  # 使用者輸入的前綴詞
+                    "completion": {     # completion suggester 設定
+                        "field": "name_suggest",  # 對應 ES 索引中設為 CompletionField 的欄位
+                        "size": 5,                # 限制回傳的建議數量
+                        "fuzzy": {                # 開啟模糊匹配（處理拼寫錯誤）
+                            "fuzziness": 2,       # 最大可容忍的編輯距離
+                            "min_length": 5,      # 只對長度>=5的詞套用 fuzzy
+                            "prefix_length": 1    # 前綴必須正確匹配的字數
+                        }
+                    }
+                }
+            }
+        }
+
+        try:
+            # 向 Elasticsearch 發送查詢請求
+            result = es.search(index='goods', body=body) # 查詢名為goods的索引
+
+            # 從回傳結果中取得 name_suggest 的建議列表
+            # ES 回傳格式：
+            # "suggest": {
+            #   "name_suggest": [
+            #     {
+            #       "options": [
+            #         {"text": "建議詞1", ...},
+            #         {"text": "建議詞2", ...}
+            #       ]
+            #     }
+            #   ]
+            # }
+            name_suggest_list = result.get("suggest", {}).get("name_suggest", [])
+
+            if not name_suggest_list:
+                return Response({"suggest": []})
+
+            # 取出所有建議詞的文字部分
+            options = name_suggest_list[0].get("options", [])
+            suggestions = [opt.get("text", "") for opt in options]
+
+        except ConnectionError:
+            # ES 連線失敗時回傳 500 錯誤
+            return Response({"error": "Elasticsearch connection failed"}, status=500)
+
+        # 回傳建議結果
+        return Response({"suggest": suggestions})
+    

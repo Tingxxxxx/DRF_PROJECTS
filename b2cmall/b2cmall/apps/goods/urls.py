@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import SKUListView, CategoryView, HotSKUListView, SKUSearchViewSet
+from .views import SKUListView, CategoryView, HotSKUListView, SKUSearchViewSet, GoodsNameSuggestView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -16,6 +16,10 @@ urlpatterns = [
     path('categories/<int:category_id>/skus/hot/', HotSKUListView.as_view(), name="category-hotskus"),
 
     # 全站商品搜索(使用Elasticsearch)
-    path('',include(router.urls))
+    path('',include(router.urls)),
+    
+    # 商品名自動補全
+    path('skus/suggestions/', GoodsNameSuggestView.as_view(), name="name-suggestion"),
+
 ] 
 
