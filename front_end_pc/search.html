@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>美多商城-搜尋結果</title>
+
+    <!-- 引入 CSS 樣式 -->
+    <link rel="stylesheet" href="css/reset.css"> <!-- 清除預設樣式 -->
+    <link rel="stylesheet" href="css/main.css">  <!-- 主樣式表 -->
+
+    <!-- 引入 JavaScript 函式庫與自定義腳本 -->
+    <script src="js/host.js"></script>               <!-- 主機設定檔 -->
+    <script src="js/axios-0.18.0.min.js"></script>   <!-- HTTP 請求函式庫 -->
+    <script src="js/vue-2.5.16.js"></script>         <!-- Vue.js 前端框架 -->
+    <script src="js/jquery-1.12.4.min.js"></script>  <!-- jQuery 函式庫 -->
+</head>
+<body>
+<div id="app" v-cloak>
+
+    <!-- 頂部歡迎區 -->
+    <div class="header_con">
+        <div class="header">
+            <div class="welcome fl">歡迎來到美多商城！</div>
+            <div class="fr">
+                <div v-if="username" class="login_btn fl">
+                    歡迎您：<em>[[ username ]]</em>
+                    <span>|</span>
+                    <a @click="logout">登出</a>
+                </div>
+                <div v-else class="login_btn fl">
+                    <a href="login.html">登入</a>
+                    <span>|</span>
+                    <a href="register.html">註冊</a>
+                </div>
+                <div class="user_link fl">
+                    <span>|</span>
+                    <a href="user_center_info.html">會員中心</a>
+                    <span>|</span>
+                    <a href="cart.html">我的購物車</a>
+                    <span>|</span>
+                    <a href="user_center_order.html">我的訂單</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 搜尋區 -->
+    <div class="search_bar clearfix">
+        <a href="index.html" class="logo fl"><img src="images/logo.png"></a>
+
+        <div class="search_wrap fl">
+            <form @submit.prevent="on_search" class="search_con">
+                <input
+                    type="text"
+                    class="input_text fl"
+                    v-model="query"
+                    placeholder="搜尋商品"
+                    @input="on_input"
+                    @keydown.down.prevent="move_down"
+                    @keydown.up.prevent="move_up"
+                    @keydown.enter.prevent="select_item"
+                    @focus="show_suggestions = true"
+                >
+                <input type="submit" class="input_btn fr" value="搜尋">
+            </form>
+
+            <ul class="search_suggest fl" v-show="show_suggestions">
+                <li v-for="(item, index) in suggestions"
+                    :class="{active: index === highlight_index}"
+                    @click="select_suggestion(item)"
+                    @mouseover="highlight_index = index"
+                >
+                    [[ truncate(item) ]]
+                </li>
+            </ul>
+        </div>
+
+        <!-- 購物車 -->
+        <div @mouseenter="get_cart()" class="guest_cart fr">
+            <a href="./cart.html" class="cart_name fl">我的購物車</a>
+            <div class="goods_count fl" id="show_count">[[cart_total_count]]</div>
+
+            <ul class="cart_goods_show">
+                <li v-for="sku in cart">
+                    <a :href="`${goodsBaseUrl}${sku.id}.html`">
+                        <img :src="sku.default_image_url" alt="商品圖片">
+                    </a>
+                    <h4>
+                        <a :href="`${goodsBaseUrl}${sku.id}.html`">
+                            [[sku.name]]
+                        </a>
+                    </h4>
+                    <div>[[sku.count]]</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 導覽列 -->
+    <div class="navbar_con">
+        <div class="navbar">
+            <ul class="navlist fl">
+                <li><a href="">首頁</a></li>
+                <li class="interval">|</li>
+                <li><a href="">超值優惠</a></li>
+                <li class="interval">|</li>
+                <li><a href="">抽獎活動</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 商品列表 -->
+    <div class="main_wrap clearfix">
+        <div class="clearfix">
+            <ul class="goods_type_list clearfix">
+                <li v-for="sku in skus">
+                    <a :href="`${goodsBaseUrl}${sku.id}.html`">
+                        <img :src="sku.default_image_url">
+                    </a>
+                    <h4>
+                        <a :href="`${goodsBaseUrl}${sku.id}.html`">
+                            [[sku.name]]
+                        </a>
+                    </h4>
+                    <div class="operate">
+                        <span class="prize">￥[[sku.price]]</span>
+                        <span>[[sku.comments]] 則評價</span>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- 分頁 -->
+            <div class="pagenation">
+                <a v-show="previous" @click="on_page(previous)">上一頁</a>
+                <a v-for="num in page_nums"
+                   @click="on_page(num)"
+                   :class="num==page?'active':''">
+                    [[num]]
+                </a>
+                <a v-show="next" @click="on_page(next)">下一頁</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 頁尾 -->
+    <div class="footer">
+        <div class="foot_link">
+            <a href="#">關於我們</a>
+            <span>|</span>
+            <a href="#">聯絡我們</a>
+            <span>|</span>
+            <a href="#">人才招募</a>
+            <span>|</span>
+            <a href="#">合作夥伴</a>
+        </div>
+        <p>版權所有 © 2016 北京美多商業股份有限公司 保留所有權利</p>
+        <p>電話：010-****888　京 ICP 證*******8號</p>
+    </div>
+
+</div>
+
+<!-- 頁面邏輯腳本 -->
+<script src="js/search.js"></script>
+</body>
+</html>

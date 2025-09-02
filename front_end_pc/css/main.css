@@ -100,24 +100,61 @@ html,body{height:100%}
 	width:100px;height:32px;background-color:#fe0000;border:0px;font-size:14px;color:#fff;font-family:'Microsoft Yahei';outline:none;cursor:pointer;
 }
 
-.search_suggest{
-	width:618px;
-	height:26px;
+.search_suggest {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #fe0000;  /* 紅色邊框 */
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  width: 516px;
+  max-height: 250px;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(229, 83, 83, 0.2); /* 淡紅色陰影 */
+  z-index: 1000;
+  margin-top: 0;
+  padding-left: 0;
+  list-style: none;
+
+  /* 黑色滾動條 */
+  scrollbar-width: thin;
+  scrollbar-color: #636262 #f0f0f0;
 }
 
-.search_suggest li{
-	float:left;
+.search_suggest::-webkit-scrollbar {
+  width: 8px;
 }
 
-.search_suggest li a{
-	color:#999;
-	line-height:24px;
-	margin-right:15px;
+.search_suggest::-webkit-scrollbar-track {
+  background: #f0f0f0; /* 淺灰背景 */
+  border-radius: 6px;
 }
 
-.search_suggest li a:hover{
-	color:#f80;
+.search_suggest::-webkit-scrollbar-thumb {
+  background-color: #000; /* 黑色滑塊 */
+  border-radius: 6px;
+  border: 2px solid #f0f0f0;
 }
+
+.search_suggest li {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+/* 聚焦、hover 維持淺藍色 */
+.search_suggest li:hover,
+.search_suggest li.active {
+  background-color: #409EFF;  /* Element UI 淺藍色 */
+  color: white;
+}
+
+.search_wrap {
+  position: relative;
+  width: 516px;
+}
+
+
 
 .mt40{margin-top:40px}
 

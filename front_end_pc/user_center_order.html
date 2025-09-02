@@ -35,15 +35,38 @@
       </div>
     </div>
 
-    <!-- 搜尋欄 -->
-    <div class="search_bar clearfix">
-      <a href="index.html" class="logo fl"><img src="images/logo.png" alt="美多商城 Logo" /></a>
-      <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用戶中心</div>
-      <div class="search_con fr mt40">
-        <input type="text" class="input_text fl" placeholder="搜尋商品" />
-        <input type="button" class="input_btn fr" value="搜尋" />
-      </div>
-    </div>
+    <!-- 搜尋區 -->
+        <div class="search_bar clearfix">
+            <a href="index.html" class="logo fl"><img src="images/logo.png" alt="美多商城 Logo"></a>
+            <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;我的訂單</div>
+                <div class="search_wrap fl">
+                    <form @submit.prevent="on_search" class="search_con">
+                        <input
+                            type="text"
+                            class="input_text fl"
+                            v-model="query"
+                            placeholder="搜尋商品"
+                            @input="on_input"
+                            @keydown.down.prevent="move_down"
+                            @keydown.up.prevent="move_up"
+                            @keydown.enter.prevent="select_item"
+                            @focus="show_suggestions = true"
+                        >
+                        <input type="submit" class="input_btn fr" value="搜尋">
+                    </form>
+
+                    <ul class="search_suggest fl" v-show="show_suggestions">
+                        <li v-for="(item, index) in suggestions"
+                            :class="{active: index === highlight_index}"
+                            @click="select_suggestion(item)"
+                            @mouseover="highlight_index = index"
+                        >
+                            {{ truncate(item) }}
+                        </li>
+                    </ul>
+                </div>
+        </div>
+
 
     <!-- 主內容 -->
     <div class="main_con clearfix">

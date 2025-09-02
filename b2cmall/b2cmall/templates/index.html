@@ -57,18 +57,30 @@
         <a href="index.html" class="logo fl"><img src="images/logo.png"></a>
 
       <!-- 搜尋框 -->
-        <div class="search_wrap fl">
-            <form method="get" action="./search.html" class="search_con">
-                <input type="text" class="input_text fl" name="q" placeholder="搜索商品">
-                <input type="submit" class="input_btn fr" name="" value="搜索">
+        <div id= "search-bar" class="search_wrap fl">
+            <form @submit.prevent="on_search" class="search_con">
+                <input
+                    type="text"
+                    class="input_text fl"
+                    v-model="query"
+                    placeholder="搜尋商品"
+                    @input="on_input"
+                    @keydown.down.prevent="move_down"
+                    @keydown.up.prevent="move_up"
+                    @keydown.enter.prevent="select_item"
+                    @focus="show_suggestions = true"
+                >
+                <input type="submit" class="input_btn fr" value="搜尋">
             </form>
 
-        <!-- 搜尋建議關鍵字 -->
-            <ul class="search_suggest fl">
-                <li><a href="#">索尼相機</a></li>
-                <li><a href="#">優惠15元</a></li>
-                <li><a href="#">美妝美容</a></li>
-                <li><a href="#">買二送一</a></li>
+            <ul class="search_suggest fl" v-show="show_suggestions">
+                <li v-for="(item, index) in suggestions"
+                    :class="{active: index === highlight_index}"
+                    @click="select_suggestion(item)"
+                    @mouseover="highlight_index = index"
+                >
+                    [[ truncate(item) ]]
+                </li>
             </ul>
         </div>
 
