@@ -117,9 +117,9 @@ WSGI_APPLICATION = 'b2cmall.wsgi.application'
 
 # 連線到MySql
 DATABASES = {
-    'default': {
+    'default': {  # 主機: 增刪改
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': '127.0.0.1',  # 本機資料庫
+        'HOST': os.getenv('DB_HOST', ''),  # 本機資料庫
         'PORT': 3306,  
         'USER': os.getenv('DB_USER', ''),
         'PASSWORD': os.getenv('DB_PASSWORD', ''),
@@ -128,8 +128,20 @@ DATABASES = {
             'init_command':'SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED'  # 設置MySQL默認隔離級別為讀已提交(訂單提交視圖需要)
         }
         
-    }
+    },
+    'slave': {  # 從機查詢
+    'ENGINE': 'django.db.backends.mysql',
+    'HOST': os.getenv('DB_HOST', ''),
+    'PORT': 3307,  # 從機端口
+    'USER': os.getenv('SLAVE_DB_USER', ''),
+    'PASSWORD': os.getenv('DB_PASSWORD', ''),
+    'NAME': os.getenv('DB_NAME', ''),    
+    },
 }
+
+# 讀寫分離路由設定
+# DATABASE_ROUTERS = ['b2cmall.utils.db_router.MasterSlaveDBRouter']
+
 
 # 配置快取
 CACHES = {
@@ -420,7 +432,8 @@ GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
 
 
 # 前端與後端網址，上線時再改成正式的
-FRONTEND_URL = 'http://127.0.0.1:5500/front_end_pc/'  # 方便在一些view中可使用(ex:激活連結跳轉頁面)
+FRONTEND_URL = 'http://www.meiduo.site:5500/front_end_pc/'  # 方便在一些view中可使用(ex:激活連結跳轉頁面)
+# FRONTEND_URL = 'http://127.0.0.1:5500/front_end_pc/'  # 方便在一些view中可使用(ex:激活連結跳轉頁面)
 BACKEND_HOST = "http://127.0.0.1:8000"  # 開發用
 
 
