@@ -49,11 +49,11 @@ var vm = new Vue({
             })
             .then(response => {
                 // alert('查詢城市 請求發送成功areas/?level=city')
-                this.cities = response.data.results;
+                this.cities = response.data;
                 console.log(this.cities)
             })
             .catch(error => {
-                console.log(error.response.data);
+                console.log(error.response);
             });
 
         // 向後端查詢並返回用戶名下所有收件地址
@@ -78,7 +78,7 @@ var vm = new Vue({
                     })
                     .then(response => {
                         // alert('查詢行政區 請求發送成功 )
-                        this.districts = response.data.results;
+                        this.districts = response.data;
                     })
                     .catch(error => {
                         console.log(error.response.data);
@@ -94,7 +94,7 @@ var vm = new Vue({
                     })
                     .then(response => {
                         // alert('查詢郵遞區號 請求發送成功 )
-                        const postal = response.data.results[0];
+                        const postal = response.data[0];
                         if (postal) {
                             this.form_address.postal_code = postal.id; // 用於提交
                             this.display_postal_code = postal.name;  // 顯示在畫面

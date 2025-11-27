@@ -6,7 +6,7 @@ var vm = new Vue({
     username: sessionStorage.username || localStorage.username,
     user_id: sessionStorage.user_id || localStorage.user_id,     
     token: sessionStorage.access || localStorage.access,       
-    goodsBaseUrl: '/front_end_pc/goods/',  // 商品詳情頁基礎 URL
+    goodsBaseUrl: '/goods/',  // 商品詳情頁基礎 URL
     query: '',                     // 搜尋框輸入字串
     skus: [],                     // 搜尋結果商品清單（陣列）
     suggestions: [],              // 搜尋建議字串列表

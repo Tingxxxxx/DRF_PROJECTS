@@ -27,17 +27,17 @@
 					<a @click="logout">登出</a>
 				</div>
 				<div v-else class="login_btn fl">
-					<a href="../login.html">登入</a>
+					<a href="/login.html">登入</a>
 					<span>|</span>
-					<a href="../register.html">註冊</a>
+					<a href="/register.html">註冊</a>
 				</div>
 				<div class="user_link fl">
 					<span>|</span>
-					<a href="user_center_info.html">用戶中心</a>
+					<a href="/user_center_info.html">用戶中心</a>
 					<span>|</span>
-					<a href="cart.html">我的購物車</a>
+					<a href="/cart.html">我的購物車</a>
 					<span>|</span>
-					<a href="user_center_order.html">我的訂單</a>
+					<a href="/user_center_order.html">我的訂單</a>
 				</div>
             </div>
         </div>
@@ -79,7 +79,7 @@
 
         <!-- 購物車顯示 -->
         <div @mouseenter="get_cart()" class="guest_cart fr">
-			<a href="./cart.html" class="cart_name fl">我的購物車</a>
+			<a href="/cart.html" class="cart_name fl">我的購物車</a>
 			<div class="goods_count fl" id="show_count">[[cart_total_count]]</div>
 
 			<ul class="cart_goods_show">

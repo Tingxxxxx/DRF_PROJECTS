@@ -54,7 +54,8 @@ axios.interceptors.response.use(
 
             if (!refreshToken) {
                 clearTokens();
-                window.location.href = './login.html?next=' + encodeURIComponent(location.pathname);
+                const nextPath = location.pathname;
+                window.location.href = './login.html?next=' + nextPath;
                 return Promise.reject(error);
             }
 
@@ -77,7 +78,7 @@ axios.interceptors.response.use(
 
             } catch (refreshError) {
                 clearTokens();
-                window.location.href = './login.html?next=' + encodeURIComponent(location.pathname);
+                window.location.href = './login.html#next=' + location.pathname;
                 return Promise.reject(refreshError);
             }
         }

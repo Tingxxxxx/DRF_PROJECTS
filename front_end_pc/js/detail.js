@@ -4,7 +4,7 @@ var vm = new Vue({
     delimiters: ['[[', ']]'],
     data: {
         host,
-        goodsBaseUrl:'/front_end_pc/goods/',
+        goodsBaseUrl:'/goods/',
         username: sessionStorage.username || localStorage.username,
         user_id: sessionStorage.user_id || localStorage.user_id,
         // access: sessionStorage.access || localStorage.access, //有用攔截器了

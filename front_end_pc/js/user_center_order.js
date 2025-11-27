@@ -3,7 +3,7 @@ var vm = new Vue({
 
   data: {
     host: host,
-    goodsBaseUrl:'/front_end_pc/goods/',
+    goodsBaseUrl:'/goods/',
     username: sessionStorage.username || localStorage.username,  // 使用者名稱（從 session 或 localStorage 取）
     user_id: sessionStorage.user_id || localStorage.user_id,    // 使用者 ID
     orders: [],               // 訂單清單

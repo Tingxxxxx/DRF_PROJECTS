@@ -3,7 +3,7 @@ var vm = new Vue({
     delimiters: ['[[', ']]'], // 修改 Vue 模板符號，避免與 Django 的模板符號衝突
     data: {
         host: host,
-        goodsBaseUrl:'/front_end_pc/goods/',
+        goodsBaseUrl:'/goods/',
         username: sessionStorage.username || localStorage.username, // 儲存使用者名稱
         user_id: sessionStorage.user_id || localStorage.user_id, // 儲存使用者 ID
         token: sessionStorage.access || localStorage.access, // 儲存使用者登入 token
