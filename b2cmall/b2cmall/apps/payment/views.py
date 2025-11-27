@@ -191,7 +191,7 @@ class ECPaymentStatusView(RetrieveAPIView):
 
         # 解簽 token，失敗會 raise ValidationError，自動被 DRF 捕捉
         mtn = usign_token_to_trade_no(token) # 解回 NO2025072901260399
-
+        logger.info(f'訂單編號:{mtn}')
         return get_object_or_404(ECPayTransaction, merchant_trade_no = mtn)
     
         

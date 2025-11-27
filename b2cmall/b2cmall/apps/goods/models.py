@@ -162,7 +162,7 @@ class SKUImage(BaseModel):
     SKU圖片(點進具體商品頁時，多張產品圖圖片)
     """
     sku = models.ForeignKey(SKU, on_delete=models.CASCADE, verbose_name='SKU')
-    image = models.ImageField(storage=S3Boto3Storage(), verbose_name='圖片')
+    image = models.ImageField(storage=S3Boto3Storage(), verbose_name='圖片') # 資料庫只會存檔名，要調用時要使用image.url屬性來獲取S3圖片網址
 
     class Meta:
         db_table = 'tb_sku_image'

@@ -134,7 +134,7 @@ DATABASES = {
     'HOST': os.getenv('DB_HOST', ''),
     'PORT': 3307,  # 從機端口
     'USER': os.getenv('SLAVE_DB_USER', ''),
-    'PASSWORD': os.getenv('DB_PASSWORD', ''),
+    'PASSWORD': os.getenv('SLAVE_DB_PASSWORD', ''),
     'NAME': os.getenv('DB_NAME', ''),    
     },
 }
@@ -432,8 +432,8 @@ GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
 
 
 # 前端與後端網址，上線時再改成正式的
-FRONTEND_URL = 'http://www.meiduo.site:5500/front_end_pc/'  # 方便在一些view中可使用(ex:激活連結跳轉頁面)
-# FRONTEND_URL = 'http://127.0.0.1:5500/front_end_pc/'  # 方便在一些view中可使用(ex:激活連結跳轉頁面)
+# FRONTEND_URL = 'http://www.meiduo.site:5500/'  # 方便在一些view中可使用(ex:激活連結跳轉頁面)
+FRONTEND_URL = 'http://127.0.0.1:5500/'  # 方便在一些view中可使用(ex:激活連結跳轉頁面)
 BACKEND_HOST = "http://127.0.0.1:8000"  # 開發用
 
 
