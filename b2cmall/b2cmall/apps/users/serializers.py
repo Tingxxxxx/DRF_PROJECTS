@@ -273,4 +273,35 @@ class UserBrowserHistorySerializer(serializers.Serializer):
 
         return validated_data
 
-    
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(label="原始密碼", write_only=True)
+    new_password = serializers.CharField(label="新密碼", write_only=True)
+
+    # 驗證資料
+    def validate(self, attrs):
+        user = self.context["request"].user
+
+        old_password = attrs["old_password"]
+        new_password = attrs["new_password"]
+
+        # 檢查原始密碼是否正確
+        if not user.check_password(old_password):
+            raise serializers.ValidationError({"detail": "原始密碼錯誤"})
+ 
+        # 已在前端做新密碼輸入一致的驗證，這裡可以不檢查
+        
+        if old_password == new_password:
+            raise serializers.ValidationError({"detail": "新密碼不能跟原密碼相同"})
+
+
+        return attrs
+
+    # 儲存（更新密碼）
+    def save(self, **kwargs):
+        user = self.context["request"].user
+        new_password = self.validated_data["new_password"]
+
+        user.set_password(new_password)
+        user.save()
+        return user

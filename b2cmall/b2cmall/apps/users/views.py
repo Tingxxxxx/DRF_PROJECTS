@@ -5,14 +5,14 @@ from django_redis import get_redis_connection
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import UpdateModelMixin, RetrieveModelMixin
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView,GenericAPIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import status
 from .serializers import CreateUserSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import MyTokenObtainPairSerializer, UserDetailSerializer, UserAddressSerializer, TitleOnlySerializer, UserBrowserHistorySerializer
+from .serializers import MyTokenObtainPairSerializer, UserDetailSerializer, UserAddressSerializer, TitleOnlySerializer, UserBrowserHistorySerializer, ChangePasswordSerializer
 from celery_tasks.verifycode.tasks import send_verification_email
 from .models import User, UserAddress # 導入自訂義的用戶模型
 from .throttles import EmailRateThrottle
@@ -442,3 +442,19 @@ class UserBrowserHistoryView(CreateAPIView):
         serializer = SKUSerializer(skus, many=True)
 
         return Response(serializer.data)
+    
+
+class ChangePasswordView(GenericAPIView):
+    serializer_class = ChangePasswordSerializer
+    permission_classes = [IsAuthenticated]  # ✅ 只有登入用戶可以
+
+    def post(self, request):
+        serializer = self.get_serializer(
+            data=request.data,
+            context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        username = request.user.username
+        logger.info(f"用戶{username}，更新密碼")
+        return Response({"detail": "密碼更新成功"}, status=status.HTTP_200_OK)
