@@ -125,6 +125,9 @@ var vm = new Vue({
         // 獲取購物車資訊
         get_cart: function(){
             axios.get(this.host + 'cart/', {
+                    headers: {
+                        'Authorization': 'Bearer ' + this.access 
+                    },
                     responseType: 'json',
                     withCredentials: true
                 })
