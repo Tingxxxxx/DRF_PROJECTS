@@ -7,7 +7,7 @@ var vm = new Vue({
         goodsBaseUrl:'/goods/',
         username: sessionStorage.username || localStorage.username,
         user_id: sessionStorage.user_id || localStorage.user_id,
-        // access: sessionStorage.access || localStorage.access, //有用攔截器了
+        access: sessionStorage.access || localStorage.access, 
         toastMessage: "",  // 用於顯示 Toast 訊息的內容
         toastVisible: false,  // 控制 Toast 是否顯示
         tab_content: {
@@ -53,9 +53,13 @@ var vm = new Vue({
             // 只有登入用戶才添加瀏覽紀錄，商品詳情html中有引入攔截器了故這裡不用寫
             axios.post(this.host + 'users/browse_histories/', { 
                 sku_id: this.sku_id
+            }, {
+                headers: {
+                    'Authorization': 'Bearer ' + this.access 
+                },
             })
-        }
-
+            }
+            
         this.get_cart();        // 獲取購物車資料
         this.get_hot_goods();   // 獲取熱銷商品
         // this.get_comments();    // 獲取評論資料
@@ -97,9 +101,9 @@ var vm = new Vue({
                     sku_id: parseInt(this.sku_id),
                     count: this.sku_count
                 }, {
-                    // headers: {
-                    //     'Authorization': 'Bearer ' + this.access  //有在html中引入攔截器了
-                    // },
+                    headers: {
+                        'Authorization': 'Bearer ' + this.access 
+                    },
                     responseType: 'json',
                     withCredentials: true // 前端在此跨域請求中要攜帶cookie，故需要在axios中設定 withCredentials: true
                 })
