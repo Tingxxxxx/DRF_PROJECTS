@@ -7,8 +7,13 @@ from rest_framework import status
 from goods.models import SKU
 from .serializers import Cartserializer, SKUCartserializer,CartDeleteSerializer,CartSelectAllSerializer
 from .constants import CART_COOKIE_EXPIRES
+from .utils import set_cookie_depend_on_domain, del_cookie_depend_on_domain
 import pickle
 import base64
+import logging
+
+logger = logging.getLogger('django')
+
 # Create your views here.
 
 class CartView(APIView):
@@ -115,8 +120,8 @@ class CartView(APIView):
             cart_str = cart_str_bytes.decode()                   # base64 bytes → str
 
             # 購物車 寫入 Cookie，有效期為 3 月（秒數）
-            response.set_cookie('cart', cart_str, max_age=CART_COOKIE_EXPIRES)
-
+            set_cookie_depend_on_domain(request,cart_str, response, CART_COOKIE_EXPIRES) # 判斷是127.0.0.1/正式域名
+            
         # 7️⃣ 最終回傳 Response（登入與未登入邏輯共用）
         return response
     
@@ -152,6 +157,7 @@ class CartView(APIView):
 
             # 從 Redis 取出購物車資料（皆為 bytes 型別）
             cart_data = redis_conn.hgetall(cart_key)       # 取得 Hash：{b'sku_id': b'count'}
+            logger.info(f'用戶:{user.username}的redis購物車資料{cart_data}')
             selected_data = redis_conn.smembers(selected_key)  # 取得 Set：{b'sku_id1', b'sku_id2'}
 
             # 備註：若 Redis 內部原本為空，也會正常返回空 dict / set，無需額外判斷
@@ -170,7 +176,7 @@ class CartView(APIView):
         else:
             # 嘗試從 Cookie 中取得購物車資料（str 或 None）
             cart_str = request.COOKIES.get('cart') # 記得用get(),不要用['key']避免 KeyError
-
+            logger.info(f'未登入用戶從cookie獲取購物車資料:{cart_str}')
             if cart_str:
                 # 將 base64 字串轉回原始 dict 結構
                 cart_str_bytes = cart_str.encode()               # str → bytes(base64)
@@ -272,8 +278,8 @@ class CartView(APIView):
             cart_str = cart_str_bytes.decode()                   # base64 bytes → str
 
             # 設定 cookie，將更新後的 cart 存回
-            response.set_cookie('cart', cart_str, max_age=CART_COOKIE_EXPIRES)
-
+            set_cookie_depend_on_domain(request,cart_str, response, CART_COOKIE_EXPIRES) # 判斷是127.0.0.1/正式域名
+            
             return response
 
     def delete(self, request):
@@ -312,10 +318,12 @@ class CartView(APIView):
             # 嘗試從 Cookie 中取得購物車資料
             cart_str = request.COOKIES.get('cart')
             
+            
             if cart_str is not None:
                 # 購物車有值則將資料由str->python字典方便後續刪除
                 cart_bytes = base64.b64decode(cart_str.encode())
                 cart_dict = pickle.loads(cart_bytes)
+                logger.info(f'待刪除的購物車資料:{cart_dict}')
 
             else: 
                 # 未獲取購物車資料，直接響應
@@ -325,6 +333,7 @@ class CartView(APIView):
             if sku_id in cart_dict:
                 # 刪除該商品sku_id 的 key
                 del cart_dict[sku_id]
+                logger.info(f'已刪除的購物車資料:{cart_dict}')
             else:
                 return Response({'message': '指定商品不在購物車中'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -332,10 +341,13 @@ class CartView(APIView):
             if cart_dict:
                 # 重新設置，更新後的cookie
                 new_cart_str = base64.b64encode(pickle.dumps(cart_dict)).decode()
-                response.set_cookie('cart', new_cart_str, max_age=CART_COOKIE_EXPIRES)
+                set_cookie_depend_on_domain(request,new_cart_str, response, CART_COOKIE_EXPIRES) # 判斷是127.0.0.1/正式域名
+                logger.info('已更新當前購物車資料')
             else:
                 # 刪除整個cookie
-                response.delete_cookie('cart')
+                del_cookie_depend_on_domain(request,response)
+                logger.info('當前購物車無資料，刪除整個key')
+
 
         # 6️⃣ 回傳刪除成功的回應
         return response
@@ -396,6 +408,6 @@ class CartSelectAllView(APIView):
 
             # 將更新後的 cart_dict 存回 cookie
             new_cart_str = base64.b64encode(pickle.dumps(cart_dict)).decode()
-            response.set_cookie('cart', new_cart_str, max_age=CART_COOKIE_EXPIRES)
+            set_cookie_depend_on_domain(request, new_cart_str, response, CART_COOKIE_EXPIRES) # 判斷是127.0.0.1/正式域名
 
         return response

@@ -55,4 +55,64 @@ def merge_cart_cookie_to_redis(request, user, response):
     logger.info(f"合併 cookie 購物車數據到使用者:{user.username}中")
 
     # 7️⃣ 合併完成後，刪除 cookie 中的購物車資料，避免重複合併
-    response.delete_cookie('cart')
+    del_cookie_depend_on_domain(request, response) # 127.0.0.1或meiduo.site
+
+
+def set_cookie_depend_on_domain(request, cart_str, response, CART_COOKIE_EXPIRES):
+    """
+    根據請求的 Host，自動設置購物車 Cookie 的 domain 和 secure 屬性。
+
+    功能說明：
+    - 本機開發環境（127.0.0.1 或 localhost）：
+        - domain=None
+        - secure=False（HTTP 可用）
+    - 模擬部署/正式站（前端:www.meiduo.site / 後端:api.meiduo.site）：
+        - domain=".meiduo.site"
+        - secure=secure_flag，可改為 True 以支援 HTTPS
+    """
+    host = request.get_host()  # 取得請求 Host
+
+    # 本機測試用:前端/後端/前端axios統一要用127.0.1.1域名
+    if host.startswith("127.0.0.1") or host.startswith("localhost"): 
+        cookie_domain = None       
+        secure_flag = False       
+    
+    # 模擬部屬用     
+    else:
+        cookie_domain = ".meiduo.site"
+        secure_flag = False  # 正式上線後再打開           
+
+    response.set_cookie(
+        'cart', cart_str,
+        max_age=CART_COOKIE_EXPIRES,
+        domain=cookie_domain,
+        samesite=None,
+        secure=secure_flag
+)
+
+
+def del_cookie_depend_on_domain(request, response):
+    """
+    根據請求的 Host，自動設置購物車 Cookie 的 domain 屬性。
+
+    功能說明：
+    - 本機開發環境（127.0.0.1 或 localhost）：
+        - domain=None
+    - 模擬部署/正式站（前端:www.meiduo.site / 後端:api.meiduo.site）：
+        - domain=".meiduo.site"
+    """
+    host = request.get_host()  # 取得請求 Host
+
+    # 本機測試用:前端/後端/前端axios統一要用127.0.1.1域名
+    if host.startswith("127.0.0.1") or host.startswith("localhost"): 
+        cookie_domain = None       
+                
+    # 模擬部屬用
+    else:
+        cookie_domain = ".meiduo.site"
+
+    response.delete_cookie(
+        'cart',
+        domain=cookie_domain,
+        samesite=None,
+    )
