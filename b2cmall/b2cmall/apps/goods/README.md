@@ -13,7 +13,7 @@
 ```bash
 pip install elasticsearch==7.17.0
 pip install elasticsearch-dsl==7.4.0
-pip install django-elasticsearch-dsl==7.2.1
+pip install django-elasticsearch-dsl==7.3
 pip install django-elasticsearch-dsl-drf==0.21
 ```
 

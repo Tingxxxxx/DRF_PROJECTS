@@ -17,8 +17,12 @@ import sys
 import os
 from dotenv import load_dotenv
 
-# 載入.env檔 讀取settings中相關變量
+# 載入.env檔 讀取settings中相關變量 l
 load_dotenv()
+
+# 初始化 redis 設定，方便後面組 URL
+REDIS_HOST = os.getenv("REDIS_HOST")  # 從 .env 讀取,後面.yml檔可覆蓋
+REDIS_PORT = os.getenv("REDIS_PORT")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -119,8 +123,8 @@ WSGI_APPLICATION = 'b2cmall.wsgi.application'
 DATABASES = {
     'default': {  # 主機: 增刪改
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': os.getenv('DB_HOST', ''),  # 本機資料庫
-        'PORT': 3306,  
+        'HOST': os.getenv('DB_HOST', '127.0.0.1'),  # 本機資料庫
+        'PORT': int(os.getenv('DB_PORT', 3306)), 
         'USER': os.getenv('DB_USER', ''),
         'PASSWORD': os.getenv('DB_PASSWORD', ''),
         'NAME': os.getenv('DB_NAME', ''),
@@ -131,16 +135,16 @@ DATABASES = {
     },
     'slave': {  # 從機查詢
     'ENGINE': 'django.db.backends.mysql',
-    'HOST': os.getenv('DB_HOST', ''),
-    'PORT': 3307,  # 從機端口
-    'USER': os.getenv('SLAVE_DB_USER', ''),
-    'PASSWORD': os.getenv('SLAVE_DB_PASSWORD', ''),
+    'HOST': os.getenv('SLAVE_DB_HOST', '127.0.0.1'),
+    'PORT': int(os.getenv('SLAVE_DB_PORT', 3306)),
+    'USER': os.getenv('SLAVE_APP_USER'),
+    'PASSWORD': os.getenv('SLAVE_APP_PASSWORD'),
     'NAME': os.getenv('DB_NAME', ''),    
     },
 }
 
 # 讀寫分離路由設定
-# DATABASE_ROUTERS = ['b2cmall.utils.db_router.MasterSlaveDBRouter']
+DATABASE_ROUTERS = ['b2cmall.utils.db_router.MasterSlaveDBRouter']
 
 
 # 配置快取
@@ -151,7 +155,7 @@ CACHES = {
         'BACKEND': 'django_redis.cache.RedisCache',
         
         # Redis 伺服器的地址，127.0.0.1 是本地地址，6379 是 Redis 的默認端口
-        'LOCATION': 'redis://127.0.0.1:6379/0',  # 這裡指定了使用 Redis 數據庫的第 0 索引
+        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/0',  # 這裡指定了使用 Redis 數據庫的第 0 索引
         
         # 配置額外選項，這裡指定了使用 django-redis 的預設客戶端
         'OPTIONS': {
@@ -165,7 +169,7 @@ CACHES = {
         "BACKEND": "django_redis.cache.RedisCache",
         
         # Redis 伺服器的地址，這裡還是使用本地 Redis 伺服器
-        "LOCATION": "redis://127.0.0.1:6379/1",  # 默認使用 Redis 的第 1 數據庫
+        "LOCATION": f'redis://{REDIS_HOST}:{REDIS_PORT}/1',  # 默認使用 Redis 的第 1 數據庫
         
         # 配置選項，同樣指定使用預設的 Redis 客戶端
         "OPTIONS": {
@@ -179,7 +183,7 @@ CACHES = {
         'BACKEND': 'django_redis.cache.RedisCache',
         
         # Redis 伺服器的地址，127.0.0.1 是本地地址，6379 是 Redis 的默認端口
-        'LOCATION': 'redis://127.0.0.1:6379/2',  #
+        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/2',  #
         
         # 配置額外選項，這裡指定了使用 django-redis 的預設客戶端
         'OPTIONS': {
@@ -196,7 +200,7 @@ CACHES = {
         "BACKEND": "django_redis.cache.RedisCache",
         
         # Redis 伺服器的地址，這裡還是使用本地 Redis 伺服器
-        "LOCATION": "redis://127.0.0.1:6379/3",  # 默認使用 Redis 的第 3 數據庫
+        "LOCATION": f'redis://{REDIS_HOST}:{REDIS_PORT}/3',  # 默認使用 Redis 的第 3 數據庫
         
         # 配置選項，同樣指定使用預設的 Redis 客戶端
         "OPTIONS": {
@@ -210,7 +214,7 @@ CACHES = {
         "BACKEND": "django_redis.cache.RedisCache",
         
         # Redis 伺服器的地址，這裡還是使用本地 Redis 伺服器
-        "LOCATION": "redis://127.0.0.1:6379/4", 
+        "LOCATION": f'redis://{REDIS_HOST}:{REDIS_PORT}/4', 
         
         # 配置選項，同樣指定使用預設的 Redis 客戶端
         "OPTIONS": {
