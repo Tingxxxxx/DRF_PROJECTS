@@ -1,3 +1,4 @@
+from django.conf import settings
 from elasticsearch import Elasticsearch
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListAPIView, GenericAPIView
@@ -198,7 +199,8 @@ class SKUSearchViewSet(DocumentViewSet):
         return search
 
 # 建立 Elasticsearch 連線
-es = Elasticsearch()
+ES_HOST = getattr(settings, 'ELASTICSEARCH_DSL', {}).get('default', {}).get('hosts', 'localhost:9200')
+es = Elasticsearch(ES_HOST)
 
 class GoodsNameSuggestView(APIView):
     """

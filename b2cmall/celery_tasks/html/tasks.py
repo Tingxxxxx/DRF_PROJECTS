@@ -140,9 +140,14 @@ def generate_static_sku_detail_html(sku_id):
     # 渲染模板為 HTML
     html_text = render_to_string('detail.html', context=context)
 
-    # 定義輸出路徑
-    file_path = os.path.join(settings.GENERATED_STATIC_HTML_FILES_DIR, 'goods/' + str(sku_id) + '.html')
-    # print(f"💾 準備輸出 HTML 到：{file_path}")
+    # 先組出 goods 目錄路徑
+    sku_dir = os.path.join(settings.GENERATED_STATIC_HTML_FILES_DIR, 'goods')
+
+    # 確保資料夾存在
+    os.makedirs(sku_dir, exist_ok=True)
+
+    # 再組成檔案輸出路徑
+    file_path = os.path.join(sku_dir, f'{sku_id}.html')
 
     # 寫入檔案
     with open(file_path, 'w', encoding='utf-8') as f:

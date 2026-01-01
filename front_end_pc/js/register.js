@@ -146,7 +146,7 @@ var vm = new Vue({
             }
 
             // 發送請求到後端 API 請求發送 Email 驗證碼
-            axios.get(this.host + '/verifications/code/', {
+            axios.get(this.host + 'verifications/code/', {
                 params: {
                     email: this.email // 傳送 Email 參數到後端
                 }

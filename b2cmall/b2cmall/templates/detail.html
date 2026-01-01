@@ -149,7 +149,8 @@
             <h3>{{ sku.name }}</h3>
             <p>{{ sku.caption }}</p>
             <div class="prize_bar">
-                <span class="show_pirze">¥<em>{{ sku.price }}</em></span><span> 市場價￥{{sku.market_price}}</span>
+                <span class="show_pirze">$<em>{{ sku.price|floatformat:0 }}</em></span>
+                <span> 市場價${{ sku.market_price|floatformat:0 }}</span>
                 <a href="javascript:;" class="goods_judge">{{ sku.comments }}人評價</a>
             </div>
             <div class="goods_num clearfix">
@@ -196,7 +197,7 @@
 								[[ hot.name ]]
 							</a>
 						</h4>
-						<div class="prize">$[[ hot.price|floatformat:0 ]]</div>
+						<div class="prize">$[[ Math.floor(hot.price) ]]</div>
 					</div>
 				</li>
 				</ul>

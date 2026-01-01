@@ -5,7 +5,7 @@ import os
 from celery import Celery
 from celery import Celery 
 # 設置默認的 Django 配置模組
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'b2cmall.settings.dev')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'b2cmall.settings.prod')
 
 
 

@@ -159,7 +159,7 @@
 								[[ hot.name ]]
 							</a>
 						</h4>
-						<div class="prize">$[[ hot.price|floatformat:0 ]]</div>
+						<div class="prize">$[[ Math.floor(hot.price) ]]</div>
 					</div>
 				</li>
 				</ul>
@@ -184,7 +184,8 @@
 						</a>
 					</h4>
 					<div class="operate">
-						<span class="prize">￥[[sku.price]]</span>
+						<span class="prize">$[[ Math.floor(sku.price) ]]</span>
+						{% comment %} <span class="prize">￥[[sku.price]]</span> {% endcomment %}
 						<span>[[sku.comments]] 評價</span>
 					</div>
 				</li>
