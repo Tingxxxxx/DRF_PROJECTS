@@ -1,0 +1,4 @@
+[mysqld]
+server-id=2          # 主機為1
+relay-log=relay-bin　# 指定 relay log（中繼日誌） 的檔名前綴。
+read_only=1          # 唯讀,除了root，其他帳號都不能直接寫入資料庫。 
