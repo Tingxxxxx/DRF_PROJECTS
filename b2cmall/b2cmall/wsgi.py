@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'b2cmall.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'b2cmall.settings.prod') # 模擬上線，故改從dev改為prod
 
 application = get_wsgi_application()

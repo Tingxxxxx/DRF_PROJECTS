@@ -11,8 +11,18 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
+import sys
+import os
+from dotenv import load_dotenv
+
+# 載入.env檔 讀取settings中相關變量 l
+load_dotenv()
+
+# 初始化 redis 設定，方便後面組 URL
+REDIS_HOST = os.getenv("REDIS_HOST")  # 從 .env 讀取,後面.yml檔可覆蓋
+REDIS_PORT = os.getenv("REDIS_PORT")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,16 +32,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z2eryher551tw-+f$@^zu(++1zd23ism+d58btf%aq$edbzd(+'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
+# CORS 跨域請求白名單
+CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
+
+# 允許攜帶 Cookie 等憑證
+CORS_ALLOW_CREDENTIALS = True  # 前端也要設置 Axios 請求的 withCredentials:true才可
+
+# 自訂義解析模組的路徑
+sys.path.append(str(BASE_DIR / "apps")) # D:\\drf_mall\\b2cmall\\b2cmall\\apps'
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,13 +56,36 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+     # 'rest_framework.authtoken',  # DRF自帶的TOKEN認證,
     'rest_framework',  # 開發RESTfull API 加上此行
-    'rest_framework.authtoken' # DRF自帶的TOKEN認證
+    'rest_framework_simplejwt', # 啟用 jwt token
+    'rest_framework_simplejwt.token_blacklist', # 啟用 Token 黑名單功能(添加後要在執行一次遷移)
+    'corsheaders', # 解決cors問題
+    'ckeditor', # 文本編輯器
+    'ckeditor_uploader', # 文本編輯+圖片上傳
+    'django_crontab',  # 定時任務(在電腦系統中執行而不是專案)
+    'django_elasticsearch_dsl', # 商品搜索擴展
+    'django_elasticsearch_dsl_drf', # 商品搜索擴展
 
-
+    'b2cmall.apps.users', # 用戶相關
+    'b2cmall.apps.verifications', # 驗證碼
+    'b2cmall.apps.oauth', # 第三方登入
+    'b2cmall.apps.areas', # 收件地址相關
+    'b2cmall.apps.goods', # 商品相關
+    'b2cmall.apps.contents', # 廣告相關
+    'b2cmall.apps.carts', # 購物車相關
+    'b2cmall.apps.orders', # 訂單相關
+    'b2cmall.apps.payment', # 付款相關
 ]
 
+
+
+
+AUTH_USER_MODEL = 'users.User'
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -60,7 +100,7 @@ ROOT_URLCONF = 'b2cmall.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,15 +121,31 @@ WSGI_APPLICATION = 'b2cmall.wsgi.application'
 
 # 連線到MySql
 DATABASES = {
-    'default': {
+    'default': {  # 主機: 增刪改
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': '127.0.0.1',  # 本機資料庫
-        'PORT': 3306,  
-        'USER': 'hellen',  
-        'PASSWORD': 'hellen',  
-        'NAME': 'drf_mall'  
-    }
+        'HOST': os.getenv('DB_HOST', '127.0.0.1'),  # 本機資料庫
+        'PORT': int(os.getenv('DB_PORT', 3306)), 
+        'USER': os.getenv('DB_USER', ''),
+        'PASSWORD': os.getenv('DB_PASSWORD', ''),
+        'NAME': os.getenv('DB_NAME', ''),
+        'OPTIONS':{
+            'init_command':'SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED'  # 設置MySQL默認隔離級別為讀已提交(訂單提交視圖需要)
+        }
+        
+    },
+    'slave': {  # 從機查詢
+    'ENGINE': 'django.db.backends.mysql',
+    'HOST': os.getenv('SLAVE_DB_HOST', '127.0.0.1'),
+    'PORT': int(os.getenv('SLAVE_DB_PORT', 3306)),
+    'USER': os.getenv('SLAVE_APP_USER'),
+    'PASSWORD': os.getenv('SLAVE_APP_PASSWORD'),
+    'NAME': os.getenv('DB_NAME', ''),    
+    },
 }
+
+# 讀寫分離路由設定
+DATABASE_ROUTERS = ['b2cmall.utils.db_router.MasterSlaveDBRouter']
+
 
 # 配置快取
 CACHES = {
@@ -99,7 +155,7 @@ CACHES = {
         'BACKEND': 'django_redis.cache.RedisCache',
         
         # Redis 伺服器的地址，127.0.0.1 是本地地址，6379 是 Redis 的默認端口
-        'LOCATION': 'redis://127.0.0.1:6379/0',  # 這裡指定了使用 Redis 數據庫的第 0 索引
+        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/0',  # 這裡指定了使用 Redis 數據庫的第 0 索引
         
         # 配置額外選項，這裡指定了使用 django-redis 的預設客戶端
         'OPTIONS': {
@@ -113,13 +169,58 @@ CACHES = {
         "BACKEND": "django_redis.cache.RedisCache",
         
         # Redis 伺服器的地址，這裡還是使用本地 Redis 伺服器
-        "LOCATION": "redis://127.0.0.1:6379/1",  # 默認使用 Redis 的第 1 數據庫
+        "LOCATION": f'redis://{REDIS_HOST}:{REDIS_PORT}/1',  # 默認使用 Redis 的第 1 數據庫
         
         # 配置選項，同樣指定使用預設的 Redis 客戶端
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",  # 使用預設的客戶端類別
         }
-    }
+    },
+
+    'verify': {
+        # 使用 django-redis 作為快取的後端
+
+        'BACKEND': 'django_redis.cache.RedisCache',
+        
+        # Redis 伺服器的地址，127.0.0.1 是本地地址，6379 是 Redis 的默認端口
+        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/2',  #
+        
+        # 配置額外選項，這裡指定了使用 django-redis 的預設客戶端
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',  # 使用預設的客戶端類別
+            'KEY_PREFIX':"", # 禁用前綴
+            "VERSION": "1",  # 確保版本一致
+
+        }
+    },
+
+    # "history" 配置，用於存放用戶瀏覽紀錄
+    "history": {
+        # 同樣使用 django-redis 
+        "BACKEND": "django_redis.cache.RedisCache",
+        
+        # Redis 伺服器的地址，這裡還是使用本地 Redis 伺服器
+        "LOCATION": f'redis://{REDIS_HOST}:{REDIS_PORT}/3',  # 默認使用 Redis 的第 3 數據庫
+        
+        # 配置選項，同樣指定使用預設的 Redis 客戶端
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",  # 使用預設的客戶端類別
+        }
+    },
+
+     # 購物車紀錄
+    "cart": {
+        # 同樣使用 django-redis 
+        "BACKEND": "django_redis.cache.RedisCache",
+        
+        # Redis 伺服器的地址，這裡還是使用本地 Redis 伺服器
+        "LOCATION": f'redis://{REDIS_HOST}:{REDIS_PORT}/4', 
+        
+        # 配置選項，同樣指定使用預設的 Redis 客戶端
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",  # 使用預設的客戶端類別
+        }
+    },
 }
 
 # 配置 Django 使用快取來儲存會話數據
@@ -131,7 +232,7 @@ SESSION_CACHE_ALIAS = "session"  # 這裡指向名為 "session" 的 Redis 配置
 
 
 # 創建 logs 文件夾（如果尚不存在）
-log_folder = BASE_DIR / "logs"
+log_folder = BASE_DIR.parent / "logs"
 log_folder.mkdir(parents=True, exist_ok=True)
 
 # log日誌輸出
@@ -177,7 +278,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',  # 設定最低日誌級別為 INFO
             'class': 'logging.handlers.RotatingFileHandler',  # 使用 RotatingFileHandler 類來處理文件輸出，支持循環日誌
-            'filename': BASE_DIR / "logs" / "b2cmall.log",  # 使用 Path 合併路徑, 設置日誌文件的存儲位置
+            'filename': BASE_DIR.parent / "logs" / "b2cmall.log",  # 使用 Path 合併路徑, 設置日誌文件的存儲位置
             'maxBytes': 300 * 1024 * 1024,  # 設置單個日誌文件的最大大小為 300MB
             'backupCount': 10,  # 設置保留的日誌文件數量為 10，舊的日誌文件會被覆蓋
             'formatter': 'verbose',  # 使用 verbose 格式
@@ -202,8 +303,7 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'b2cmall.utils.exceptions.exception_handler',
 
     # ✅ 設定 API 頁面分頁（可選）
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',  # 使用分頁模式
-    'PAGE_SIZE': 50,  # 每頁顯示 50 筆資料
+    'DEFAULT_PAGINATION_CLASS': 'b2cmall.utils.paginations.StandardResultsSetPagination',  # 使用自訂的分頁類
 
     # ✅ 設定 API 返回的時間格式
     'DATETIME_FORMAT': "%Y-%m-%d %H:%M:%S",  # 例如：2025-03-03 14:30:00
@@ -223,17 +323,32 @@ REST_FRAMEWORK = {
 
     # ✅ 設定 API 權限管理（誰可以訪問 API）
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',  # 只有已驗證的使用者才能訪問
+        # 'rest_framework.permissions.IsAuthenticated',  # 只有已驗證的使用者才能訪問
         # 若要允許所有使用者訪問，可改成：
         # 'rest_framework.permissions.AllowAny',
     ],
 
     # ✅ 設定 API 認證方式（身份驗證）
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',  # 使用者帳號+密碼（Basic Auth），可省略
-        'rest_framework.authentication.SessionAuthentication',  # 會話認證（與 Django 內建登入機制相容）
-        'rest_framework.authentication.TokenAuthentication',  # Token 認證（需在APP安裝 `rest_framework.authtoken`）
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # 使用 jwt token的認證方式
+
+        'rest_framework.authentication.BasicAuthentication',  # 使用者帳號+密碼（Basic Auth）
+        # 'rest_framework.authentication.SessionAuthentication',  # 會話認證（與 Django 內建登入機制相容）
+        # 'rest_framework.authentication.TokenAuthentication',  # Token 認證（需在APP安裝 `rest_framework.authtoken`）
     ],
+
+    # ✅ 設定全域限流類別（可選，若不使用可省略）
+    'DEFAULT_THROTTLE_CLASSES': [
+        # 'rest_framework.throttling.UserRateThrottle',  # ✅ 已登入使用者限流
+        # 'rest_framework.throttling.AnonRateThrottle',  # ✅ 匿名使用者限流
+    ],
+
+    # ✅ 設定各類限流的速率（以 scope 名稱對應）
+    'DEFAULT_THROTTLE_RATES': {
+        # 'user': '200/min',    # 登入用戶 
+        # 'anon': '500/day',     # 匿名用戶
+        'email': '50/hour',     # ✅ 自訂 email 發送操作的限流（搭配 EmailThrottleRate 使用），只用在指定view故不用添加到上面全域設定中
+    }
 }
 
 
@@ -279,3 +394,119 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# 配置Django 後端 email設置
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Gmail 的 SMTP 伺服器
+EMAIL_PORT = 587  # TLS 通訊埠號
+EMAIL_USE_TLS = True  # 啟用 TLS 加密
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')#  Gmail 帳號
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # 應用程式密碼，保留空格
+
+
+
+# 可選：JWT 設定（例如過期時間）
+SIMPLE_JWT = {
+    # 訪問 Token 的有效時間為 15 分鐘
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+
+    # 刷新 Token 的有效時間為 1 天
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+
+    # 是否在每次使用刷新 Token 時重新產生一個新的刷新 Token
+    # 設為 False 表示 refresh token 部會重新產生，直到其過期為止
+    # 設為 True 則刷新後舊的會失效並被加入黑名單(如果有開)
+    'ROTATE_REFRESH_TOKENS': True,
+
+    # 當 ROTATE_REFRESH_TOKENS 設為 True 時，舊的刷新 Token 是否加入黑名單
+    # 設為 True 表示舊的刷新 Token 會被廢棄（進入黑名單）
+    'BLACKLIST_AFTER_ROTATION': True,
+}
+
+# Django 認證後端，用來確定如何執行 authenticate() 方法
+AUTHENTICATION_BACKENDS = [
+    # 'django.contrib.auth.backends.ModelBackend',  # Django預設認證後端
+    'users.backends.UsernameMobileAuthBackend' # 自訂義的認證後端
+
+]
+
+# 第三方登入 - Google
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
+
+
+# 前端與後端網址，上線時再改成正式的
+# FRONTEND_URL = 'http://www.meiduo.site:5500/'  # 方便在一些view中可使用(ex:激活連結跳轉頁面)
+FRONTEND_URL = 'http://127.0.0.1:5500/'  # 方便在一些view中可使用(ex:激活連結跳轉頁面)
+BACKEND_HOST = "http://127.0.0.1:8000"  # 開發用
+
+
+# DRF 使用redis 快取 API響應(DRF-EXTENSIONS擴展)
+REST_FRAMEWORK_EXTENSIONS = {
+    # 快取時間
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 60,
+    # 快取後端
+    'DEFAULT_USE_CACHE': 'default',
+}
+
+
+
+INSTALLED_APPS += ['storages']
+
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME') # s3桶名
+AWS_S3_REGION_NAME = 'ap-northeast-3'  # 根據你 S3 的區域設定
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+# 若有使用 CloudFront 或自定域名，可以改成你的域名
+# AWS_S3_CUSTOM_DOMAIN = 'cdn.example.com'
+
+# 媒體檔案儲存在 S3
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
+
+
+# 文本編輯器 ckeditor設定
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',  # 工具列
+        'height': 300,  # 編輯器高度
+        # 'width': 300,  # 編輯器寬
+    },
+}
+
+CKEDITOR_UPLOAD_PATH = '' 
+CKEDITOR_STORAGE_BACKEND = 'storages.backends.s3boto3.S3Boto3Storage' # 指定使用s3儲存
+
+# 靜態index.html 生成路徑(上線後改成前端網址)
+# BASE_DIR = drf_mall\b2cmall\b2cmall
+# 最終: D:\drf_mall\front_end_pc
+GENERATED_STATIC_HTML_FILES_DIR = BASE_DIR.parent.parent / "front_end_pc"
+
+# 使用django-crontab模組 設置定時任務
+CRONJOBS = [
+    # 每5分鐘執行一次生成靜態文件首頁
+    ('*/5 * * * *', 'contents.crons.generate_static_index_html', '>> /mnt/d/drf_mall/b2cmall/logs/crontab.log')
+]
+
+NGROK_IP = "https://ad6f2c52c281.ngrok-free.app"
+
+# 綠界金流基本設定（測試環境）
+ECPAY = {
+    'MerchantID': os.getenv('MerchantID'), # 特店編號（Merchant ID）)(告訴綠界「是哪一家商店發起交易」)
+    'HashKey': os.getenv('HashKey'), # 加密金鑰
+    'HashIV': os.getenv('HashIV'),  # 加密金鑰
+    'SERVER_MODE': 'Stage',  # 'Stage' for 測試環境，'Prod' for 正式
+    'RETURN_URL': f'{NGROK_IP}/payment/ecpay/notify/',  # 綠界付款完成通知（後端）
+    'CLIENT_BACK_URL': 'http://127.0.0.1:5500/front_end_pc/pay_success.html?token={merchant_trade_no}',  # 用戶付款完返回頁面（前端)
+    # 'ORDER_RESULT_URL': 'https://yourdomain.com/order/result/',  # 選填，用來指定付款結果頁面（可額外顯示付款細節），不設定默認導回 CLIENT_BACK_URL
+}
+
+# Elasticsearch 主機設定
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts':'localhost:9200'  # 專案在WSL本機.ELASTICSEARCH在Docker跑
+        # 'http://elasticsearch:9200' # 如果專案跟ELASTICSEARCH都在Docker跑
+    },
+}

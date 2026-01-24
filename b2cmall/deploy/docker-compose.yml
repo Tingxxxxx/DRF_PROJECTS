@@ -1,0 +1,133 @@
+name: Meiduo
+
+services:
+
+  # Redis
+  redis:
+    image: redis:5
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+    - redis-data:/data 
+    networks:
+      - b2cmall_network
+
+  # MySql從機
+  mysql-slave:
+    image: mysql:8.0.44
+    container_name: mysql-slave
+    restart: always
+    env_file:
+     - .env.slave # 相對於compose.yml的路徑
+    # environment:
+    # - MYSQL_ROOT_PASSWORD: ${SLAVE_DB_ROOT_PASSWORD}  # root 用戶密碼
+    # - MYSQL_DATABASE: drf_mall                        # 預先建立資料庫
+    # - SLAVE_APP_USER: ${SLAVE_APP_USER}               # init_slave.sh需要的環境變數
+    # - SLAVE_APP_PASSWORD: ${SLAVE_APP_PASSWORD}       # init_slave.sh需要的環境變數
+    # 下面兩個設定，會建立個一般用戶並給予drf_mall的所有權限
+    # 因從機預設只須查詢權限，故改用掛載./init_slave.sql 到volumes
+    # - MYSQL_USER: slaveuser                         
+    # - MYSQL_PASSWORD: slavepass                     
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./slave.cnf:/etc/mysql/conf.d/slave.cnf # 把專案本地的設定檔slave.cnf，掛載故蓋掉容器內預設的
+      - ./mysql-init:/docker-entrypoint-initdb.d # 初始化 SQL腳本，只會在 容器第一次啟動且資料目錄是空的 時執行
+      - mysql-slave-data:/var/lib/mysql
+    networks:
+      - b2cmall_network
+
+  # Elasticsearch搜索引擎
+  elasticsearch:
+    image: my-elasticsearch-with-ik:1.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data  # 命名一個volume:esdata 用來存放索引
+    networks:
+      - b2cmall_network
+  
+  # Celery工作隊列
+  celery-worker:
+    build:
+      context: ..  # context屬性為Docker可以看到的 目錄範圍，當前deploy/compose.yml的上層，即指向 b2cmall/，包含 requirements.txt
+      dockerfile: deploy/Dockerfile.celery
+    container_name: celery-worker
+    restart: always
+    depends_on:
+      - redis
+    volumes:
+      - html_volume:/app/generated_html # 放clery生成的資料有更新的html
+    networks:
+      - b2cmall_network
+
+  # 後端 Django 專案
+  backend:
+    build:
+      context: .. # 當前deploy資料夾的上層，指向 b2cmall/，包含 後端代碼 與 requirements.txt
+      dockerfile: deploy/Dockerfile.backend   # Dockerfile 實際位置
+    container_name: backend
+    env_file:
+      - ../.env  # 相對於compose.yml的路徑，現在.yml在b2cmall/deploy，而.env在b2cmall/，所以要用..
+    volumes:
+      - static_volume:/app/static   # Django collectstatic 結果會進到這裡
+    depends_on:
+      - mysql-slave
+      - elasticsearch
+    expose:
+      - "8000"
+    environment:
+      - DEBUG=False # 生成環境，故要改為False
+    networks:
+      - b2cmall_network
+
+  # 定時生成新的index.html的crontab任務
+  cron:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.cron
+    container_name: cron
+    env_file:
+      - ../.env
+    volumes:
+      - html_volume:/app/generated_html 
+    depends_on:
+      - mysql-slave
+      - redis   
+    networks:
+      - b2cmall_network
+
+  # 統一的 Nginx 容器，代理前端靜態頁面和後端 API
+  nginx:
+    build:
+      context: ../../front_end_pc  # 指向前端專案根目錄 front_end_pc/
+      dockerfile: deploy/Dockerfile.nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - static_volume:/app/static   # nginx 也掛同一個地方
+      - html_volume:/app/generated_html # celery新生成的商品頁+crontab生成的index.html、list.html
+    depends_on:
+      - backend # nginx 啟動前確保後端容器已啟動
+    networks:
+      - b2cmall_network
+
+# 需要多個容器全局共享的volumes
+volumes: 
+  redis-data:
+  mysql-slave-data:
+  esdata:
+  static_volume: {}   # python manage.py collectstatic 收集的靜態檔案
+  html_volume : {}    # 存放Celery新生成的goods商品頁
+
+networks:
+  b2cmall_network: # 專屬 network ：容器之間可以直接用 backend、frontend 名稱互
+    driver: bridge

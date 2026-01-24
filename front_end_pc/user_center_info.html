@@ -1,137 +1,161 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html>
+<html lang="zh-TW">
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-	<title>美多商城-用户中心</title>
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+    <meta charset="UTF-8">
+    <title>美多商城-個人中心</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/host.js"></script>
+    <script src="js/axios-0.18.0.min.js"></script>
+    <script src="js/axios-interceptor.js"></script> <!-- 自定義的 axios 攔截器 -->
+    <script src="js/vue-2.5.16.js"></script>
+
+    <!-- <script>
+        const user_id = sessionStorage.getItem("user_id") || localStorage.getItem("user_id");
+        const token = sessionStorage.getItem('access') || localStorage.getItem('access');
+        if (!(user_id && token)) {
+            location.href = 'login.html?next=/user_center_info.html';
+        }
+    </script> -->
 </head>
+
 <body>
-	<div class="header_con">
-		<div class="header">
-			<div class="welcome fl">欢迎来到美多商城!</div>
-			<div class="fr">
-				<div class="login_info fl">
-					欢迎您：<em>张 山</em>
-				</div>
-				<div class="login_btn fl">
-					<a href="login.html">登录</a>
-					<span>|</span>
-					<a href="register.html">注册</a>
-				</div>
-				<div class="user_link fl">
-					<span>|</span>
-					<a href="user_center_info.html">用户中心</a>
-					<span>|</span>
-					<a href="cart.html">我的购物车</a>
-					<span>|</span>
-					<a href="user_center_order.html">我的订单</a>
-				</div>
-			</div>
-		</div>		
-	</div>
+    <div id="app" v-cloak>
+        <!-- Header -->
+        <div class="header_con">
+            <div class="header">
+                <div class="welcome fl">歡迎來到美多商城!</div>
+                <div class="fr">
+                    <div class="login_btn fl">
+                        歡迎您：<em>{{ username }}</em>
+                        <span>|</span>
+                        <a @click="logout">登出</a>
+                    </div>
+                    <div class="user_link fl">
+                        <span>|</span>
+                        <a href="/user_center_info.html">個人中心</a>
+                        <span>|</span>
+                        <a href="/cart.html">我的購物車</a>
+                        <span>|</span>
+                        <a href="/user_center_order.html">我的訂單</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-	<div class="search_bar clearfix">
-		<a href="index.html" class="logo fl"><img src="images/logo.png"></a>
-		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
-		<div class="search_con fr mt40">
-			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
-			<input type="button" class="input_btn fr" name="" value="搜索">
-		</div>		
-	</div>
+        <!-- 搜尋區 -->
+        <div class="search_bar clearfix">
+            <a href="index.html" class="logo fl"><img src="images/logo.png" alt="美多商城 Logo"></a>
+            <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;個人中心</div>
+                <div class="search_wrap fl">
+                    <form @submit.prevent="on_search" class="search_con">
+                        <input
+                            type="text"
+                            class="input_text fl"
+                            v-model="query"
+                            placeholder="搜尋商品"
+                            @input="on_input"
+                            @keydown.down.prevent="move_down"
+                            @keydown.up.prevent="move_up"
+                            @keydown.enter.prevent="select_item"
+                            @focus="show_suggestions = true"
+                        >
+                        <input type="submit" class="input_btn fr" value="搜尋">
+                    </form>
 
-	<div class="main_con clearfix">
-		<div class="left_menu_con clearfix">
-			<h3>用户中心</h3>
-			<ul>
-				<li><a href="user_center_info.html" class="active">· 个人信息</a></li>
-				<li><a href="user_center_order.html">· 全部订单</a></li>
-				<li><a href="user_center_site.html">· 收货地址</a></li>
-				<li><a href="user_center_pass.html">· 修改密码</a></li>
-			</ul>
-		</div>
-		<div class="right_content clearfix">
-				<div class="info_con clearfix">
-				<h3 class="common_title2">基本信息</h3>
-						<ul class="user_info_list">
-							<li><span>用户名：</span>18210569700</li>
-							<li><span>手机号：</span>18210569700</li>
-							<li><span>Email：</span>demo@demo.com</li>
-						</ul>
-				</div>
-				
-				<h3 class="common_title2">最近浏览</h3>
-				<div class="has_view_list">
-					<ul class="goods_type_list clearfix">
-				<li>
-					<a href="detail.html"><img src="images/goods/goods003.jpg"></a>
-					<h4><a href="detail.html">360手机 N6 Pro 全网通</a></h4>
-					<div class="operate">
-						<span class="prize">￥2699.00</span>
-						<span class="unit">台</span>
-						<a href="#" class="add_goods" title="加入购物车"></a>
-					</div>
-				</li>
+                    <ul class="search_suggest fl" v-show="show_suggestions">
+                        <li v-for="(item, index) in suggestions"
+                            :class="{active: index === highlight_index}"
+                            @click="select_suggestion(item)"
+                            @mouseover="highlight_index = index"
+                        >
+                            {{ truncate(item) }}
+                        </li>
+                    </ul>
+                </div>
+        </div>
 
-				<li>
-					<a href="#"><img src="images/goods/goods004.jpg"></a>
-					<h4><a href="#">360手机 N6 Pro 全网通</a></h4>
-					<div class="operate">
-						<span class="prize">￥2699.00</span>
-						<span class="unit">台</span>
-						<a href="#" class="add_goods" title="加入购物车"></a>
-					</div>
-				</li>
+        <!-- Main Content -->
+        <div class="main_con clearfix">
+            <div class="left_menu_con clearfix">
+                <h3>用戶中心</h3>
+                <ul>
+                    <li><a href="user_center_info.html" class="active">· 個人資訊</a></li>
+                    <li><a href="user_center_order.html">· 全部訂單</a></li>
+                    <li><a href="user_center_site.html">· 收貨地址</a></li>
+                    <li><a href="user_center_pass.html">· 修改密碼</a></li>
+                </ul>
+            </div>
 
-				<li>
-					<a href="#"><img src="images/goods/goods005.jpg"></a>
-					<h4><a href="#">360手机 N6 Pro 全网通</a></h4>
-					<div class="operate">
-						<span class="prize">￥2699.00</span>
-						<span class="unit">台</span>
-						<a href="#" class="add_goods" title="加入购物车"></a>
-					</div>
-				</li>
+            <div class="right_content clearfix">
+                <div class="info_con clearfix">
+                    <h3 class="common_title2">基本資訊</h3>
+                    <ul class="user_info_list">
+                        <li><span>用戶名稱：</span><div class="info_text">{{ username }}</div></li>
+                        <li><span>手機號碼：</span><div class="info_text">{{ mobile }}</div></li>
+                        <li>
+                            <span>電子信箱:</span>
+                            <div class="info_text">
+                                <div v-if="set_email">
+                                    <input v-model="email" type="email" name="email">
+                                    <input @click="save_email" type="button" value="儲 存">
+                                    <input @click="set_email=false" type="reset" value="取 消">
+                                    <div v-if="email_error">Email 格式錯誤</div>
+                                </div>
 
-				<li>
-					<a href="#"><img src="images/goods/goods006.jpg"></a>
-					<h4><a href="#">360手机 N6 Pro 全网通</a></h4>
-					<div class="operate">
-						<span class="prize">￥2699.00</span>
-						<span class="unit">台</span>
-						<a href="#" class="add_goods" title="加入购物车"></a>
-					</div>
-				</li>
+                                <div v-else>
+                                    <div v-if="email">
+                                        {{ email }}
+                                        <input @click="set_email=true" type="button" value="設 置">
+                                        <div v-if="email">
+                                            <div v-if="email_is_active">已驗證</div>
+                                            <div v-else>
+                                                待驗證
+                                                <input @click="save_email" :disabled="send_email_btn_disabled" type="button" :value="send_email_tip">
+                                            </div>
+                                            <div v-if="toastVisible" class="toast-message">{{ toastMessage }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
-				<li>
-					<a href="#"><img src="images/goods/goods007.jpg"></a>
-					<h4><a href="#">急速路由</a></h4>
-					<div class="operate">
-						<span class="prize">￥64.5</span>
-						<span class="unit">6.45/500g</span>
-						<a href="#" class="add_goods" title="加入购物车"></a>
-					</div>
-				</li>
-			</ul>
-		</div>
-		</div>
-	</div>
+                <h3 class="common_title2">最近瀏覽</h3>
+                <div class="has_view_list">
+                    <ul class="goods_type_list clearfix">
+                        <li v-for="sku in histories">
+                            <a :href="sku.url"><img :src="sku.default_image_url"></a>
+                            <h4><a :href="sku.url">{{sku.name}}</a></h4>
+                            <div class="operate">
+                               <span class="prize">￥{{sku.price}}</span>
+                                <span class="unit">台</span>
+                                <span class="unit">{{sku.comments}}评价</span>
+                            </div>
+                        </li>
+                        <!-- 你可以依照此格式加入更多商品 -->
+                    </ul>
+                </div>
+            </div>
+        </div>
 
+        <!-- Footer -->
+        <div class="footer">
+            <div class="foot_link">
+                <a href="#">關於我們</a>
+                <span>|</span>
+                <a href="#">聯繫我們</a>
+                <span>|</span>
+                <a href="#">招聘人才</a>
+                <span>|</span>
+                <a href="#">友情連結</a>
+            </div>
+            <p>CopyRight © 美多商業股份有限公司 All Rights Reserved</p>
+            <p>電話：09-****888　</p>
+        </div>
+    </div>
 
-
-	<div class="footer">
-		<div class="foot_link">
-			<a href="#">关于我们</a>
-			<span>|</span>
-			<a href="#">联系我们</a>
-			<span>|</span>
-			<a href="#">招聘人才</a>
-			<span>|</span>
-			<a href="#">友情链接</a>		
-		</div>
-		<p>CopyRight © 2016 北京美多商业股份有限公司 All Rights Reserved</p>
-		<p>电话：010-****888    京ICP备*******8号</p>
-	</div>
-	
+    <script src="js/user_center_info.js"></script>
 </body>
 </html>

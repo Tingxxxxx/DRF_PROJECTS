@@ -1,49 +1,63 @@
 var vm = new Vue({
-    el: '#app',
-    data: {
-        host: host,
-        user_id: sessionStorage.user_id || localStorage.user_id,
-        token: sessionStorage.token || localStorage.token,
-        username: sessionStorage.username || localStorage.username,
-        is_show_edit: false,
-        provinces: [],
-        cities: [],
-        districts: [],
-        addresses: [],
-        limit: '',
-        default_address_id: '',
-        form_address: {
-            receiver: '',
-            province_id: '',
-            city_id: '',
-            district_id: '',
-            place: '',
-            mobile: '',
-            tel: '',
-            email: '',
+    el: '#app', // 將 Vue 實例掛載到 id 為 #app 的 DOM 元素
+    data: { // 定義 Vue 實例的數據
+        host: host, // 主機位址變數（需外部定義）
+        user_id: sessionStorage.user_id || localStorage.user_id, // 優先使用 sessionStorage 中的 user_id，否則使用 localStorage
+        // token: sessionStorage.access || localStorage.access, // 同上，用於授權的 access token
+        username: sessionStorage.username || localStorage.username, // 同上，使用者名稱
+        is_show_edit: false, // 是否顯示編輯地址的表單（true 表示顯示）
+        cities: [], // 城市列表
+        districts: [], // 儲存所選城市下的區域列表
+        display_postal_code:'', //前端顯示的郵遞區號名
+        addresses: [], // 使用者的地址列表
+        limit: '', // 地址上限數量（由後端返回）
+        default_address_id: '', // 預設地址的 ID
+
+        form_address: { // 表單中的地址資料
+            receiver: '', // 收件人姓名
+            city: '', // 城市 ID
+            district: '', // 區域 ID
+            postal_code:'', // 郵遞區號 ID
+            place: '', // 詳細地址
+            mobile: '', // 手機號碼
+            tel: '', // 固話（可選）
+            email: '', // 電子信箱
         },
-        error_receiver: false,
-        error_place: false,
-        error_mobile: false,
-        error_email: false,
-        editing_address_index: '', // 正在编辑的地址在addresses中的下标，''表示新增地址
-        is_set_title: [],
-        input_title: ''
+        error_receiver: false, // 收件人欄位錯誤提示開關
+        error_place: false, // 地址欄位錯誤提示開關
+        error_mobile: false, // 手機號碼錯誤提示開關
+        error_email: false, // 電子信箱錯誤提示開關
+        editing_address_index: '', // 編輯中的地址索引（空字串表示新增）
+        is_set_title: [], // 每個地址是否顯示編輯標題欄（布林陣列）
+        input_title: '', // 使用者輸入的地址標題
+        // =============================
+        // 搜尋框專用資料（以下屬性專門用於搜尋欄）
+        // =============================
+        query: '',
+        suggestions: [],
+        highlight_index: -1,
+        show_suggestions: false,
     },
-    created: function(){
-        axios.get(this.host + '/areas/', {
+    mounted: function(){
+
+        // 點擊外部事件，用於關閉搜尋建議清單
+        document.addEventListener('click', this.handleClickOutside);
+
+        // 載入城市列表
+        axios.get(this.host + 'areas/?level=city', {
                 responseType: 'json'
             })
             .then(response => {
-                this.provinces = response.data;
+                // alert('查詢城市 請求發送成功areas/?level=city')
+                this.cities = response.data;
+                console.log(this.cities)
             })
             .catch(error => {
-                alert(error.response.data);
+                console.log(error.response);
             });
-        axios.get(this.host + '/users/'+user_id+'/addresses/', {
-                headers: {
-                    'Authorization': 'JWT ' + this.token
-                },
+
+        // 向後端查詢並返回用戶名下所有收件地址
+        axios.get(this.host + 'users/addresses/', {
                 responseType: 'json'
             })
             .then(response => {
@@ -52,79 +66,89 @@ var vm = new Vue({
                 this.default_address_id = response.data.default_address_id;
             })
             .catch(error => {
-                status = error.response.status;
-                if (status == 401 || status == 403) {
-                    location.href = 'login.html?next=/user_center_site.html';
-                } else {
-                    alert(error.response.data.detail);
-                }
+                console.log(error.response.data.detail)
             })
     },
     watch: {
-        'form_address.province_id': function(){
-            if (this.form_address.province_id) {
-                axios.get(this.host + '/areas/'+ this.form_address.province_id + '/', {
+        'form_address.city': function(){
+            if (this.form_address.city) {
+                // 當選擇城市後載入對應的行政區
+                axios.get(this.host + 'areas/?parent='+ this.form_address.city + '&level=district', {
                         responseType: 'json'
                     })
                     .then(response => {
-                        this.cities = response.data.subs;
-                    })
-                    .catch(error => {
-                        console.log(error.response.data);
-                        this.cities = [];
-                    });
-            }
-        },
-        'form_address.city_id': function(){
-            if (this.form_address.city_id){
-                axios.get(this.host + '/areas/'+ this.form_address.city_id + '/', {
-                        responseType: 'json'
-                    })
-                    .then(response => {
-                        this.districts = response.data.subs;
+                        // alert('查詢行政區 請求發送成功 )
+                        this.districts = response.data;
                     })
                     .catch(error => {
                         console.log(error.response.data);
                         this.districts = [];
                     });
             }
-        }
+        },
+        'form_address.district': function(){
+            if (this.form_address.district){
+                // 選擇行政區後載入對應的郵遞區號
+                axios.get(this.host + 'areas/?parent='+ this.form_address.district + '&level=postal_code', {
+                        responseType: 'json'
+                    })
+                    .then(response => {
+                        // alert('查詢郵遞區號 請求發送成功 )
+                        const postal = response.data[0];
+                        if (postal) {
+                            this.form_address.postal_code = postal.id; // 用於提交
+                            this.display_postal_code = postal.name;  // 顯示在畫面
+                        } else {
+                            this.form_address.postal_code = '';
+                            this.display_postal_code_name = '';
+                        }
+                    })                    
+                    .catch(error => {
+                        console.log(error.response?.data || error);
+                        this.form_address.postal_code = '';
+                        this.display_postal_code_name = '';
+                        
+                    });
+            }
+        },
     },
     methods: {
-        // 退出
+        // 登出
         logout: function(){
             sessionStorage.clear();
             localStorage.clear();
-            location.href = '/login.html';
+            location.href = './login.html';
         },
+        // 清除所有錯誤提示
         clear_all_errors: function(){
             this.error_receiver = false;
             this.error_mobile = false;
             this.error_place = false;
             this.error_email = false;
         },
-        // 展示新增地址界面
+        // 顯示新增地址表單
         show_add: function(){
             this.clear_all_errors();
             this.editing_address_index = '';
             this.form_address.receiver = '';
-            this.form_address.province_id = '';
-            this.form_address.city_id = '';
-            this.form_address.district_id = '';
+            this.form_address.city = '';
+            this.form_address.district = '';
+            this.form_address.postal_code= '';
             this.form_address.place = '';
             this.form_address.mobile = '';
             this.form_address.tel = '';
             this.form_address.email = '';
             this.is_show_edit = true;
         },
-        // 展示编辑地址界面
+        // 顯示編輯地址表單
         show_edit: function(index){
             this.clear_all_errors();
             this.editing_address_index = index;
-            // 只获取数据，防止修改form_address影响到addresses数据
-            this.form_address = JSON.parse(JSON.stringify(this.addresses[index]));
+            // 只獲取數據，防止修改form_address影響到addresses數據
+            this.form_address = Object.assign({}, this.addresses[index]);
             this.is_show_edit = true;
         },
+        // 檢查收件人姓名
         check_receiver: function(){
             if (!this.form_address.receiver) {
                 this.error_receiver = true;
@@ -132,6 +156,7 @@ var vm = new Vue({
                 this.error_receiver = false;
             }
         },
+        // 檢查詳細地址
         check_place: function(){
             if (!this.form_address.place) {
                 this.error_place = true;
@@ -139,17 +164,19 @@ var vm = new Vue({
                 this.error_place = false;
             }
         },
+         // 檢查手機號碼格式
         check_mobile: function(){
-            var re = /^1[345789]\d{9}$/;
+            var re = /^09\d{8}$/;
             if(re.test(this.form_address.mobile)) {
                 this.error_mobile = false;
             } else {
                 this.error_mobile = true;
             }
         },
+        // 檢查電子信箱格式
         check_email: function(){
             if (this.form_address.email) {
-                var re = /^[a-z0-9][\w\.\-]*@[a-z0-9\-]+(\.[a-z]{2,5}){1,2}$/;
+                var re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
                 if(re.test(this.form_address.email)) {
                     this.error_email = false;
                 } else {
@@ -157,18 +184,29 @@ var vm = new Vue({
                 }
             }
         },
-        // 保存地址
+        // 儲存地址（新增或修改）
         save_address: function(){
-            if (this.error_receiver || this.error_place || this.error_mobile || this.error_email || !this.form_address.province_id || !this.form_address.city_id || !this.form_address.district_id ) {
-                alert('信息填写有误！');
+            if (this.error_receiver || this.error_place || this.error_mobile || this.error_email || !this.form_address.city|| !this.form_address.district || !this.form_address.postal_code) {
+                alert('資料有誤！');
             } else {
                 this.form_address.title = this.form_address.receiver;
-                if (this.editing_address_index) {
+                if (this.editing_address_index === '') {
+                    // 新增地址
+                    axios.post(this.host + 'users/addresses/', this.form_address, {
+                        responseType: 'json'
+                    })
+                    .then(response => {
+                        // 將新地址添加在addresses列表最前面，方便按保存時前端可以顯示在第一個
+                        this.addresses.splice(0, 0, response.data);
+                        this.is_show_edit = false;
+                    })
+                    .catch(error => {
+                        console.log(error.response.data);
+                    })
+                } else {
+                    
                     // 修改地址
-                    axios.put(this.host + '/users/' + this.user_id + '/addresses/' + this.addresses[this.editing_address_index].id + '/', this.form_address, {
-                        headers: {
-                            'Authorization': 'JWT ' + this.token
-                        },
+                    axios.put(this.host + 'users/addresses/' + this.addresses[this.editing_address_index].id + '/', this.form_address, {
                         responseType: 'json'
                     })
                     .then(response => {
@@ -178,47 +216,25 @@ var vm = new Vue({
                     .catch(error => {
                         alert(error.response.data.detail || error.response.data.message);
                     })
-                } else {
-                    // 新增地址
-                    axios.post(this.host + '/users/' + this.user_id + '/addresses/', this.form_address, {
-                        headers: {
-                            'Authorization': 'JWT ' + this.token
-                        },
-                        responseType: 'json'
-                    })
-                    .then(response => {
-                        // 将新地址添加大数组头部
-                        this.addresses.splice(0, 0, response.data);
-                        this.is_show_edit = false;
-                    })
-                    .catch(error => {
-                        console.log(error.response.data);
-                    })
                 }
             }
         },
         // 删除地址
         del_address: function(index){
-            axios.delete(this.host + '/users/' + this.user_id + '/addresses/' + this.addresses[index].id + '/', {
-                    headers: {
-                        'Authorization': 'JWT ' + this.token
-                    },
+            axios.delete(this.host + 'users/addresses/' + this.addresses[index].id + '/', {
                     responseType: 'json'
                 })
                 .then(response => {
-                    // 从数组中移除地址
+                    // 從地址列表中移除指定地址
                     this.addresses.splice(index, 1);
                 })
                 .catch(error => {
                     console.log(error.response.data);
                 })
         },
-        // 设置默认地址
+        /// 設定為默認地址
         set_default: function(index){
-            axios.put(this.host + '/users/' + this.user_id + '/addresses/' + this.addresses[index].id + '/status/', {}, {
-                    headers: {
-                        'Authorization': 'JWT ' + this.token
-                    },
+            axios.patch(this.host + 'users/addresses/' + this.addresses[index].id + '/set_default/', {
                     responseType: 'json'
                 })
                 .then(response => {
@@ -228,25 +244,21 @@ var vm = new Vue({
                     console.log(error.response.data);
                 })
         },
-        // 展示编辑标题
-        show_edit_title: function(index){
+        
+        // 顯示標題輸入欄位
+        show_edit_title: function(index) {
             this.input_title = this.addresses[index].title;
-            for(var i=0; i<index; i++) {
-                this.is_set_title.push(false);
-            }
-            this.is_set_title.push(true);
-        } ,
-        // 保存地址标题
+            this.is_set_title = this.addresses.map((_, i) => i === index);
+        },
+        
+        // 儲存收件地址標題
         save_title: function(index){
             if (!this.input_title) {
-                alert("请填写标题后再保存！");
+                alert("請填寫標題後再保存");
             } else {
-                axios.put(this.host + '/users/' + this.user_id + '/addresses/' + this.addresses[index].id + '/title/', {
+                axios.patch(this.host + 'users/addresses/' + this.addresses[index].id + '/title/', {
                         title: this.input_title
                     }, {
-                        headers: {
-                            'Authorization': 'JWT ' + token
-                        },
                         responseType: 'json'
                     })
                     .then(response => {
@@ -258,9 +270,129 @@ var vm = new Vue({
                     })
             }
         },
-        // 取消保存地址
+        // 取消保存標題
         cancel_title: function(index){
             this.is_set_title = [];
+        },
+
+        // =============================
+        // 搜尋框相關方法（以下方法專門用於搜尋欄）
+        // =============================
+
+        // 輸入文字時觸發
+        on_input() {
+        if (!this.query) {
+            this.load_history();
+        } else {
+            this.fetch_suggestions();
         }
-    }
-})
+        this.show_suggestions = true;
+        },
+
+        // 載入搜尋歷史（最多5筆）
+        load_history() {
+        const key = 'search_history';
+        let searchHistory = JSON.parse(localStorage.getItem(key) || '[]');
+        this.suggestions = searchHistory.slice(0, 5);
+        this.highlight_index = -1;
+        },
+
+        // 取得搜尋建議
+        fetch_suggestions() {
+        axios.get(this.host + 'skus/suggestions/', {
+            params: { q: this.query }
+        })
+        .then(res => {
+            this.suggestions = res.data.suggest || [];
+            this.highlight_index = -1;
+        })
+        .catch(err => {
+            console.error(err);
+            this.suggestions = [];
+        });
+        },
+
+        // 鍵盤向下移動選項
+        move_down() {
+        if (this.highlight_index < this.suggestions.length - 1) {
+            this.highlight_index++;
+            this.scroll_to_highlight();
+        }
+        },
+
+        // 鍵盤向上移動選項
+        move_up() {
+        if (this.highlight_index > 0) {
+            this.highlight_index--;
+            this.scroll_to_highlight();
+        }
+        },
+
+        // 選擇目前高亮的搜尋建議
+        select_item() {
+        if (this.highlight_index >= 0 && this.highlight_index < this.suggestions.length) {
+            this.query = this.suggestions[this.highlight_index];
+        }
+        this.on_search();
+        this.show_suggestions = false;
+        },
+
+        // 點擊建議選項
+        select_suggestion(item) {
+        this.query = item;
+        this.on_search();
+        this.show_suggestions = false;
+        },
+
+        // 滾動列表讓高亮項目可見
+        scroll_to_highlight() {
+        this.$nextTick(() => {
+            const ul = this.$el.querySelector('.search_suggest');
+            const items = ul.querySelectorAll('li');
+            if (this.highlight_index >= 0 && items.length > this.highlight_index) {
+            const item = items[this.highlight_index];
+            const itemTop = item.offsetTop;
+            const itemBottom = itemTop + item.offsetHeight;
+            const ulScrollTop = ul.scrollTop;
+            const ulHeight = ul.clientHeight;
+
+            if (itemTop < ulScrollTop) {
+                ul.scrollTop = itemTop;
+            } else if (itemBottom > ulScrollTop + ulHeight) {
+                ul.scrollTop = itemBottom - ulHeight;
+            }
+            }
+        });
+        },
+
+        // 執行搜尋，並存入歷史紀錄（最多10筆）
+        on_search() {
+        if (!this.query.trim()) return;
+
+        const key = 'search_history';
+        let history = JSON.parse(localStorage.getItem(key) || '[]');
+        history = history.filter(item => item !== this.query);
+        history.unshift(this.query);
+        if (history.length > 10) history = history.slice(0, 10);
+        localStorage.setItem(key, JSON.stringify(history));
+
+        window.location.href = `search.html?q=${encodeURIComponent(this.query.trim())}`;
+        },
+
+        // 點擊頁面其他地方時，隱藏建議列表
+        handleClickOutside(event) {
+        const searchWrap = this.$el.querySelector('.search_wrap');
+        if (searchWrap && !searchWrap.contains(event.target)) {
+            this.show_suggestions = false;
+        }
+        },
+
+        // 文字過長截斷加省略號
+        truncate(text, length = 30) {
+        if (text.length > length) {
+            return text.slice(0, length) + '...';
+        }
+        return text;
+        },
+        }
+});

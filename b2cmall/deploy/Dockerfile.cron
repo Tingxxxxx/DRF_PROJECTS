@@ -1,0 +1,26 @@
+FROM python:3.10
+
+# 設定容器內的工作目錄為 /app
+WORKDIR /app
+
+# 安裝 cron 排程服務
+RUN apt-get update \
+    && apt-get install -y cron \
+    && rm -rf /var/lib/apt/lists/*
+
+# 安裝 pip 依賴
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 複製整個專案到容器內 /app
+COPY . /app/ 
+
+# 建立 logs 目錄，cron log 會寫到這裡
+RUN mkdir -p /app/logs
+
+# 複製 entrypoint 腳本
+COPY deploy/entrypoint-cron.sh /app/entrypoint-cron.sh
+RUN chmod +x /app/entrypoint-cron.sh
+
+# 使用 entrypoint 啟動容器
+CMD ["/app/entrypoint-cron.sh"]

@@ -1,96 +1,156 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html>
+<html lang="zh-TW">
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-	<title>美多商城-用户中心</title>
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+    <meta charset="UTF-8" />
+    <title>美多商城-個人中心</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/main.css" />
+
+    <!-- JS -->
+    <script src="js/host.js"></script>
+    <script src="js/axios-0.18.0.min.js"></script>
+    <script src="js/axios-interceptor.js"></script>
+    <script src="js/vue-2.5.16.js"></script>
+
+    <!--
+    <script>
+        const user_id = sessionStorage.getItem("user_id") || localStorage.getItem("user_id");
+        const token = sessionStorage.getItem('access') || localStorage.getItem('access');
+        if (!(user_id && token)) {
+            location.href = 'login.html?next=/user_center_order.html';
+        }
+    </script>
+    -->
 </head>
 <body>
-	<div class="header_con">
-		<div class="header">
-			<div class="welcome fl">欢迎来到美多商城!</div>
-			<div class="fr">
-				<div class="login_info fl">
-					欢迎您：<em>张 山</em>
-				</div>
-				<div class="login_btn fl">
-					<a href="login.html">登录</a>
-					<span>|</span>
-					<a href="register.html">注册</a>
-				</div>
-				<div class="user_link fl">
-					<span>|</span>
-					<a href="user_center_info.html">用户中心</a>
-					<span>|</span>
-					<a href="cart.html">我的购物车</a>
-					<span>|</span>
-					<a href="user_center_order.html">我的订单</a>
+<div id="app" v-cloak>
+    <!-- Header -->
+    <div class="header_con">
+        <div class="header">
+            <div class="welcome fl">歡迎來到美多商城！</div>
+
+            <div class="fr">
+                <div class="login_btn fl">
+                    歡迎您：<em>{{ username }}</em>
+                    <span>|</span>
+                    <a @click="logout">登出</a>
+                </div>
+
+                <div class="user_link fl">
+                    <span>|</span>
+                    <a href="/user_center_info.html">個人中心</a>
+                    <span>|</span>
+                    <a href="/cart.html">我的購物車</a>
+                    <span>|</span>
+                    <a href="/user_center_order.html">我的訂單</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 搜尋區 -->
+    <div class="search_bar clearfix">
+        <a href="index.html" class="logo fl">
+            <img src="images/logo.png" alt="美多商城 Logo">
+        </a>
+
+        <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
+
+        <div class="search_wrap fl">
+            <form @submit.prevent="on_search" class="search_con">
+                <input
+                    type="text"
+                    class="input_text fl"
+                    v-model="query"
+                    placeholder="搜尋商品"
+                    @input="on_input"
+                    @keydown.down.prevent="move_down"
+                    @keydown.up.prevent="move_up"
+                    @keydown.enter.prevent="select_item"
+                    @focus="show_suggestions = true"
+                >
+                <input type="submit" class="input_btn fr" value="搜尋">
+            </form>
+
+            <ul class="search_suggest fl" v-show="show_suggestions">
+                <li v-for="(item, index) in suggestions"
+                    :class="{active: index === highlight_index}"
+                    @click="select_suggestion(item)"
+                    @mouseover="highlight_index = index"
+                >
+                    {{ truncate(item) }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 主內容 -->
+    <div class="main_con clearfix">
+
+        <!-- 側邊欄 -->
+        <div class="left_menu_con clearfix">
+            <h3>用戶中心</h3>
+            <ul>
+                <li><a href="user_center_info.html">· 個人資訊</a></li>
+                <li><a href="user_center_order.html">· 全部訂單</a></li>
+                <li><a href="user_center_site.html">· 收貨地址</a></li>
+                <li><a href="user_center_pass.html" class="active">· 修改密碼</a></li>
+            </ul>
+        </div>
+
+        <!-- 右側內容 -->
+		<div class="right_content clearfix">
+			<div class="info_con clearfix">
+				<h3 class="common_title2">修改密碼</h3>
+
+				<div class="site_con pass_change_con">
+					<form>
+						<div class="form_group">
+							<label>當前密碼：</label>
+							<input type="password" v-model="oldPassword" name="old_pwd">
+						</div>
+
+						<div class="form_group">
+							<label>新密碼：</label>
+							<input type="password" v-model="newPassword" @blur="check_pwd" name="new_pwd">
+							<span v-if="error_password" class="error_tip">密碼最少8位，最多20位</span>
+						</div>
+
+						<div class="form_group">
+							<label>確認新密碼：</label>
+							<input type="password" v-model="newPassword2" @blur="check_cpwd" name="cpwd">
+							<!-- <span v-if="error_check_password" class="error_tip">兩次輸入密碼不一致</span> -->
+						</div>
+
+						<input type="button" value="確定" @click="submitChange" class="info_submit">
+					</form>
+				<div v-if="toastVisible" class="toast-message">{{ toastMessage }}</div>
+
 				</div>
 			</div>
-		</div>		
-	</div>
-
-	<div class="search_bar clearfix">
-		<a href="index.html" class="logo fl"><img src="images/logo.png"></a>
-		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
-		<div class="search_con fr mt40">
-			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
-			<input type="button" class="input_btn fr" name="" value="搜索">
-		</div>		
-	</div>
-
-	<div class="main_con clearfix">
-		<div class="left_menu_con clearfix">
-			<h3>用户中心</h3>
-			<ul>
-				<li><a href="user_center_info.html">· 个人信息</a></li>
-				<li><a href="user_center_order.html">· 全部订单</a></li>
-                <li><a href="user_center_site.html">· 收货地址</a></li>
-                <li><a href="user_center_pass.html" class="active">· 修改密码</a></li>
-			</ul>
 		</div>
-		<div class="right_content clearfix">
-				<div class="info_con clearfix">
-				<h3 class="common_title2">修改密码</h3>
-				<div class="site_con pass_change_con">			
-                    <form>
-                        <div class="form_group">
-                            <label>当前密码：</label>
-                            <input type="password" name="">
-                        </div>
-                        <div class="form_group">
-                            <label>新密码：</label>
-                            <input type="password" name="">
-                        </div>
-                        <div class="form_group">
-                            <label>确认新密码：</label>
-                            <input type="password" name="">
-                        </div>
-                        <input type="button" name="" value="确 定" class="info_submit">
-                    </form>
-            </div>
-				</div>
-		
-		</div>
-		</div>
-	</div>
 
+    </div>
 
+    <!-- Footer -->
+    <div class="footer">
+        <div class="foot_link">
+            <a href="#">關於我們</a>
+            <span>|</span>
+            <a href="#">聯絡我們</a>
+            <span>|</span>
+            <a href="#">招募人才</a>
+            <span>|</span>
+            <a href="#">友情連結</a>
+        </div>
 
-	<div class="footer">
-		<div class="foot_link">
-			<a href="#">关于我们</a>
-			<span>|</span>
-			<a href="#">联系我们</a>
-			<span>|</span>
-			<a href="#">招聘人才</a>
-			<span>|</span>
-			<a href="#">友情链接</a>		
-		</div>
-		<p>CopyRight © 2016 北京美多商业股份有限公司 All Rights Reserved</p>
-		<p>电话：010-****888    京ICP备*******8号</p>
-	</div>
-	
+        <p>CopyRight © 美多商業股份有限公司 All Rights Reserved</p>
+        <p>電話：09-****888　</p>
+    </div>
+</div>
+  <!-- Vue 控制邏輯 -->
+  <script src="js/user_center_pass.js"></script>
 </body>
 </html>

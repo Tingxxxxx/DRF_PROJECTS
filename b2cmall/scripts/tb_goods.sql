@@ -1,0 +1,61 @@
+INSERT INTO
+    `tb_goods` (
+        id,
+        create_time,
+        update_time,
+        name,
+        sales,
+        comments,
+        brand_id,
+        category1_id,
+        category2_id,
+        category3_id,
+        desc_detail,
+        desc_pack,
+        desc_service
+    )
+VALUES (
+        1,
+        '2018-04-11 16:01:28.547507',
+        '2018-04-25 12:09:42.593672',
+        'Apple MacBook Pro 筆記本',
+        1,
+        1,
+        1,
+        4,
+        45,
+        157,
+        '<h1 style=\"text-align:center\">MacBook Pro 您最得力的助手</h1>\r\n\r\n<p>它纖薄如刃，輕盈如羽，卻又比以往速度更快、性能更強大。它為你展現的，是迄今最明亮、最多彩的 Mac 筆記本顯示屏。它更配備了觸控欄，一個內置於鍵盤的玻璃面多點觸控條，讓你能在需要時快速取用各種工具。MacBook Pro 是對我們突破性理念的一場出色演繹，而它，也正期待著演繹你的奇思妙想。</p>\r\n\r\n<p><img alt=\"\" src=\"http://image.meiduo.site:8888/group1/M00/00/02/CtM3BVrOQMiAGvPHAADtqTciKRc8279519\" style=\"height:360px; width:750px\" /></p>\r\n\r\n<p><img alt=\"\" src=\"http://image.meiduo.site:8888/group1/M00/00/02/CtM3BVrOQXSAbLx2AAJCgscYhy88216086\" style=\"height:1858px; width:750px\" /></p>\r\n\r\n<p><img alt=\"\" src=\"http://image.meiduo.site:8888/group1/M00/00/02/CtM3BVrOQcCAap-CAALlB0nCsAk3157451\" style=\"height:2271px; width:750px\" /></p>\r\n\r\n<p><img alt=\"\" src=\"http://image.meiduo.site:8888/group1/M00/00/02/CtM3BVrOQhiAVgwfAALNvpwId4s8236297\" style=\"height:1776px; width:750px\" /></p>\r\n\r\n<p><img alt=\"\" src=\"http://image.meiduo.site:8888/group1/M00/00/02/CtM3BVrOQimACGAXAAJKAmr2-qQ2403102\" style=\"height:1667px; width:750px\" /></p>\r\n\r\n<p><img alt=\"\" src=\"http://image.meiduo.site:8888/group1/M00/00/02/CtM3BVrOQjeAYApsAAJDtceKEm87833689\" style=\"height:1416px; width:750px\" /></p>\r\n\r\n<p>&nbsp;</p>',
+        '<h2>包裝清單</h2>\r\n\r\n<p>MacBook Air 電源適配器 交流電源插頭 電源線</p>',
+        '<p>&nbsp;<strong>廠家服務</strong></p>\r\n\r\n<p>1、Mac 電腦整機及所含附件自原始購買之日起享有 1 年保修期。主要部件享有自購買之日起 2 年保修期。Mac 台式電腦所有主要部件包括：主板 (MLB)、處理器 (CPU)、內存、硬盤 (HDD/SSD)、電源和顯卡。Mac 筆記本電腦所有主要部件範圍包括主板 (MLB)、處理器 (CPU)、內存、硬盤 (HDD/SSD)、電源適配器、鍵盤和顯示屏 (LCD)。可另外購買 AppleCare Protection Plan 全方位服務計劃。2、Mac電腦不支持7天無理由退換貨，請您再三確認需求後再下單購買。如因質量問題或故障，憑廠商維修中心或特約維修點的質量檢測證明，享受7日內退貨，15日內換貨，15日以上在質保期內享受免費保修等三包服務。3、Apple官方售後服務電話：4006668800，您可以查詢本品牌在各地售後服務中心的聯系方式及地址。<br />\r\n如因質量問題或故障，憑廠商維修中心或特約維修點的質量檢測證明，享受7日內退貨，15日內換貨，15日以上在質保期內享受免費保修等三包服務！<br />\r\n(注:如廠家在商品介紹中有售後保障的說明,則此商品按照廠家說明執行售後保障服務。) 您可以查詢本品牌在各地售後服務中心的聯系方式，<a href=\"http://www.apple.com.cn/\" target=\"_blank\">請點擊這兒查詢......</a><br />\r\n<br />\r\n品牌官方網站：<a href=\"http://www.apple.com.cn/\" target=\"_blank\">http://www.apple.com.cn/</a><br />\r\n售後服務電話：4006668800</p>\r\n\r\n<p><strong>正品行貨</strong></p>\r\n\r\n<p>京東商城向您保證所售商品均為正品行貨，京東自營商品開具機打發票或電子發票。</p>\r\n\r\n<p><strong>全國聯保</strong></p>\r\n\r\n<p>憑質保證書及京東商城發票，可享受全國聯保服務（奢侈品、鐘表除外；奢侈品、鐘表由京東聯系保修，享受法定三包售後服務），與您親臨商場選購的商品享受相同的質量保證。京東商城還為您提供具有競爭力的商品價格和<a href=\"https://help.jd.com/help/question-892.html\" target=\"_blank\">運費政策</a>，請您放心購買！&nbsp;<br />\r\n<br />\r\n注：因廠家會在沒有任何提前通知的情況下更改產品包裝、產地或者一些附件，本司不能確保客戶收到的貨物與商城圖片、產地、附件說明完全一致。只能確保為原廠正貨！並且保證與當時市場上同樣主流新品一致。若本商城沒有及時更新，請大家諒解！</p>'
+    ),
+    (
+        2,
+        '2018-04-14 02:09:40.437769',
+        '2018-04-25 11:51:50.866215',
+        'Apple iPhone 8 Plus',
+        3,
+        1,
+        1,
+        1,
+        38,
+        115,
+        '<p><img alt=\"\" src=\"http://image.meiduo.site:8888/group1/M00/00/02/CtM3BVrRYoGAC2KAAADDtplWV_04901262\" style=\"height:341px; width:750px\" /></p>\r\n\r\n<p><img alt=\"\" src=\"http://image.meiduo.site:8888/group1/M00/00/02/CtM3BVrRYpCAS9FFAADxmVbf5qw4487023\" style=\"height:277px; width:750px\" /></p>\r\n\r\n<p><img alt=\"\" src=\"http://image.meiduo.site:8888/group1/M00/00/02/CtM3BVrRYp6ACUuEAAWXt1XYzNg5251947\" style=\"height:2337px; width:750px\" /></p>\r\n\r\n<p><img alt=\"\" src=\"http://image.meiduo.site:8888/group1/M00/00/02/CtM3BVrRYqmANdXMAAXn26rWyDY0861997\" style=\"height:2963px; width:750px\" /></p>',
+        '<h3>包裝清單</h3>\r\n\r\n<p>采用 Lightning 接頭的 EarPods *1，iPhone *1，Lightning 至 USB 連接線*1，5W USB 電源適配器*1，Lightning 至3.5毫米耳機插孔轉換器*1</p>',
+        '<p>&nbsp;<strong>廠家服務</strong></p>\r\n\r\n<p>本產品全國聯保，享受三包服務，質保期為：一年質保<br />\r\n如因質量問題或故障，憑廠商維修中心或特約維修點的質量檢測證明，享受7日內退貨，15日內換貨，15日以上在質保期內享受免費保修等三包服務！<br />\r\n(注:如廠家在商品介紹中有售後保障的說明,則此商品按照廠家說明執行售後保障服務。) 您可以查詢本品牌在各地售後服務中心的聯系方式，<a href=\"http://www.apple.com/cn/\" target=\"_blank\">請點擊這兒查詢......</a><br />\r\n<br />\r\n品牌官方網站：<a href=\"http://www.apple.com/cn/\" target=\"_blank\">http://www.apple.com/cn/</a><br />\r\n售後服務電話：400-666-8800</p>\r\n\r\n<p>&nbsp;美多<strong>承諾</strong></p>\r\n\r\n<p>美多平台賣家銷售並發貨的商品，由平台賣家提供發票和相應的售後服務。請您放心購買！<br />\r\n注：因廠家會在沒有任何提前通知的情況下更改產品包裝、產地或者一些附件，本司不能確保客戶收到的貨物與商城圖片、產地、附件說明完全一致。只能確保為原廠正貨！並且保證與當時市場上同樣主流新品一致。若本商城沒有及時更新，請大家諒解！</p>\r\n\r\n<p><strong>正品行貨</strong></p>\r\n\r\n<p>京東商城向您保證所售商品均為正品行貨，京東自營商品開具機打發票或電子發票。</p>\r\n\r\n<p><strong>全國聯保</strong></p>\r\n\r\n<p>憑質保證書及京東商城發票，可享受全國聯保服務（奢侈品、鐘表除外；奢侈品、鐘表由京東聯系保修，享受法定三包售後服務），與您親臨商場選購的商品享受相同的質量保證。京東商城還為您提供具有競爭力的商品價格和<a href=\"https://help.jd.com/help/question-892.html\" target=\"_blank\">運費政策</a>，請您放心購買！&nbsp;<br />\r\n<br />\r\n注：因廠家會在沒有任何提前通知的情況下更改產品包裝、產地或者一些附件，本司不能確保客戶收到的貨物與商城圖片、產地、附件說明完全一致。只能確保為原廠正貨！並且保證與當時市場上同樣主流新品一致。若本商城沒有及時更新，請大家諒解！</p>'
+    ),
+    (
+        3,
+        '2018-04-14 03:03:53.059061',
+        '2018-04-25 11:51:50.894460',
+        '華為 HUAWEI P10 Plus',
+        1,
+        8,
+        2,
+        1,
+        38,
+        115,
+        '<p><img alt=\"\" src=\"http://image.meiduo.site:8888/group1/M00/00/02/CtM3BVrRb2yAJ0cWADV9oDHhgG06294506\" style=\"height:10460px; width:750px\" /></p>',
+        '<h3>包裝清單</h3>\r\n\r\n<p>手機（含內置電池） x 1、大電流華為SuperCharge充電器 x 1、 USB資料線 x 1、半入耳式線控耳機 x 1、快速指南 x 1、三包憑證 x 1、取卡針 x 1、保護殼 x 1</p>',
+        '<p>&nbsp;<strong>廠家服務</strong></p>\r\n\r\n<p>本產品全國聯保，享受三包服務，質保期為：一年質保<br />\r\n如因質量問題或故障，憑廠商維修中心或特約維修點的質量檢測證明，享受7日內退貨，15日內換貨，15日以上在質保期內享受免費保修等三包服務！<br />\r\n(注:如廠家在商品介紹中有售後保障的說明,則此商品按照廠家說明執行售後保障服務。) 您可以查詢本品牌在各地售後服務中心的聯系方式，<a href=\"http://www.huawei.com/cn/\" target=\"_blank\">請點擊這兒查詢......</a><br />\r\n<br />\r\n品牌官方網站：<a href=\"http://www.huawei.com/cn/\" target=\"_blank\">http://www.huawei.com/cn/</a><br />\r\n售後服務電話：400-830-8300</p>\r\n\r\n<p>&nbsp;<strong>京東承諾</strong></p>\r\n\r\n<p>京東平台賣家銷售並發貨的商品，由平台賣家提供發票和相應的售後服務。請您放心購買！<br />\r\n注：因廠家會在沒有任何提前通知的情況下更改產品包裝、產地或者一些附件，本司不能確保客戶收到的貨物與商城圖片、產地、附件說明完全一致。只能確保為原廠正貨！並且保證與當時市場上同樣主流新品一致。若本商城沒有及時更新，請大家諒解！</p>\r\n\r\n<p><strong>正品行貨</strong></p>\r\n\r\n<p>京東商城向您保證所售商品均為正品行貨，京東自營商品開具機打發票或電子發票。</p>\r\n\r\n<p><strong>全國聯保</strong></p>\r\n\r\n<p>憑質保證書及京東商城發票，可享受全國聯保服務（奢侈品、鐘表除外；奢侈品、鐘表由京東聯系保修，享受法定三包售後服務），與您親臨商場選購的商品享受相同的質量保證。京東商城還為您提供具有競爭力的商品價格和<a href=\"https://help.jd.com/help/question-892.html\" target=\"_blank\">運費政策</a>，請您放心購買！&nbsp;<br />\r\n<br />\r\n注：因廠家會在沒有任何提前通知的情況下更改產品包裝、產地或者一些附件，本司不能確保客戶收到的貨物與商城圖片、產地、附件說明完全一致。只能確保為原廠正貨！並且保證與當時市場上同樣主流新品一致。若本商城沒有及時更新，請大家諒解</p>'
+    );

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美多商城-付款結果</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <script src="js/host.js"></script>
+    <script src="js/axios-0.18.0.min.js"></script>
+    <script src="js/axios-interceptor.js"></script> <!-- 自定義的 axios 攔截器 -->
+    <script src="js/vue-2.5.16.js"></script>
+</head>
+<body>
+    <div id="app">
+    <div class="header_con">
+        <div class="header">
+            <div class="welcome fl">歡迎來到美多商城!</div>
+            <div class="fr">
+                <div class="user_link fl">
+                    <span>|</span>
+                    <a href="user_center_info.html">使用者中心</a>
+                    <span>|</span>
+                    <a href="cart.html">我的購物車</a>
+                    <span>|</span>
+                    <a href="user_center_order.html">我的訂單</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search_bar clearfix">
+        <a href="index.html" class="logo fl"><img src="images/logo.png"></a>
+        <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;支付完成</div>
+        <form method="get" action="/search.html" class="search_con fr mt40">
+            <input type="text" class="input_text fl" name="q" placeholder="搜索商品">
+            <input type="submit" class="input_btn fr" name="" value="搜索">
+        </form>
+    </div>
+
+
+
+    <div class="common_list_con clearfix">
+        <div class="order_success">
+            <p v-if="status === '已付款'"><b>訂單支付成功</b></p>
+            <p v-else-if="status === '付款失敗'"><b>訂單支付失敗</b></p>
+
+            <p v-if="status === '已付款'">您的訂單編號: {{ order_id }} 已成功支付，金額: {{ trade_amt }} 元</p>
+            <p v-if="status === '已付款'">支付流水號: {{ merchant_trade_no }}</p>
+            <p v-if="status === '已付款'"><a href="./user_center_order.html">您可以在使用者中心，我的訂單中查看詳細訊息</a></p>
+
+            <p v-else-if="status === '付款失敗'">訂單: {{ order_id }} 支付失敗，請稍後再試或聯絡客服</p>
+            <br v-if="status === '付款失敗'">
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="foot_link">
+            <a href="#">關於我們</a>
+            <span>|</span>
+            <a href="#">聯絡我們</a>
+            <span>|</span>
+            <a href="#">招聘人才</a>
+            <span>|</span>
+            <a href="#">友情連結</a>
+        </div>
+        <p>CopyRight © 美多商業股份有限公司 All Rights Reserved</p>
+        <p>電話：09-****888　</p>
+    </div>
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                host,
+                order_id: '',
+                merchant_trade_no:'',
+                trade_amt:'',
+                status:''
+            },
+            mounted: function(){
+                // 先從 URL 取得 query string 裡的 token
+                const urlParams = new URLSearchParams(window.location.search);  //http://......?token={merchant_trade_no}
+                const token = urlParams.get('token');
+
+                if (!token) {
+                    console.error('找不到 token');
+                    return;
+                }
+
+                // 用 token 呼叫後端 API 查訂單狀態
+                axios.get(`${this.host}payment/ecpay/status/${token}`, {}, {
+                        responseType: 'json'
+                    })
+                    .then(response => {
+                        const data = response.data;
+                        this.order_id = data.order;
+                        this.merchant_trade_no = data.merchant_trade_no;
+                        this.trade_amt = data.trade_amt;
+                        this.status = data.status;
+                    })
+                    .catch(error => {
+                        console.log(error.response);
+                    })
+            }
+        })
+    </script>
+</body>
+</html>

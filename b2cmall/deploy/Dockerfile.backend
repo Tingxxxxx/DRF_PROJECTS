@@ -1,0 +1,35 @@
+# Django 後端部屬 Dockerfile
+FROM python:3.10
+
+# 設定工作目錄
+WORKDIR /app
+
+# 複製依賴檔案並安裝
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 複製 Django 專案
+COPY . /app/
+
+# 設定 Django 設定檔
+ENV DJANGO_SETTINGS_MODULE=b2cmall.settings.prod
+
+# 先以 root 收集靜態檔案，避免權限問題
+RUN python manage.py collectstatic --noinput --clear
+
+# 複製 entrypoint 腳本並給執行權限
+COPY deploy/entrypoint-backend.sh /app/entrypoint-backend.sh
+RUN chmod +x /app/entrypoint-backend.sh
+
+# 建立 logs 與 uwsgi 目錄並改權限給 www-data
+RUN mkdir -p /app/logs \
+    && chown -R www-data:www-data /app
+
+# 切換到 www-data 用戶運行
+USER www-data
+
+# 設定 entrypoint
+ENTRYPOINT ["/app/entrypoint-backend.sh"]
+
+# CMD 啟動 uwsgi
+CMD ["uwsgi", "--ini", "uwsgi.ini"]

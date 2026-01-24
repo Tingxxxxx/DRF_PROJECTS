@@ -1,0 +1,16 @@
+FROM python:3.10
+# b2cmall/deploy/Dockerfile.celery
+# Celery 容器的 Dockerfile
+
+# Workdir
+WORKDIR /app
+
+# 安裝 pip 依賴
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 複製全部專案
+COPY . /app/
+
+# 預設指令（可被 docker-compose 覆寫）
+CMD ["celery", "-A", "celery_tasks.main", "worker", "-l", "info"]

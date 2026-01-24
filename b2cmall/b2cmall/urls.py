@@ -20,4 +20,15 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),  # 可以訪問 DRF 的登入、登出 URL
+    path('verifications/', include('verifications.urls')),
+    path('users/', include('users.urls')),
+    path('oauth/', include('oauth.urls')),
+    path('areas/', include('areas.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')), # 文本編輯器
+    path('cart/', include('carts.urls')),
+    path('', include('goods.urls')),
+    path('orders/', include('orders.urls')),
+    path('payment/', include('payment.urls')),
+
+
 ]

@@ -1,0 +1,12 @@
+{
+  "python.defaultInterpreterPath": "/mnt/d/drf_mall/b2cmall/venv/bin/python",
+  "python.analysis.extraPaths": [
+    "./",
+    "./b2cmall",
+    "./b2cmall/apps"
+  ],
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportAttributeAccessIssue": "none"
+  }
+}

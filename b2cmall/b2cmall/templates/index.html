@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>美多商城-首頁</title>
+    <!-- 引入 CSS 樣式 -->
+    <link rel="stylesheet" href="css/reset.css"> <!-- 清除預設樣式 -->
+    <link rel="stylesheet" href="css/main.css">  <!-- 主樣式表 -->
+
+    <!-- 引入 JavaScript 函式庫與自定義腳本 -->
+    <script src="js/host.js"></script>               <!-- 主機設定檔 -->
+    <script src="js/axios-0.18.0.min.js"></script>   <!-- 用來發送 HTTP 請求的 axios 函式庫 -->
+    <script src="js/vue-2.5.16.js"></script>         <!-- Vue.js 前端框架 -->
+    <script src="js/jquery-1.12.4.min.js"></script>  <!-- jQuery 函式庫 -->
+    <script src="js/slide.js"></script>              <!-- 幻燈片效果腳本 -->
+</head>
+
+<body>
+    <div id="app" v-cloak>
+   
+    <!-- 頁首歡迎欄 -->
+    <div class="header_con">
+        <div class="header">
+            <div class="welcome fl">歡迎來到美多商城!</div>
+            <div class="fr">
+                
+                <!-- 若已登入，顯示使用者名稱與登出按鈕 --> 
+                <div v-if="username" class="login_btn fl">
+                    歡迎您：<em>[[ username ]]</em>
+                    <span>|</span>
+                    <a @click="logout">登出</a>
+                </div>
+
+                <!-- 若未登入，顯示登入與註冊連結 -->
+                <div v-else class="login_btn fl">
+                    <a href="/login.html">登入</a>
+                    <span>|</span>
+                    <a href="/register.html">註冊</a>
+                </div>
+
+                <!-- 使用者快捷連結 -->
+                <div class="user_link fl">
+                    <span>|</span>
+                    <a href="/user_center_info.html">用户中心</a>
+                    <span>|</span>
+                    <a href="/cart.html">我的購物車</a>
+                    <span>|</span>
+                    <a href="/user_center_order.html">我的訂單</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 搜尋欄與購物車區域 -->
+    <div class="search_bar clearfix">
+      <!-- Logo 區塊 -->
+        <a href="index.html" class="logo fl"><img src="images/logo.png"></a>
+
+      <!-- 搜尋框 -->
+        <div id= "search-bar" class="search_wrap fl">
+            <form @submit.prevent="on_search" class="search_con">
+                <input
+                    type="text"
+                    class="input_text fl"
+                    v-model="query"
+                    placeholder="搜尋商品"
+                    @input="on_input"
+                    @keydown.down.prevent="move_down"
+                    @keydown.up.prevent="move_up"
+                    @keydown.enter.prevent="select_item"
+                    @focus="show_suggestions = true"
+                >
+                <input type="submit" class="input_btn fr" value="搜尋">
+            </form>
+
+            <ul class="search_suggest fl" v-show="show_suggestions">
+                <li v-for="(item, index) in suggestions"
+                    :class="{active: index === highlight_index}"
+                    @click="select_suggestion(item)"
+                    @mouseover="highlight_index = index"
+                >
+                    [[ truncate(item) ]]
+                </li>
+            </ul>
+        </div>
+
+        <!-- 購物車顯示 -->
+        <div @mouseenter="get_cart()" class="guest_cart fr">
+			<a href="./cart.html" class="cart_name fl">我的購物車</a>
+			<div class="goods_count fl" id="show_count">[[cart_total_count]]</div>
+
+			<ul class="cart_goods_show">
+				<li v-for="sku in cart">
+					<a :href="`${goodsBaseUrl}${sku.id}.html`">
+						<img :src="sku.default_image_url" alt="商品圖片">
+					</a>
+					<h4>
+						<a :href="`${goodsBaseUrl}${sku.id}.html`">
+						[[sku.name]]
+						</a>
+					</h4>
+					<div>[[sku.count]]</div>
+				</li>
+			</ul>
+		</div>
+    </div>
+
+    <!-- 導覽列 -->
+    <div class="navbar_con">
+        <div class="navbar">
+            <h1 class="fl">商品分类</h1>
+            <ul class="navlist fl">
+                <li><a href="">首頁</a></li>
+                <li class="interval">|</li>
+                <li><a href="">真划算</a></li>
+                <li class="interval">|</li>
+                <li><a href="">抽獎</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 主內容區：幻燈片 + 快訊 + 商品分類 -->
+    <div class="pos_center_con clearfix">
+
+        <!-- 幻燈片區塊（Django 模板語法） -->
+        <ul class="slide">
+            {% for content in contents.index_lbt %}
+            <li><a href="{{ content.url }}"><img src="{{ content.image.url }}" alt="{{ content.title }}"></a></li>
+            {% endfor %}
+        </ul>
+        <!-- 幻燈片左右按鈕 -->
+        <div class="prev"></div>
+        <div class="next"></div>
+
+        <!-- 幻燈片圓點 -->
+        <ul class="points">
+            <!-- <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li> -->
+        </ul>
+
+      <!-- 左側分類選單 -->
+        <ul class="sub_menu">
+            {% for group in categories.values %}
+            <li>
+                <!-- 第一層分類 -->
+                <div class="level1">
+                    {% for channel in group.channels %}
+                    <a href="{{ channel.url }}">{{ channel.name }}</a>
+                    {% endfor %}
+                </div>
+
+                <!-- 第二層與第三層分類 -->
+                <div class="level2">
+                    {% for cat2 in group.sub_cats %}
+                    <div class="list_group">
+                        <div class="group_name fl">{{cat2.name}} &gt;</div>
+                        <div class="group_detail fl">
+                            {% for cat3 in cat2.sub_cats %}
+                            <a href="./list.html?cat={{cat3.id}}">{{cat3.name}}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+
+      <!-- 快訊區 -->
+        <div class="news">
+            <div class="news_title">
+                <h3>快訊</h3>
+                <a href="#">更多 &gt;</a>
+            </div>
+            <ul class="news_list">
+                {% for content in contents.index_kx %}
+                <li><a href="{{ content.url }}">{{ content.title }}</a></li>
+                {% endfor %}
+            </ul>
+            <!-- 廣告圖片 -->
+            {% for content in contents.index_ytgg %}
+            <a href="{{ content.url }}" class="advs"><img src="{{ content.image.url }}"></a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- 商品樓層：1F 手機通訊 -->
+    <div class="list_model">
+        <div class="list_title clearfix">
+            <h3 class="fl" id="model01">1F 手機通訊</h3>
+            <div class="subtitle fr">
+                <!-- 透過 Vue 控制 tab 切換 -->
+                <a @mouseenter="f1_tab=1" :class="f1_tab===1?'active':''">時尚新品</a>
+                <a @mouseenter="f1_tab=2" :class="f1_tab===2?'active':''">暢想低價</a>
+                <a @mouseenter="f1_tab=3" :class="f1_tab===3?'active':''">手機配件</a>
+            </div>
+        </div>
+        <div class="goods_con clearfix">
+        <!-- 樓層左側 Banner 區 -->
+            <div class="goods_banner fl">
+                <img src="{{ contents.index_1f_logo.0.image.url }}">
+                <div class="channel">
+                    {% for content in contents.index_1f_pd %}
+                    <a href="{{ content.url }}">{{ content.title }}</a>
+                    {% endfor %}
+                </div>
+                <div class="key_words">
+                    {% for content in contents.index_1f_bq %}
+                    <a href="{{ content.url }}">{{ content.title }}</a>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <!-- 商品清單（根據 tab 顯示） -->
+            <ul v-show="f1_tab===1" class="goods_list fl">
+                {% for content in contents.index_1f_ssxp %}
+                <li>
+                    <a href="{{ content.url }}" class="goods_pic"><img src="{{ content.image.url }}"></a>
+                    <h4><a href="{{ content.url }}" title="{{ content.title }}">{{ content.title }}</a></h4>
+                    <div class="prize">{{ content.text }}</div>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul v-show="f1_tab===2" class="goods_list fl">
+                {% for content in contents.index_1f_cxdj %}
+                <li>
+                    <a href="{{ content.url }}" class="goods_pic"><img src="{{ content.image.url }}"></a>
+                    <h4><a href="{{ content.url }}" title="{{ content.title }}">{{ content.title }}</a></h4>
+                    <div class="prize">{{ content.text }}</div>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul v-show="f1_tab===3" class="goods_list fl">
+                {% for content in contents.index_1f_sjpj %}
+                <li>
+                    <a href="{{ content.url }}" class="goods_pic"><img src="{{ content.image.url }}"></a>
+                    <h4><a href="{{ content.url }}" title="{{ content.title }}">{{ content.title }}</a></h4>
+                    <div class="prize">{{ content.text }}</div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <!-- 商品樓層：2F 電腦辦公 -->
+    <div class="list_model model02">
+            <div class="list_title clearfix">
+                <h3 class="fl" id="model01">2F 電腦3C</h3>
+                <div class="subtitle fr">
+                    <!-- 切換 tab 頁 -->
+                    <a @mouseenter="f2_tab=1" :class="f2_tab===1?'active':''">加價換購</a>
+                    <a @mouseenter="f2_tab=2" :class="f2_tab===2?'active':''">暢享低價</a>
+                </div>
+            </div>
+            <div class="goods_con clearfix">
+                <!-- 左側 Banner 區 -->
+                <div class="goods_banner fl">
+                    <img src="{{ contents.index_2f_logo.0.image.url}}">
+                    <div class="channel">
+                        {% for content in contents.index_2f_pd %}
+                        <a href="{{ content.url }}">{{ content.title }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="key_words">
+                        {% for content in contents.index_2f_bq %}
+                        <a href="{{ content.url }}">{{ content.title }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- 商品清單：tab 1 -->
+                <ul v-show="f2_tab===1" class="goods_list fl">
+                    {% for content in contents.index_2f_jjhg %}
+                    <li>
+                        <a href="{{ content.url }}" class="goods_pic"><img src="{{ content.image.url }}"></a>
+                        <h4><a href="{{ content.url }}" title="{{ content.title }}">{{ content.title }}</a></h4>
+                        <div class="prize">{{ content.text }}</div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <!-- 商品清單：tab 2 -->
+                <ul v-show="f2_tab===2" class="goods_list fl">
+                    {% for content in contents.index_2f_cxdj %}
+                    <li>
+                        <a href="{{ content.url }}" class="goods_pic"><img src="{{ content.image.url }}"></a>
+                        <h4><a href="{{ content.url }}" title="{{ content.title }}">{{ content.title }}</a></h4>
+                        <div class="prize">{{ content.text }}</div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- 商品樓層：3F 家居家装 -->
+        <div class="list_model model03">
+            <div class="list_title clearfix">
+                <h3 class="fl" id="model01">3F 家居家装</h3>
+                <div class="subtitle fr">
+                    <!-- 切換 tab 頁 -->
+                    <a @mouseenter="f3_tab=1" :class="f3_tab===1?'active':''">生活用品</a>
+                    <a @mouseenter="f3_tab=2" :class="f3_tab===2?'active':''">厨房用品</a>
+                </div>
+            </div>
+            <div class="goods_con clearfix">
+                <!-- 左側 Banner 區 -->
+                <div class="goods_banner fl">
+                    <img src="{{ contents.index_3f_logo.0.image.url }}">
+                    <div class="channel">
+                        {% for content in contents.index_3f_pd %}
+                        <a href="{{ content.url }}">{{ content.title }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="key_words">
+                        {% for content in contents.index_3f_bq %}
+                        <a href="{{ content.url }}">{{ content.title }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- 商品清單：tab 1 -->
+                <ul v-show="f3_tab===1" class="goods_list fl">
+                    {% for content in contents.index_3f_shyp %}
+                    <li>
+                        <a href="{{ content.url }}" class="goods_pic"><img src="{{ content.image.url }}"></a>
+                        <h4><a href="{{ content.url }}" title="{{ content.title }}">{{ content.title }}</a></h4>
+                        <div class="prize">{{ content.text }}</div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <!-- 商品清單：tab 2 -->
+                <ul v-show="f3_tab===2" class="goods_list fl">
+                    {% for content in contents.index_3f_cfyp %}
+                    <li>
+                        <a href="{{ content.url }}" class="goods_pic"><img src="{{ content.image.url }}"></a>
+                        <h4><a href="{{ content.url }}" title="{{ content.title }}">{{ content.title }}</a></h4>
+                        <div class="prize">{{ content.text }}</div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    <div class="footer">
+        <div class="foot_link">
+          <a href="#">關於我們</a>
+          <span>|</span>
+          <a href="#">聯繫我們</a>
+          <span>|</span>
+          <a href="#">招聘人才</a>
+          <span>|</span>
+          <a href="#">友情連結</a>
+      </div>
+        <p>CopyRight © 美多商業股份有限公司 All Rights Reserved</p>
+        <p>電話：09-****888　</p>
+    </div>
+    </div>
+    <script src="js/index.js"></script>
+</body>
+</html>
